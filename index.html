@@ -527,11 +527,6 @@
                             <p id="resultAdvice" class="text-sm text-slate-800 font-medium leading-relaxed"></p>
                         </div>
                         
-                        <!-- AI 按鈕區 -->
-                        <button onclick="askGeminiStrategy()" id="aiBtn" class="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg transition-all text-sm shadow-lg mb-2 transform active:scale-95">
-                            <span>✨ AI 戰略參謀 (點擊解析)</span>
-                        </button>
-
                         <div id="aiAnalysisBox" class="hidden mt-3 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-sm text-slate-700 shadow-inner relative">
                             <div class="absolute top-0 right-0 p-1 opacity-20 text-4xl">🤖</div>
                             <h4 id="aiReportTitle" class="font-black text-indigo-900 mb-2 border-b border-indigo-200 pb-1 flex items-center">
@@ -1041,6 +1036,9 @@
             // 準備複製文字
             const today = new Date().toLocaleDateString();
             baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V12.0 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}${inferenceReportText}\n本檔「${stockName}」${volRatio >= 1.3 ? "攻擊量能達標 (符合1.3倍)" : (volRatio <= 0.8 ? "量縮洗盤達標 (符合0.8倍)" : "量能溫和")}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
+            
+            // 自動觸發 AI 分析
+            askGeminiStrategy();
             
             document.getElementById('copyBtn').innerHTML = '<span>📋 複製完整戰報</span>';
         }
