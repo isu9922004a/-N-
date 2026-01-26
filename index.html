@@ -1255,10 +1255,10 @@ ${scenarioScript}
             rAdvice.innerText = tacticalAdvice; rTrend.innerText = reportTrend; rVol.innerText = volStatus; rVol.className = `text-xs font-bold px-2 py-1 rounded border ${volClass}`;
             if(inferenceReportText) { rInference.innerText = inferenceReportText; rInference.classList.remove('hidden'); } else { rInference.classList.add('hidden'); }
             
-            triggerAnalysis(stockName, close, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong);
+            triggerAnalysis(stockName, close, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, patternType, isBreakout, isBreakdown, isStrong);
         }
 
-        async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong) {
+        async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, patternType, isBreakout, isBreakdown, isStrong) {
             const userKey = localStorage.getItem('gemini_api_key');
             document.getElementById('aiAnalysisBox').classList.remove('hidden');
             document.getElementById('aiLoading').classList.remove('hidden');
@@ -1267,11 +1267,11 @@ ${scenarioScript}
             if (userKey) {
                 await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong);
             } else {
-                setTimeout(() => generateLocalAnalysis(isStrong, status, isBreakout, isBreakdown), 800);
+                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status, isBreakout, isBreakdown), 800);
             }
         }
 
-        function generateLocalAnalysis(isStrong, status, isBreakout, isBreakdown) {
+        function generateLocalAnalysis(isStrong, patternType, status, isBreakout, isBreakdown) {
             document.getElementById('aiLoading').classList.add('hidden');
             let psychology = "", trap = "", mantra = "", conclusion = "";
 
@@ -1392,7 +1392,7 @@ ${conclusion}`;
 
             } catch (error) {
                 document.getElementById('aiLoading').classList.add('hidden');
-                document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold">⚠️ 連線異常 (請檢查 Key): ${error.message} <br> <button onclick="generateLocalAnalysis(${isBreakout}, '', '', ${isBreakout}, ${isBreakdown})" class="text-blue-500 underline mt-2">切換至內建邏輯庫</button></p>`;
+                document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold">⚠️ 連線異常 (請檢查 Key): ${error.message} <br> <button onclick="generateLocalAnalysis(${isStrong}, '${patternType}', '${status}', ${isBreakout}, ${isBreakdown})" class="text-blue-500 underline mt-2">切換至內建邏輯庫</button></p>`;
             }
         }
 
