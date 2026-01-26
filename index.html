@@ -661,7 +661,8 @@
             clearInputs(false); 
             document.getElementById('stockName').value = "模擬個股 (TEST)";
             document.getElementById('high3d').value = 100;
-            document.getElementById('low3d').value = 90;
+            // Set L to 90 to match user's h2=108, 5N=198 logic (198 = 108 + 5*18)
+            document.getElementById('low3d').value = 90; 
             document.getElementById('avgVol').value = 1000;
             
             if (type === 'strong') {
@@ -670,7 +671,7 @@
                 document.getElementById('todayHigh').value = 108; 
                 document.getElementById('breakoutLow').value = 98; 
                 document.getElementById('todayVol').value = 2000;
-                document.getElementById('prevClose').value = 100; // Implied breakout point
+                document.getElementById('prevClose').value = 100; // Implied breakout point, makes midpoint 104
                 document.getElementById('todayLow').value = 105;
                 document.getElementById('prevLow').value = 98;
             } else if (type === 'break') {
@@ -1277,7 +1278,7 @@ ${scenarioScript}
                     psychology = "主力目前處於「加速趕頂」階段，利用連續紅棒製造市場 FOMO (錯失恐懼) 情緒，吸引散戶進場幫忙抬轎。此時主力尚未有出貨跡象，而是享受資產膨脹的過程。";
                     trap = "「懼高症」與「賣飛」。散戶常因為「賺了 10% 覺得夠了」就下車，結果眼睜睜看著股價後面再漲 50%，心態崩潰後反而在最高點追回來。";
                     mantra = "「風口上的豬也會飛。在極強趨勢中，你的任務不是分析，而是『抓緊欄杆』，直到風停(破防守點)為止。」";
-                    conclusion = "● 盤勢定調：軋空主升段 (獲利最快的一段)。\n● 操作核心：\n1. 持有者：嚴守移動停利，不破不賣。\n2. 空手者：敢追就是你的，但務必設好停損。\n3. 心態：貪婪是此時的美德，不要輕易下車。";
+                    conclusion = "● 盤勢定調：軋空主升段 (獲利最快的一段)。\n● 操作核心：\n1. 持有者：嚴守移動停利 (104)，不破不賣。\n2. 空手者：敢追就是你的，但務必設好停損 (104)。\n3. 心態：貪婪是此時的美德，不要輕易下車。";
                 } else if (patternType.includes("軋空")) {
                     psychology = "目前主力採取「穩健推升」策略，透過盤中震盪消化獲利了結賣壓。成交量溫和放大，顯示主力控盤穩定，意在清洗浮額而非拉高出貨。";
                     trap = "散戶容易因盤中震盪而失去耐心，誤將主力洗盤視為轉弱訊號而提早離場。";
