@@ -817,6 +817,10 @@
             let patternClass = "";
             let redCandleAdvice = "";
             let tacticalAdvice = "";
+            
+            // Text report variables
+            let trendVerdict = "";
+            let marketDesc = "";
 
             if (status === 'RED') {
                 if (!isNaN(prevClose) && !isNaN(todayLow) && !isNaN(prevLow)) {
@@ -825,14 +829,20 @@
                         patternType = "🔥 強軋空盤";
                         patternClass = "bg-red-100 text-red-700 border-red-300";
                         tacticalAdvice = "🔥 趨勢：多方強勢 (強軋空)。\n依圖一所示，空頭抵抗失敗，K線連紅，建議死抱不放，目標看五倍。";
+                        trendVerdict = "🔥 多方強勢 (強軋空)";
+                        marketDesc = "空頭抵抗失敗，K線連紅，建議死抱不放。";
                     } else if (close >= high3d) {
                         patternType = "📈 軋空盤";
                         patternClass = "bg-blue-100 text-blue-700 border-blue-300";
                         tacticalAdvice = "📈 趨勢：多方攻擊 (軋空盤)。\n依圖一所示，空頭抵抗微弱，以盤代跌，建議續抱，看一飽二吐。";
+                        trendVerdict = "📈 多方攻擊 (軋空盤)";
+                        marketDesc = "空頭抵抗微弱，以盤代跌，建議續抱。";
                     } else {
                         patternType = "🐢 盤堅盤";
                         patternClass = "bg-orange-100 text-orange-800 border-orange-300";
                         tacticalAdvice = "🐢 趨勢：多方整理 (盤堅盤)。\n依圖一所示，空頭抵抗強烈，回檔較深，但只要不破軋空低，建議耐心等待。";
+                        trendVerdict = "🐢 多方整理 (盤堅盤)";
+                        marketDesc = "空頭抵抗強烈，回檔深，守住軋空低即可。";
                     }
                 } else {
                     // 若無參數，簡易判斷
@@ -840,10 +850,14 @@
                         patternType = "📈 軋空盤"; 
                         patternClass = "bg-blue-100 text-blue-700 border-blue-300";
                         tacticalAdvice = "📈 趨勢：多方強勢 (軋空盤)。\n建議：守住昨日高點，續抱。";
+                        trendVerdict = "📈 多方強勢 (軋空盤)";
+                        marketDesc = "多方控盤，守住前高續抱。";
                     } else {
                         patternType = "🐢 盤堅盤";
                         patternClass = "bg-orange-100 text-orange-800 border-orange-300";
                         tacticalAdvice = "🐢 趨勢：多方整理 (盤堅盤)。\n建議：回檔整理，嚴守軋空低。";
+                        trendVerdict = "🐢 多方整理 (盤堅盤)";
+                        marketDesc = "回檔整理中，嚴守軋空低。";
                     }
                 }
 
@@ -854,16 +868,18 @@
                     let p1_2 = prevClose - (redLen * 0.5);  
                     
                     if (close > prevClose) {
-                        redCandleAdvice = "⚡ 長紅力道：強勢 (續漲)";
+                        redCandleAdvice = "強勢續漲";
                     } else if (close >= p1_3) {
-                        redCandleAdvice = "💪 長紅力道：次強 (守1/3)";
+                        redCandleAdvice = "次強 (守1/3)";
                     } else if (close >= p1_2) {
-                        redCandleAdvice = "🛡️ 長紅力道：次次強 (守1/2)";
+                        redCandleAdvice = "次次強 (守1/2)";
                     } else if (close < p1_2 || close < prevLongRedLow) {
-                        redCandleAdvice = "⚠️ 長紅力道：轉弱 (破1/2)";
+                        redCandleAdvice = "轉弱 (破1/2)";
                         patternType = "⚠️ 疑似假突破"; 
                         patternClass = "bg-yellow-100 text-yellow-800 border-yellow-300";
                         tacticalAdvice = "⚠️ 趨勢：轉弱疑慮 (假突破)。\n建議：跌破長紅1/2，攻擊失敗風險增高，建議減碼觀察。";
+                        trendVerdict = "⚠️ 轉弱疑慮 (假突破)";
+                        marketDesc = "攻擊失敗風險增高，建議減碼。";
                     }
                 }
                 
@@ -878,6 +894,8 @@
                       patternType = "📉 空方殺多";
                       patternClass = "bg-green-100 text-green-800 border-green-300";
                       tacticalAdvice = "📉 趨勢：空方殺多。\n依圖二所示，空方趨勢確立 (強殺多/殺多盤)，反彈不過殺多高就是空。若持有，請立刻停損，絕不接刀。";
+                      trendVerdict = "📉 空方殺多";
+                      marketDesc = "空方趨勢確立，反彈皆是空點。";
                       
                       const pTag = document.getElementById('patternTag');
                       pTag.innerText = patternType;
@@ -888,6 +906,8 @@
                       patternType = "💤 盤跌/觀望";
                       patternClass = "bg-gray-100 text-gray-600 border-gray-300";
                       tacticalAdvice = "💤 趨勢：盤勢不明 (盤跌)。\n依圖二所示，反彈深(假突破)，隨後再殺。建議多看少做，保留現金，等待突破訊號。";
+                      trendVerdict = "💤 盤勢不明 (盤跌)";
+                      marketDesc = "反彈深似假突破，多看少做。";
                       
                       const pTag = document.getElementById('patternTag');
                       pTag.innerText = patternType;
@@ -914,6 +934,16 @@
                 const safeTarget5 = isNaN(target5) || target5 === 0 ? "待計算" : formatPrice(target5);
                 const safeHigh3d = isNaN(high3d) ? "前高" : high3d;
                 const safeBreakoutLow = isNaN(breakoutLow) ? "防守點" : breakoutLow;
+
+                // NEW: Prepare the specific text for "Volume Price Inference" (★ 量價推演)
+                const targetAttackFormatted = formatNumber(Math.round(avgVol * 1.3));
+                const targetWashFormatted = formatNumber(Math.round(avgVol * 0.8));
+                const isAttack = todayVol >= (avgVol * 1.3) ? "(🔥達標)" : "";
+                const isWash = todayVol <= (avgVol * 0.8) ? "(✅達標)" : "";
+                
+                inferenceReportText = `★量價推演：
+• 攻擊門檻(1.3x)：${targetAttackFormatted} ${isAttack}
+• 洗盤門檻(0.8x)：${targetWashFormatted} ${isWash}`;
 
                 // 產生 UI 顯示 HTML
                 inferenceText = `
@@ -978,18 +1008,20 @@
                         </div>
                     </div>`;
                 
-                // 產生純文字報表內容
-                scenarioScript = `
-【明日開盤・量能作戰劇本】(依均量 ${formatNumber(avgVol)})
-🔴 劇本 A (極強)：預估量 > ${formatNumber(v_strong)} 張 (1.5倍↑)
-   → 指令：追價 (Buy)。目標 5N (${safeTarget5})。
-🟢 劇本 B (突破)：預估量 ${formatNumber(v_break)} ~ ${formatNumber(v_strong)} 張
-   → 指令：加碼 (Add)。確認過前高 ${safeHigh3d}。
-🟡 劇本 C (盤整)：預估量 < ${formatNumber(v_wash)} 張 (0.8倍↓)
-   → 指令：觀望 (Hold)。守住防守點。
-⚫ 劇本 D (大跌)：爆量 (> ${formatNumber(v_break)}) 但收黑/破 ${safeBreakoutLow}
-   → 指令：快逃 (Sell)。主力倒貨訊號。
-
+                // 產生純文字報表內容 (Scenario Script)
+                scenarioScript = `【明日開盤・量能作戰劇本】(均量 ${formatNumber(avgVol)})
+🔴 劇本 A (極強)
+預估量 > ${formatNumber(v_strong)} 張 (1.5倍↑)
+→ 指令：追價 (Buy)，目標直指 5N (${safeTarget5})。
+🟢 劇本 B (突破)
+預估量 ${formatNumber(v_break)} ~ ${formatNumber(v_strong)} 張
+→ 指令：加碼 (Add)，確認突破前高 ${safeHigh3d}。
+🟡 劇本 C (盤整)
+預估量 < ${formatNumber(v_wash)} 張 (0.8倍↓)
+→ 指令：觀望 (Hold)，嚴守防守位。
+⚫ 劇本 D (大跌)
+爆量 (> ${formatNumber(v_break)}) 但收黑或跌破 ${safeBreakoutLow}
+→ 指令：快逃 (Sell)，此為主力倒貨訊號。
 💡 戰術小卡：預估量 = 09:15 成交量 x 8`;
 
                 if (!isNaN(todayVol)) {
@@ -1032,6 +1064,8 @@
                     actionText = "市價買進";
                     reportAdvice = "紅財神確認。守住今日低點(軋空低)。";
                     tacticalAdvice = "🚀 趨勢：多方起漲 (Day 1)。\n【圖解】：突破 N 字頸線，攻擊發起。\n【建議】：空手者建議市價買進，防守今日低點。";
+                    trendVerdict = "🚀 多方起漲 (Day 1)";
+                    marketDesc = "突破 N 字頸線，攻擊發起。";
                     boxClass = "bg-red-50 border-red-500";
                     titleClass = "text-xl font-bold text-red-600";
                     actionClass = "text-2xl font-black text-red-700 border-b border-red-200 pb-2 mb-2";
@@ -1042,6 +1076,8 @@
                     actionText = "觀望 (WAIT)";
                     reportAdvice = "價格未過頸線。";
                     tacticalAdvice = "💤 趨勢：盤整中。\n【建議】：空手者請觀望，保留現金等待突破訊號。";
+                    trendVerdict = "💤 盤整中";
+                    marketDesc = "價格未過頸線，觀望為上。";
                     boxClass = "bg-green-50 border-green-500";
                     titleClass = "text-xl font-bold text-green-700";
                     actionClass = "text-2xl font-black text-green-800 border-b border-green-200 pb-2 mb-2";
@@ -1054,6 +1090,8 @@
                     actionText = "收回資金，換股";
                     reportAdvice = "世紀鋼模式：多頭力竭，離場。";
                     tacticalAdvice = "🚨 趨勢：多頭力竭 (趨勢反轉)。\n【建議】：無條件離場，換股操作。不要留戀。";
+                    trendVerdict = "🚨 多頭力竭 (趨勢反轉)";
+                    marketDesc = "無條件離場，換股操作。";
                     boxClass = "bg-red-200 border-red-700";
                     titleClass = "text-xl font-black text-red-900";
                     actionClass = "text-2xl font-black text-red-900 border-b border-red-400 pb-2 mb-2";
@@ -1063,6 +1101,8 @@
                     actionText = "無條件離場";
                     reportAdvice = "結構破壞。";
                     tacticalAdvice = "🏃 趨勢：三盤跌破 (轉空)。\n【圖解】：空方控盤，反彈皆是空點。\n【建議】：持有者反彈逃命，空手者嚴禁進場。";
+                    trendVerdict = "🏃 三盤跌破 (轉空)";
+                    marketDesc = "結構破壞，反彈逃命。";
                     boxClass = "bg-green-100 border-green-600";
                     titleClass = "text-xl font-bold text-green-900";
                     actionClass = "text-2xl font-black text-green-900 underline border-b border-green-300 pb-2 mb-2";
@@ -1073,6 +1113,8 @@
                         actionText = "減碼觀望";
                         reportAdvice = "跌破軋空低，攻擊失敗。";
                         tacticalAdvice = "⚠️ 趨勢：假突破 (破軋空低)。\n【建議】：目標抵銷，建議減碼或移動停損。";
+                        trendVerdict = "⚠️ 假突破 (破軋空低)";
+                        marketDesc = "目標抵銷，減碼觀望。";
                         boxClass = "bg-yellow-50 border-yellow-500";
                         titleClass = "text-xl font-bold text-yellow-700";
                         actionClass = "text-2xl font-black text-yellow-800 border-b border-yellow-300 pb-2 mb-2";
@@ -1124,8 +1166,37 @@
             }
 
             // 準備複製文字
-            const today = new Date().toLocaleDateString();
-            baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V12.2 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}\n\n${scenarioScript}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
+            const today = new Date().toLocaleDateString('zh-TW'); // Use standard YYYY/MM/DD
+            
+            // Construct Target Price Section conditionally
+            let targetSection = '・無測幅 (未過頸線)';
+            if (gap > 0) {
+                targetSection = `• 一飽(1N)：${formatPrice(target1)}
+• 二吐(2N)：${formatPrice(target2)}
+• 五倍(5N)：${formatPrice(target5)}`;
+            }
+
+            baseReportText = `戰報分析結果：「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」
+N字戰法指揮中心 by.石頭 V12.2 (${today})
+股名：${stockName}
+
+一、個股現況分析
+📌 操作指令：【 ${actionText} 】
+量能：${volStatus}
+現價：${close}
+型態：${patternType || '一般盤整'}
+🎯 動態測幅 (h2=${h2})
+${targetSection}
+${inferenceReportText}
+
+二、明日策略分析
+${scenarioScript}
+
+★ 戰術指引：
+趨勢判定：${trendVerdict}
+盤勢現狀：${marketDesc}
+長紅力道：${redCandleAdvice || '無特殊訊號'}
+⚠️ 防守要點：不破軋空低點(${breakoutLow})，上述目標才有效。`;
             
             // 自動觸發 AI 分析
             askGeminiStrategy();
@@ -1139,7 +1210,8 @@
             // Combine base report with AI content if available
             let fullReport = baseReportText;
             if (aiReportContent) {
-                fullReport += `\n\n=================================\n🧠 石頭戰略(${document.getElementById('stockName').value})分析報告\n=================================\n${aiReportContent}`;
+                // Ensure proper spacing and the standard header for AI report
+                fullReport += `\n\n三、🧠 石頭戰略 (${document.getElementById('stockName').value}) 分析報告\n${aiReportContent}`;
             }
 
             const textarea = document.createElement('textarea');
@@ -1190,9 +1262,16 @@
 
                 【任務要求】
                 請用直白、專業、不誇飾的語氣 (繁體中文)，提供以下分析 (請使用 Markdown 格式)：
-                1. **主力心理透視**：根據量價結構（例如是否爆量、是否過高），推測主力是在進貨、洗盤還是出貨？
-                2. **散戶心理陷阱**：現在散戶容易犯什麼錯（例如追高、不敢買、過早下車）？
-                3. **教練心法**：給出一句簡短有力的操作格言（第四點結論法）。
+                
+                請嚴格依照以下格式輸出（不要有額外的開場白）：
+                (一)、 主力心理透視
+                (內容：根據量價結構，推測主力是在進貨、洗盤還是出貨？)
+                (二)、 散戶心理陷阱
+                (內容：現在散戶容易犯什麼錯？例如追高、不敢買、過早下車)
+                (三)、 教練心法
+                (內容：一句簡短有力的操作格言)
+                (四)、 石頭戰略結論 (第四點結論法)
+                (內容：請用條列式總結 1.盤勢定調 2.關鍵指標 3.防守底線 4.操作核心)
                 
                 請不要重複列出數據，直接進行定性分析。
             `;
@@ -1201,7 +1280,7 @@
                 const responseText = await callGeminiAPI(promptText);
                 document.getElementById('aiLoading').classList.add('hidden');
                 
-                // Store raw text for copying (removing bold markers for cleaner plain text copy if desired, but markdown is fine)
+                // Store raw text for copying
                 aiReportContent = responseText;
 
                 // Parse Markdown for UI display
