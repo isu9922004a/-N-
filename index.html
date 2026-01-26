@@ -1267,11 +1267,11 @@ ${scenarioScript}
             if (userKey) {
                 await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong);
             } else {
-                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status, isBreakout, isBreakdown), 800);
+                setTimeout(() => generateLocalAnalysis(isStrong, status, isBreakout, isBreakdown), 800);
             }
         }
 
-        function generateLocalAnalysis(isStrong, patternType, status, isBreakout, isBreakdown) {
+        function generateLocalAnalysis(isStrong, status, isBreakout, isBreakdown) {
             document.getElementById('aiLoading').classList.add('hidden');
             let psychology = "", trap = "", mantra = "", conclusion = "";
 
