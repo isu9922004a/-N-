@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N字戰法：三盤轉折判斷計算機 (V12.1 AI 行動版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V12.2 戰略指揮版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -89,8 +89,8 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.1 AI</span></h1>
-            <p class="text-xs text-slate-400 mt-1">實戰圖解 x 盤態判讀 x AI 戰略參謀</p>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.2</span></h1>
+            <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x AI 戰略</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
@@ -897,47 +897,105 @@
                 }
             }
 
-            // 量價推演
+            // 量價推演與劇本生成
             let volStatus = "一般";
             let volRatio = 0;
             let inferenceReportText = "";
             let inferenceText = "";
+            let scenarioScript = "";
 
             if (!isNaN(avgVol) && avgVol > 0) {
-                let targetAttack = Math.round(avgVol * 1.3);
-                let targetWash = Math.round(avgVol * 0.8);
-                const attackMark = (todayVol >= targetAttack) ? "🔥達標" : "";
-                const washMark = (todayVol <= targetWash) ? "✅達標" : "";
+                // 計算量能門檻
+                const v_strong = Math.round(avgVol * 1.5);
+                const v_break = Math.round(avgVol * 1.3);
+                const v_wash = Math.round(avgVol * 0.8);
                 
+                // 動態數據準備
+                const safeTarget5 = isNaN(target5) || target5 === 0 ? "待計算" : formatPrice(target5);
+                const safeHigh3d = isNaN(high3d) ? "前高" : high3d;
+                const safeBreakoutLow = isNaN(breakoutLow) ? "防守點" : breakoutLow;
+
+                // 產生 UI 顯示 HTML
                 inferenceText = `
                     <div class="bg-slate-50 p-3 rounded border border-slate-300 mb-3 text-xs">
-                        <h5 class="font-bold text-slate-700 border-b border-slate-200 pb-1 mb-2">📊 明日量能預判標準 (依均量 ${formatNumber(avgVol)})</h5>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="bg-red-50 p-2 rounded border border-red-100 text-center">
-                                <span class="block text-red-400 text-[10px] font-bold">🔥 欲攻擊/極強/突破</span>
-                                <span class="block text-red-700 font-black text-lg mt-1">> ${formatNumber(targetAttack)}</span>
-                                <span class="block text-red-300 text-[9px]">達標 (1.3倍)</span>
+                        <h5 class="font-bold text-slate-700 border-b border-slate-200 pb-1 mb-2">【明日開盤・量能作戰劇本】(依均量 ${formatNumber(avgVol)})</h5>
+                        
+                        <div class="space-y-2">
+                            <!-- A 劇本 -->
+                            <div class="bg-red-50 p-2 rounded border border-red-100">
+                                <div class="flex justify-between font-bold text-red-800 mb-1">
+                                    <span>🔴 劇本 A：模擬極強 (主力強攻)</span>
+                                    <span>> ${formatNumber(v_strong)}張</span>
+                                </div>
+                                <div class="text-[10px] text-slate-600 space-y-0.5">
+                                    <p>● 行為：跳空開高，不破開盤，直攻漲停。</p>
+                                    <p>● 指令：<span class="bg-red-600 text-white px-1 rounded font-bold">追價 (Buy)</span> 目標直指 5N (${safeTarget5})。</p>
+                                </div>
                             </div>
-                            <div class="bg-blue-50 p-2 rounded border border-blue-100 text-center">
-                                <span class="block text-blue-400 text-[10px] font-bold">➖ 欲盤整/洗盤/量縮</span>
-                                <span class="block text-blue-700 font-black text-lg mt-1">< ${formatNumber(targetWash)}</span>
-                                <span class="block text-blue-300 text-[9px]">達標 (0.8倍)</span>
+
+                            <!-- B 劇本 -->
+                            <div class="bg-green-50 p-2 rounded border border-green-100">
+                                <div class="flex justify-between font-bold text-green-800 mb-1">
+                                    <span>🟢 劇本 B：模擬突破 (趨勢延續)</span>
+                                    <span>${formatNumber(v_break)}~${formatNumber(v_strong)}張</span>
+                                </div>
+                                <div class="text-[10px] text-slate-600 space-y-0.5">
+                                    <p>● 行為：穩健推升，越過前高 ${safeHigh3d}。</p>
+                                    <p>● 指令：<span class="bg-green-600 text-white px-1 rounded font-bold">加碼 (Add)</span> 確認過頸線後進場。</p>
+                                </div>
+                            </div>
+
+                            <!-- C 劇本 -->
+                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200">
+                                <div class="flex justify-between font-bold text-yellow-800 mb-1">
+                                    <span>🟡 劇本 C：模擬盤整 (量縮洗盤)</span>
+                                    <span>< ${formatNumber(v_wash)}張</span>
+                                </div>
+                                <div class="text-[10px] text-slate-600 space-y-0.5">
+                                    <p>● 行為：價格震盪，無攻擊意圖。</p>
+                                    <p>● 指令：<span class="bg-yellow-600 text-white px-1 rounded font-bold">觀望 (Hold)</span> 守住防守點即可。</p>
+                                </div>
+                            </div>
+
+                            <!-- D 劇本 -->
+                            <div class="bg-gray-100 p-2 rounded border border-gray-300">
+                                <div class="flex justify-between font-bold text-gray-800 mb-1">
+                                    <span>⚫ 劇本 D：模擬大跌 (出貨/假突破)</span>
+                                    <span>爆量但收黑</span>
+                                </div>
+                                <div class="text-[10px] text-slate-600 space-y-0.5">
+                                    <p>● 行為：爆量不漲 (> ${formatNumber(v_break)}張)，或跌破 ${safeBreakoutLow}。</p>
+                                    <p>● 指令：<span class="bg-black text-white px-1 rounded font-bold">快逃 (Sell)</span> 主力倒貨，無條件離場。</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="mt-2 text-center bg-white p-1 rounded border border-slate-200 shadow-inner">
-                           <span class="text-slate-500 font-bold mr-1">目前預估量：</span>
-                           <span class="font-black text-lg ${todayVol >= targetAttack ? 'text-red-600' : (todayVol <= targetWash ? 'text-blue-600' : 'text-slate-600')}">${formatNumber(todayVol)}</span>
-                           <span class="ml-1 text-[10px] font-bold ${todayVol >= targetAttack ? 'text-red-500' : (todayVol <= targetWash ? 'text-blue-500' : 'text-slate-400')}">
-                               ${todayVol >= targetAttack ? '🚀 符合攻擊量' : (todayVol <= targetWash ? '✅ 符合盤整量' : '⚖️ 量能溫和')}
-                           </span>
+
+                        <!-- 戰術小卡 -->
+                        <div class="mt-3 p-2 bg-white border border-slate-200 rounded shadow-sm">
+                            <p class="font-bold text-slate-700 border-b border-slate-100 pb-1 mb-1">💡 石頭戰術小卡：如何計算「預估量」？</p>
+                            <p class="text-[10px] text-slate-500">公式：<span class="font-bold text-blue-600">09:15 成交量 x 8</span> = 預估全日量</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">範例：09:15 成交 500 張 → 500 x 8 = 4,000 張 (對照上方劇本)</p>
                         </div>
                     </div>`;
                 
-                inferenceReportText = `\n★ 明日量能劇本：\n🔥 欲攻擊/突破：需大於 ${formatNumber(targetAttack)} (1.3x)\n➖ 欲盤整/洗盤：需小於 ${formatNumber(targetWash)} (0.8x)\n👉 目前預估：${formatNumber(todayVol)} ${todayVol >= targetAttack ? "(🔥符合攻擊)" : (todayVol <= targetWash ? "(✅符合盤整)" : "(量能溫和)")}`;
+                // 產生純文字報表內容
+                scenarioScript = `
+【明日開盤・量能作戰劇本】(依均量 ${formatNumber(avgVol)})
+🔴 劇本 A (極強)：預估量 > ${formatNumber(v_strong)} 張 (1.5倍↑)
+   → 指令：追價 (Buy)。目標 5N (${safeTarget5})。
+🟢 劇本 B (突破)：預估量 ${formatNumber(v_break)} ~ ${formatNumber(v_strong)} 張
+   → 指令：加碼 (Add)。確認過前高 ${safeHigh3d}。
+🟡 劇本 C (盤整)：預估量 < ${formatNumber(v_wash)} 張 (0.8倍↓)
+   → 指令：觀望 (Hold)。守住防守點。
+⚫ 劇本 D (大跌)：爆量 (> ${formatNumber(v_break)}) 但收黑/破 ${safeBreakoutLow}
+   → 指令：快逃 (Sell)。主力倒貨訊號。
+
+💡 戰術小卡：預估量 = 09:15 成交量 x 8`;
 
                 if (!isNaN(todayVol)) {
                     volRatio = todayVol / avgVol;
-                    if (volRatio >= 1.3) volStatus = "攻擊量 (紅財神)";
+                    if (volRatio >= 1.5) volStatus = "極強攻擊量 (1.5倍↑)";
+                    else if (volRatio >= 1.3) volStatus = "攻擊量 (紅財神)";
                     else if (volRatio <= 0.8) volStatus = "量縮整理";
                     else volStatus = "量能溫和";
                 }
@@ -1067,7 +1125,7 @@
 
             // 準備複製文字
             const today = new Date().toLocaleDateString();
-            baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V12.1 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}${inferenceReportText}\n本檔「${stockName}」${volRatio >= 1.3 ? "攻擊量能達標 (符合1.3倍)" : (volRatio <= 0.8 ? "量縮洗盤達標 (符合0.8倍)" : "量能溫和")}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
+            baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V12.2 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}\n\n${scenarioScript}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
             
             // 自動觸發 AI 分析
             askGeminiStrategy();
