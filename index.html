@@ -670,9 +670,9 @@
                 document.getElementById('todayHigh').value = 108; 
                 document.getElementById('breakoutLow').value = 98; 
                 document.getElementById('todayVol').value = 2000;
-                document.getElementById('prevClose').value = 104;
+                document.getElementById('prevClose').value = 100; // Implied breakout point
                 document.getElementById('todayLow').value = 105;
-                document.getElementById('prevLow').value = 102;
+                document.getElementById('prevLow').value = 98;
             } else if (type === 'break') {
                 setStatus('GREEN'); 
                 document.getElementById('closePrice').value = 102;
@@ -955,8 +955,10 @@
             let titleText = "", actionText = "", boxClass = "", titleClass = "", actionClass = "", volClass = "";
             volClass = (volRatio >= 1.3) ? "bg-purple-100 text-purple-700 border-purple-300" : (volRatio <= 0.8 ? "bg-blue-100 text-blue-700 border-blue-300" : "bg-slate-100 text-slate-600 border-slate-200");
 
+            // --- MAIN LOGIC BRANCHING ---
+
             if (isBreakdown) {
-                // ... (Previous crash logic remains here) ...
+                // Crash Scenario
                 titleText = "⚠️ 三盤跌破"; actionText = "果斷離場 / 空手觀望";
                 boxClass = "bg-green-100 border-green-600"; titleClass = "text-xl font-bold text-green-900"; actionClass = "text-2xl font-black text-green-900 underline border-b border-green-300 pb-2 mb-2"; rIcon.innerText = "📉";
                 trendVerdict = "🔴 趨勢破壞 (空頭確認)";
@@ -1014,7 +1016,7 @@ ${scenarioScript}
 邏輯：必須等待股價重新築底，並帶量突破 ${pressurePrice} 壓力區，多頭結構修復後，才能重新列入觀察名單。`;
 
             } else if (isBreakout) {
-                // Breakout Scenario Logic (V13.7 Update)
+                // Breakout Scenario
                 titleText = "🔥 三盤突破 (翻紅)"; 
                 actionText = "市價買進 / 積極佈局";
                 boxClass = "bg-red-50 border-red-500"; 
@@ -1024,9 +1026,9 @@ ${scenarioScript}
                 trendVerdict = "🚀 N字起漲 (突破第一根)";
                 volStatus = "攻擊量確認 (量增價漲)";
                 
-                let breakoutDefendPrice = close * 0.975; // Simulating "Today's Low" or near breakout point
-                if(!isNaN(todayLow)) breakoutDefendPrice = todayLow; // Better if user input todayLow
-                else breakoutDefendPrice = (close + high3d) / 2; // Fallback estimate
+                let breakoutDefendPrice = close * 0.975; 
+                if(!isNaN(todayLow)) breakoutDefendPrice = todayLow;
+                else breakoutDefendPrice = (close + high3d) / 2;
 
                 let safeDefendStr = formatPrice(breakoutDefendPrice);
 
@@ -1081,6 +1083,74 @@ ${scenarioScript}
 🤑 應對策略：只要守住 ${safeHigh3d} 元，視為「漲多休息」。
 邏輯：突破後隔日量縮整理是常態（只要不是爆量長黑），目的是讓短線獲利盤換手。只要股價維持在頸線之上，都是強勢整理。`;
 
+            } else if (isStrong) {
+                // NEW: Strong Trend Scenario (V13.7 Update)
+                titleText = "🐂 強軋空盤"; 
+                actionText = "死抱不放 / 順勢加碼";
+                boxClass = "bg-red-100 border-red-600"; 
+                titleClass = "text-xl font-bold text-red-700"; 
+                actionClass = "text-2xl font-black text-red-800 border-b border-red-300 pb-2 mb-2"; 
+                rIcon.innerText = "💎";
+                trendVerdict = "🔥 強軋空盤 (主力鎖碼/主升段)";
+                volStatus = "極強攻擊量 (1.5倍↑)";
+
+                let midPoint = (close + prevClose) / 2; // Midpoint estimate
+                if (isNaN(prevClose)) midPoint = close * 0.96;
+                let midPointStr = formatPrice(midPoint);
+                let safeBreakoutLow = isNaN(breakoutLow) ? "未設定" : formatPrice(breakoutLow);
+
+                inferenceReportText = `★ 量價推演 (均量 ${formatNumber(avgVol)})：
+• 攻擊門檻 (1.3x)：${formatNumber(Math.round(avgVol * 1.3))} (達標) ✅
+• 洗盤門檻 (0.8x)：${formatNumber(Math.round(avgVol * 0.8))}
+本檔「${stockName}」呈現噴出型態，量價齊揚，主力態度堅決，進入「不計價追買」的瘋狂階段。`;
+
+                let targetSection = `🎯 動態測幅基準 (h2=${h2}, Breakout=${safeHigh3d})
+• 一飽(1N)：${formatPrice(target1)} (初步獲利點 - 軋空盤通常無視此關)
+• 二吐(2N)：${formatPrice(target2)} (加碼單減碼點)
+• 五倍(5N)：${formatPrice(target5)} (波段終極目標)`;
+
+                scenarioScript = `💡 戰術小卡：預估量 = 09:15 成交量 x 8
+🔴 劇本 A (極強鎖漲)
+預估量 > ${formatNumber(Math.round(avgVol * 1.5))} 張 (1.5倍↑) + 跳空開高 > ${formatPrice(close * 1.02)}
+→ 指令：追價 (Buy)，若開盤強勢跳空，代表主力急於拉開空間，目標直指 5N。
+🟢 劇本 B (續攻 - 標準)
+預估量 ${formatNumber(v_break)} ~ ${formatNumber(Math.round(avgVol * 1.5))} 張 + 股價維持 ${close} 以上
+→ 指令：加碼 (Add)，修正邏輯： 現價已過前高 ${safeHigh3d}，明日重點在於「守住 ${close}」。只要量能溫和放大且不破平盤，即為漲勢延續。
+🟡 劇本 C (強勢整理)
+預估量 < ${formatNumber(v_wash)} 張 (量縮) + 股價在 ${midPointStr}~${close} 震盪
+→ 指令：抱牢 (Hold)，極強股偶爾會量縮休息，只要不跌破昨日實體紅棒的一半 (${midPointStr})，都視為強勢中繼。
+⚫ 劇本 D (爆量反轉)
+爆量 (> ${formatNumber(Math.round(avgVol * 2))}) 但收長上影線或跌破 ${midPointStr}
+→ 指令：減碼 (Trim)，高檔爆天量收黑，暗示主力趁亂調節，建議先獲利一趟。`;
+
+                baseReportText = `嗨，我是石頭，希望我的N字戰法分析系統能讓你大幅提升勝率📈💯
+N字戰法指揮中心 by.石頭 V13.7 (2026/1/26)
+股名：${stockName}
+【一、個股現況分析】
+📌 操作指令：【 ${actionText} 】
+⚡ 量能狀態：${volStatus}
+💰 當前現價：${close} (已脫離成本區)
+📈 盤勢型態：${trendVerdict}
+✅ 目標直指：5N (${formatPrice(target5)})
+⚠️ 防守要點：${midPointStr} (今日紅棒中值) 或 ${safeBreakoutLow} (波段防守)
+${inferenceReportText}
+${targetSection}
+
+【二、明日開盤・量能作戰劇本】
+${scenarioScript}
+
+【三、明日實戰・關鍵三問】(最重要的部分)
+❓ Q1：漲這麼多了(${close})，現在加碼會不會追高？
+✅ 觀點：強者恆強。
+邏輯：在「軋空盤」中，最危險的不是追高，而是「預設高點」。若明日預估量達標 (攻擊量)，且開盤價開在今日收盤之上，代表主力動能未竭，適合順勢做多。
+❓ Q2：為什麼防守點有兩個 (${midPointStr} 與 ${safeBreakoutLow})？
+🛡️ 風控邏輯：分層防守。
+1. 短線客 (守 ${midPointStr})： 防止獲利回吐，跌破昨日紅棒中值先走一趟。
+2. 波段客 (守 ${safeBreakoutLow})： ${safeBreakoutLow} 是起漲缺口/突破點，只要沒跌破這裡，整個 N 字多頭架構都沒壞，可以忍受中間的震盪。
+❓ Q3：什麼時候要全部獲利了結？
+‼️ 撤退訊號：爆量不漲 或 跌破 ${safeBreakoutLow}。
+邏輯：當成交量大到異常 (例如 3 倍均量) 但股價卻推不動，通常是主力邊拉邊出的訊號。`;
+
             } else {
                 // ... (Normal Green/Red Logic - kept same) ...
                 if (status === 'GREEN') {
@@ -1097,8 +1167,7 @@ ${scenarioScript}
                             titleText = "⚠️ 攻擊失效"; actionText = "減碼觀望";
                             boxClass = "bg-yellow-50 border-yellow-500"; titleClass = "text-xl font-bold text-yellow-700"; actionClass = "text-2xl font-black text-yellow-800 border-b border-yellow-300 pb-2 mb-2"; rIcon.innerText = "⚠️";
                         } else {
-                            if(isStrong) { titleText = "🐂 強軋空盤"; actionText = "死抱不放"; boxClass = "bg-red-100 border-red-600"; titleClass = "text-xl font-bold text-red-700"; actionClass = "text-2xl font-black text-red-800 border-b border-red-300 pb-2 mb-2"; rIcon.innerText = "💎"; } 
-                            else { titleText = "✅ 多頭續抱"; actionText = "續抱 (HOLD)"; boxClass = "bg-orange-50 border-orange-400"; titleClass = "text-xl font-bold text-orange-600"; actionClass = "text-2xl font-black text-orange-700 border-b border-orange-200 pb-2 mb-2"; rIcon.innerText = "✊"; }
+                            titleText = "✅ 多頭續抱"; actionText = "續抱 (HOLD)"; boxClass = "bg-orange-50 border-orange-400"; titleClass = "text-xl font-bold text-orange-600"; actionClass = "text-2xl font-black text-orange-700 border-b border-orange-200 pb-2 mb-2"; rIcon.innerText = "✊"; 
                         }
                     }
                 }
@@ -1112,8 +1181,7 @@ ${scenarioScript}
                 else volumeCheck = "量能溫和，等待攻擊訊號。";
 
                 let targetGoal = "待確認";
-                if(isStrong) targetGoal = `5N (${formatPrice(target5)})`;
-                else if(patternType.includes("軋空")) targetGoal = `2N (${formatPrice(target2)})`;
+                if(patternType.includes("軋空")) targetGoal = `2N (${formatPrice(target2)})`;
                 else if(gap > 0) targetGoal = `1N (${formatPrice(target1)})`;
                 
                 let safeGuard = `不破軋空低點 (${breakoutLow})，上述目標才有效。`;
@@ -1173,17 +1241,17 @@ ${scenarioScript}
             rAdvice.innerText = tacticalAdvice; rTrend.innerText = reportTrend; rVol.innerText = volStatus; rVol.className = `text-xs font-bold px-2 py-1 rounded border ${volClass}`;
             if(inferenceReportText) { rInference.innerText = inferenceReportText; rInference.classList.remove('hidden'); } else { rInference.classList.add('hidden'); }
             
-            triggerAnalysis(stockName, close, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown);
+            triggerAnalysis(stockName, close, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong);
         }
 
-        async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown) {
+        async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong) {
             const userKey = localStorage.getItem('gemini_api_key');
             document.getElementById('aiAnalysisBox').classList.remove('hidden');
             document.getElementById('aiLoading').classList.remove('hidden');
             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName})分析報告`;
 
             if (userKey) {
-                await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown);
+                await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong);
             } else {
                 setTimeout(() => generateLocalAnalysis(isStrong, patternType, status, isBreakout, isBreakdown), 800);
             }
@@ -1204,12 +1272,12 @@ ${scenarioScript}
                 mantra = "「突破第一根，寧可追錯，不能放過。買錯了有停損保護，錯過了就是目送獲利。」";
                 conclusion = "● 盤勢定調：多頭起漲確認 (N字第一波)。\n● 操作核心：\n1. 持有者：移動停利設在紅棒低點，不破不賣，讓利潤奔跑。\n2. 空手者：明日開盤市價建立部位，回測頸線是加碼禮物。\n3. 紀律：收盤若跌破突破低點，承認是假突破，果斷離場。";
             } else if (status === 'RED' && !isBreakdown) {
-                // ... (Existing Strong/Squeeze logic) ...
                 if (isStrong) {
-                    psychology = "根據量價結構，主力正進行積極操作。現價穩站頸線與軋空低防守點，成交量放大顯示資金積極湧入而非震盪。主力的目的在於利用買盤壓力迫使空單回補，目前處於明確的「進貨拉抬階段」，並非出貨。";
-                    trap = "在強軋空行情中，新手最容易犯兩個錯：\n1. 過早下車：看到紅棒就想跑，結果賣在起漲點，錯失後面 5N 的大魚身。\n2. 預設高點：自己嚇自己，覺得「漲太多了」，結果股價越過高點繼續噴。";
-                    mantra = "「趨勢確立後，最大的風險不是下跌，而是你『不在車上』。守住防守點，死抱是功德。」";
-                    conclusion = "● 盤勢定調：目前處於「軋空主升段」，多方控盤力度極強。\n● 操作核心：\n1. 持有者：只要不破防守點，請將目標放遠至 5N，不要賺一點就跑。\n2. 空手者：明天若見「量增」且「價格過高」，可勇敢進場建立基本部位。\n3. 風險控制：嚴格執行停損指令，這條線是你的保命符。";
+                    // NEW: Strong AI logic (V13.7 Update)
+                    psychology = "主力目前處於「加速趕頂」階段，利用連續紅棒製造市場 FOMO (錯失恐懼) 情緒，吸引散戶進場幫忙抬轎。此時主力尚未有出貨跡象，而是享受資產膨脹的過程。";
+                    trap = "「懼高症」與「賣飛」。散戶常因為「賺了 10% 覺得夠了」就下車，結果眼睜睜看著股價後面再漲 50%，心態崩潰後反而在最高點追回來。";
+                    mantra = "「風口上的豬也會飛。在極強趨勢中，你的任務不是分析，而是『抓緊欄杆』，直到風停(破防守點)為止。」";
+                    conclusion = "● 盤勢定調：軋空主升段 (獲利最快的一段)。\n● 操作核心：\n1. 持有者：嚴守移動停利，不破不賣。\n2. 空手者：敢追就是你的，但務必設好停損。\n3. 心態：貪婪是此時的美德，不要輕易下車。";
                 } else if (patternType.includes("軋空")) {
                     psychology = "目前主力採取「穩健推升」策略，透過盤中震盪消化獲利了結賣壓。成交量溫和放大，顯示主力控盤穩定，意在清洗浮額而非拉高出貨。";
                     trap = "散戶容易因盤中震盪而失去耐心，誤將主力洗盤視為轉弱訊號而提早離場。";
@@ -1262,11 +1330,12 @@ ${conclusion}`;
 
         // --- Gemini API Functions ---
 
-        async function askGeminiStrategy(key, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown) {
+        async function askGeminiStrategy(key, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong) {
             
             let phaseDesc = status === 'RED' ? '多方 (持有/攻擊)' : '空方 (觀望/整理)';
             if(isBreakout) phaseDesc = "多方攻擊 (剛突破前高)";
             if(isBreakdown) phaseDesc = "空方殺多 (跌破防守點)";
+            if(isStrong) phaseDesc = "極強軋空 (噴出段)";
 
             const promptText = `
                 你現在是精通「N字戰法」的資深操盤手教練。請根據以下數據，為使用者進行盤勢心理分析與操作建議。
