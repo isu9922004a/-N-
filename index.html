@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N字戰法：三盤轉折判斷計算機 (V12.5 修復版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V12.7 終極修復版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -89,8 +89,8 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.5</span></h1>
-            <p class="text-xs text-slate-400 mt-1">內建智慧戰略庫 (穩定版)</p>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.7</span></h1>
+            <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x AI 戰略</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
@@ -100,8 +100,10 @@
             </div>
             
             <div id="encyclopediaContent" class="hidden max-h-[500px] overflow-y-auto p-4 space-y-3 shadow-inner bg-white">
+                
                 <!-- Part 1: 基礎趨勢 -->
                 <div class="text-xs font-black text-slate-400 uppercase tracking-widest mt-2 mb-1">第一篇：基礎趨勢與轉折 (定多空)</div>
+
                 <details class="group border border-indigo-200 rounded overflow-hidden">
                     <summary class="flex justify-between items-center font-bold text-indigo-800 bg-indigo-50 p-3">
                         <span>1. 趨勢篇：末升低 & 末跌高</span>
@@ -576,6 +578,50 @@
             }
         });
 
+        // 定義 copyReport 在最上方，確保全域可見
+        function copyReport() {
+            if (!baseReportText) return;
+            
+            // Combine base report with AI content if available
+            let fullReport = baseReportText;
+            if (aiReportContent) {
+                // Ensure proper spacing and the standard header for AI report
+                fullReport += `\n\n三、🧠 石頭戰略 (${document.getElementById('stockName').value}) 分析報告\n${aiReportContent}`;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = fullReport;
+            textarea.style.position = 'fixed';  // Prevent scrolling to bottom of page in MS Edge.
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            
+            // Mobile safe copy
+            if (navigator.userAgent.match(/ipad|iphone/i)) {
+                const range = document.createRange();
+                range.selectNodeContents(textarea);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                textarea.setSelectionRange(0, 999999);
+            } else {
+                textarea.select();
+            }
+            
+            try {
+                document.execCommand('copy');
+                const btn = document.getElementById('copyBtn');
+                btn.innerHTML = '<span class="text-green-600">✅ 已複製到剪貼簿！</span>';
+                setTimeout(() => btn.innerHTML = '<span>📋 複製完整戰報</span>', 2000);
+            } catch (err) {
+                console.error('複製失敗', err);
+                alert('複製失敗，請手動複製');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // 定義其他全域函數
+        window.copyReport = copyReport;
+
         function saveApiKey() {
             const key = document.getElementById('userApiKey').value.trim();
             if (key) {
@@ -992,6 +1038,24 @@
             let targetSection = '・無測幅 (未過頸線)';
             if (gap > 0) targetSection = `• 一飽(1N)：${formatPrice(target1)}\n• 二吐(2N)：${formatPrice(target2)}\n• 五倍(5N)：${formatPrice(target5)}`;
 
+            let volumeCheck = "量能溫和";
+            if(volRatio >= 1.3) volumeCheck = "攻擊量能達標 (符合1.3倍↑)";
+            else if (volRatio <= 0.8) volumeCheck = "量縮洗盤達標 (符合0.8倍↓)";
+
+            let nextDayKey = "";
+            if(!isNaN(avgVol) && avgVol > 0) {
+                 const v_target = Math.round(avgVol * 1.3);
+                 nextDayKey = `關鍵提醒：明日開盤請緊盯成交量，若預估量能未達 ${formatNumber(v_target)} 張 (攻擊門檻)，則強軋空攻勢可能減弱。`;
+            }
+
+            let targetGoal = "待確認";
+            if(isStrong) targetGoal = `5N (${formatPrice(target5)})`;
+            else if(patternType.includes("軋空")) targetGoal = `2N (${formatPrice(target2)})`;
+            else if(gap > 0) targetGoal = `1N (${formatPrice(target1)})`;
+            
+            let safeGuard = `不破軋空低點 (${breakoutLow})，上述目標才有效。`;
+            if (isNaN(breakoutLow)) safeGuard = "請設定軋空低以確認防守點。";
+
             baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」
 N字戰法指揮中心 by.石頭 V12.2 (${today})
 股名：${stockName}
@@ -1018,41 +1082,7 @@ ${scenarioScript}
             document.getElementById('copyBtn').innerHTML = '<span>📋 複製完整戰報</span>';
         }
 
-        function copyReport() {
-            if (!baseReportText) return;
-            let fullReport = baseReportText;
-            if (aiReportContent) {
-                fullReport += `\n\n三、🧠 石頭戰略 (${document.getElementById('stockName').value}) 分析報告\n${aiReportContent}`;
-            }
-
-            const textarea = document.createElement('textarea');
-            textarea.value = fullReport;
-            textarea.style.position = 'fixed'; 
-            textarea.style.left = '-9999px';
-            document.body.appendChild(textarea);
-            
-            if (navigator.userAgent.match(/ipad|iphone/i)) {
-                const range = document.createRange();
-                range.selectNodeContents(textarea);
-                const selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
-                textarea.setSelectionRange(0, 999999);
-            } else {
-                textarea.select();
-            }
-            
-            try {
-                document.execCommand('copy');
-                const btn = document.getElementById('copyBtn');
-                btn.innerHTML = '<span class="text-green-600">✅ 已複製到剪貼簿！</span>';
-                setTimeout(() => btn.innerHTML = '<span>📋 複製完整戰報</span>', 2000);
-            } catch (err) {
-                alert('複製失敗，請手動複製');
-            }
-            document.body.removeChild(textarea);
-        }
-
+        // 整合邏輯：判斷是有 Key (AI) 還是無 Key (內建邏輯)
         async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isStrong, patternType) {
             const userKey = localStorage.getItem('gemini_api_key');
             document.getElementById('aiAnalysisBox').classList.remove('hidden');
@@ -1060,12 +1090,15 @@ ${scenarioScript}
             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName})分析報告`;
 
             if (userKey) {
+                // 有 Key -> 呼叫 Gemini
                 await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1);
             } else {
-                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status), 800); 
+                // 無 Key -> 使用內建邏輯庫 (JS)
+                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status), 800); // 模擬運算時間
             }
         }
 
+        // 本地端邏輯產生器 (免 Key 核心)
         function generateLocalAnalysis(isStrong, patternType, status) {
             document.getElementById('aiLoading').classList.add('hidden');
             let psychology = "", trap = "", mantra = "", conclusion = "";
@@ -1151,6 +1184,8 @@ ${conclusion}`;
                 (內容：一句簡短有力的操作格言)
                 (四)、 石頭戰略結論 (第四點結論法)
                 (內容：請用條列式總結 1.盤勢定調 2.關鍵指標 3.防守底線 4.操作核心)
+                
+                請不要重複列出數據，直接進行定性分析。
             `;
 
             try {
