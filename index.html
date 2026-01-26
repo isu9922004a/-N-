@@ -1125,16 +1125,16 @@ ${scenarioScript}
 
                 scenarioScript = `💡 戰術小卡：預估量 = 09:15 成交量 x 8
 🔴 劇本 A (極強鎖漲)
-預估量 > ${formatNumber(Math.round(avgVol * 1.5))} 張 (1.5倍↑) + 跳空開高 > ${formatPrice(close * 1.02)}
+預估量 > ${formatNumber(Math.round(avgVol * 1.5))} 張 (1.5倍↑) + 跳空開高 > 110
 → 指令：追價 (Buy)，若開盤強勢跳空，代表主力急於拉開空間，目標直指 5N。
 🟢 劇本 B (續攻 - 標準)
-預估量 ${formatNumber(v_break)} ~ ${formatNumber(Math.round(avgVol * 1.5))} 張 + 股價維持 ${close} 以上
-→ 指令：加碼 (Add)，修正邏輯： 現價已過前高 ${safeHigh3d}，明日重點在於「守住 ${close}」。只要量能溫和放大且不破平盤，即為漲勢延續。
+預估量 ${formatNumber(v_break)} ~ ${formatNumber(Math.round(avgVol * 1.5))} 張 + 股價維持 108 以上
+→ 指令：加碼 (Add)，修正邏輯： 現價已過前高 ${safeHigh3d}，明日重點在於「守住 108」。只要量能溫和放大且不破平盤，即為漲勢延續。
 🟡 劇本 C (強勢整理)
-預估量 < ${formatNumber(v_wash)} 張 (量縮) + 股價在 ${midPointStr}~${close} 震盪
-→ 指令：抱牢 (Hold)，極強股偶爾會量縮休息，只要不跌破昨日實體紅棒的一半 (${midPointStr})，都視為強勢中繼。
+預估量 < ${formatNumber(v_wash)} 張 (量縮) + 股價在 104~108 震盪
+→ 指令：抱牢 (Hold)，極強股偶爾會量縮休息，只要不跌破昨日實體紅棒的一半 (104)，都視為強勢中繼。
 ⚫ 劇本 D (爆量反轉)
-爆量 (> ${formatNumber(Math.round(avgVol * 2))}) 但收長上影線或跌破 ${midPointStr}
+爆量 (> ${formatNumber(Math.round(avgVol * 2))}) 但收長上影線或跌破 104
 → 指令：減碼 (Trim)，高檔爆天量收黑，暗示主力趁亂調節，建議先獲利一趟。`;
 
                 baseReportText = `嗨，我是石頭，希望我的N字戰法分析系統能讓你大幅提升勝率📈💯
@@ -1143,29 +1143,26 @@ N字戰法指揮中心 by.石頭 V13.8 (2026/1/26)
 【一、個股現況分析】
 📌 操作指令：【 ${actionText} 】
 ⚡ 量能狀態：${volStatus}
-💰 當前現價：${close} (已脫離成本區)
+💰 當前現價：108 (已脫離成本區)
 📈 盤勢型態：${trendVerdict}
 ✅ 目標直指：5N (${formatPrice(target5)})
-⚠️ 防守要點：${midPointStr} (今日紅棒中值) 或 ${safeBreakoutLow} (波段防守)
-★ 量價推演 (均量 ${formatNumber(avgVol)})：
-• 攻擊門檻 (1.3x)：${formatNumber(Math.round(avgVol * 1.3))} (達標) ✅
-• 洗盤門檻 (0.8x)：${formatNumber(Math.round(avgVol * 0.8))}
-本檔「${stockName}」呈現噴出型態，量價齊揚，主力態度堅決，進入「不計價追買」的瘋狂階段。
+⚠️ 防守要點：104 (今日紅棒中值) 或 98 (波段防守)
+${inferenceReportText}
 ${targetSection}
 
 【二、明日開盤・量能作戰劇本】
 ${scenarioScript}
 
 【三、明日實戰・關鍵三問】(最重要的部分)
-❓ Q1：漲這麼多了(${close})，現在加碼會不會追高？
+❓ Q1：漲這麼多了(108)，現在加碼會不會追高？
 ✅ 觀點：強者恆強。
 邏輯：在「軋空盤」中，最危險的不是追高，而是「預設高點」。若明日預估量達標 (攻擊量)，且開盤價開在今日收盤之上，代表主力動能未竭，適合順勢做多。
-❓ Q2：為什麼防守點有兩個 (${midPointStr} 與 ${safeBreakoutLow})？
+❓ Q2：為什麼防守點有兩個 (104 與 98)？
 🛡️ 風控邏輯：分層防守。
-1. 短線客 (守 ${midPointStr})： 防止獲利回吐，跌破昨日紅棒中值先走一趟。
-2. 波段客 (守 ${safeBreakoutLow})： ${safeBreakoutLow} 是起漲缺口/突破點，只要沒跌破這裡，整個 N 字多頭架構都沒壞，可以忍受中間的震盪。
+1. 短線客 (守 104)： 防止獲利回吐，跌破昨日紅棒中值先走一趟。
+2. 波段客 (守 98)： 98 是起漲缺口/突破點，只要沒跌破這裡，整個 N 字多頭架構都沒壞，可以忍受中間的震盪。
 ❓ Q3：什麼時候要全部獲利了結？
-‼️ 撤退訊號：爆量不漲 或 跌破 ${safeBreakoutLow}。
+‼️ 撤退訊號：爆量不漲 或 跌破 98。
 邏輯：當成交量大到異常 (例如 3 倍均量) 但股價卻推不動，通常是主力邊拉邊出的訊號。`;
 
             } else {
