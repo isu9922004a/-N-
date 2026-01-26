@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N字戰法：三盤轉折判斷計算機 (V12.2 戰略指揮版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V12.4 穩定版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -89,8 +89,8 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.2</span></h1>
-            <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x AI 戰略</p>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.4</span></h1>
+            <p class="text-xs text-slate-400 mt-1">內建智慧戰略庫 (穩定版)</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
@@ -100,10 +100,8 @@
             </div>
             
             <div id="encyclopediaContent" class="hidden max-h-[500px] overflow-y-auto p-4 space-y-3 shadow-inner bg-white">
-                
                 <!-- Part 1: 基礎趨勢 -->
                 <div class="text-xs font-black text-slate-400 uppercase tracking-widest mt-2 mb-1">第一篇：基礎趨勢與轉折 (定多空)</div>
-
                 <details class="group border border-indigo-200 rounded overflow-hidden">
                     <summary class="flex justify-between items-center font-bold text-indigo-800 bg-indigo-50 p-3">
                         <span>1. 趨勢篇：末升低 & 末跌高</span>
@@ -530,7 +528,7 @@
                         <div id="aiAnalysisBox" class="hidden mt-3 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-sm text-slate-700 shadow-inner relative">
                             <div class="absolute top-0 right-0 p-1 opacity-20 text-4xl">🤖</div>
                             <h4 id="aiReportTitle" class="font-black text-indigo-900 mb-2 border-b border-indigo-200 pb-1 flex items-center">
-                                🧠 Gemini 戰略分析報告
+                                🧠 石頭戰略分析報告
                             </h4>
                             <div id="aiContent" class="ai-content">
                                 <!-- AI Content will be injected here -->
@@ -548,17 +546,16 @@
                 </div>
             </div>
 
-            <!-- API Key 設定區 (行動版必備) -->
+            <!-- API Key 設定區 (選用) -->
             <details class="group mt-4 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
                 <summary class="flex justify-between items-center font-bold text-gray-700 p-3 cursor-pointer hover:bg-gray-100">
-                    <span>⚙️ 設定 API Key (行動版必填)</span>
+                    <span>⚙️ 設定 API Key (選用：增強文采)</span>
                     <span class="text-gray-400 transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <div class="p-3 bg-white">
-                    <p class="text-xs text-gray-500 mb-2">若在手機或非開發環境執行，請在此貼上您的 Google Gemini API Key 以啟用 AI 分析。</p>
-                    <input type="password" id="userApiKey" class="w-full p-2 border border-gray-300 rounded text-sm mb-2" placeholder="貼上 API Key (sk-...)">
-                    <button onclick="saveApiKey()" class="bg-gray-800 text-white text-xs px-3 py-1.5 rounded hover:bg-gray-900 transition-colors w-full">💾 儲存並記憶</button>
-                    <p class="text-[10px] text-gray-400 mt-2 text-center"><a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-blue-500">👉 點此免費取得 Key</a></p>
+                    <p class="text-xs text-gray-500 mb-2">本系統已內建「石頭戰略邏輯庫」，不需 Key 也能產出完整報告！<br>若您有 Gemini API Key，填入後可獲得更多變化的 AI 文案。</p>
+                    <input type="password" id="userApiKey" class="w-full p-2 border border-gray-300 rounded text-sm mb-2" placeholder="貼上 API Key (選填)">
+                    <button onclick="saveApiKey()" class="bg-gray-800 text-white text-xs px-3 py-1.5 rounded hover:bg-gray-900 transition-colors w-full">💾 儲存設定</button>
                 </div>
             </details>
 
@@ -583,74 +580,60 @@
             const key = document.getElementById('userApiKey').value.trim();
             if (key) {
                 localStorage.setItem('gemini_api_key', key);
-                alert("✅ API Key 已儲存！下次開啟網頁會自動帶入。");
+                alert("✅ API Key 已儲存！將啟用增強版 AI 分析。");
             } else {
-                alert("⚠️ 請輸入有效的 API Key");
+                localStorage.removeItem('gemini_api_key');
+                alert("⚠️ API Key 已清除，將切換回內建戰略邏輯庫。");
             }
         }
 
         // 模擬數據函數
         function simulate(type) {
-            clearInputs(false); // 不隱藏結果區
-            
-            // 基礎設定 (假設一檔股票)
+            clearInputs(false); 
+            // 基礎設定
             document.getElementById('stockName').value = "模擬個股 (TEST)";
             document.getElementById('high3d').value = 100;
             document.getElementById('low3d').value = 90;
             document.getElementById('avgVol').value = 1000;
             
-            let simType = "";
-
-            if (type === 'strong') { // 極強
+            if (type === 'strong') {
                 setStatus('RED');
                 document.getElementById('closePrice').value = 108;
-                document.getElementById('todayHigh').value = 108; // 收最高
-                document.getElementById('breakoutLow').value = 98; // 遠高於軋空低
-                document.getElementById('todayVol').value = 2000; // 爆量
-                
-                // 強勢股參數
+                document.getElementById('todayHigh').value = 108; 
+                document.getElementById('breakoutLow').value = 98; 
+                document.getElementById('todayVol').value = 2000;
                 document.getElementById('prevClose').value = 104;
                 document.getElementById('todayLow').value = 105;
                 document.getElementById('prevLow').value = 102;
-                simType = "🚀 極強";
-                
-            } else if (type === 'break') { // 突破
+            } else if (type === 'break') {
                 setStatus('GREEN');
                 document.getElementById('closePrice').value = 102;
                 document.getElementById('todayHigh').value = 103;
-                document.getElementById('breakoutLow').value = 101; // 今日低當防守
-                document.getElementById('todayVol').value = 1500; // 攻擊量
-                simType = "🔥 突破";
-                
-            } else if (type === 'crash') { // 大跌
-                setStatus('RED'); // 原本持有
-                document.getElementById('closePrice').value = 85; // 破低
+                document.getElementById('breakoutLow').value = 101; 
+                document.getElementById('todayVol').value = 1500;
+            } else if (type === 'crash') {
+                setStatus('RED'); 
+                document.getElementById('closePrice').value = 85; 
                 document.getElementById('todayHigh').value = 92;
-                document.getElementById('breakoutLow').value = 95; // 跌破防守點
-                document.getElementById('todayVol').value = 3000; // 恐慌量
-                simType = "💀 大跌";
-                
-            } else if (type === 'flat') { // 盤整
+                document.getElementById('breakoutLow').value = 95; 
+                document.getElementById('todayVol').value = 3000;
+            } else if (type === 'flat') {
                 setStatus('GREEN');
-                document.getElementById('closePrice').value = 98; // 未過高
+                document.getElementById('closePrice').value = 98; 
                 document.getElementById('todayHigh').value = 99;
                 document.getElementById('breakoutLow').value = 95;
-                document.getElementById('todayVol').value = 600; // 量縮
-                simType = "➖ 盤整";
+                document.getElementById('todayVol').value = 600;
             }
 
-            // 增加輸入框閃爍特效
             const inputs = document.querySelectorAll('input[type="number"]');
             inputs.forEach(input => {
                 input.classList.remove('highlight-input');
-                void input.offsetWidth; // trigger reflow
+                void input.offsetWidth;
                 input.classList.add('highlight-input');
             });
             
-            // 自動執行並捲動
             setTimeout(() => {
                 calculateStrategy();
-                // 強制捲動
                 const resultArea = document.getElementById('resultArea');
                 resultArea.classList.remove('hidden');
                 resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -659,67 +642,46 @@
 
         const checkboxes = document.querySelectorAll('#sellChecklist input[type="checkbox"]');
         const adviceBox = document.getElementById('sellAdvice');
-        
         checkboxes.forEach(chk => {
             chk.addEventListener('change', () => {
                 const allChecked = Array.from(checkboxes).every(c => c.checked);
-                if (allChecked) {
-                    adviceBox.classList.remove('hidden');
-                } else {
-                    adviceBox.classList.add('hidden');
-                }
+                if (allChecked) adviceBox.classList.remove('hidden');
+                else adviceBox.classList.add('hidden');
             });
         });
 
         function toggleEncyclopedia() {
             const content = document.getElementById('encyclopediaContent');
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-            } else {
-                content.classList.add('hidden');
-            }
+            content.classList.toggle('hidden');
         }
 
         function clearInputs(hideResult = true) {
-            document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
-                input.value = '';
-                input.classList.remove('highlight-input');
-            });
+            document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => input.value = '');
             document.querySelectorAll('input[type="checkbox"]').forEach(box => box.checked = false);
             adviceBox.classList.add('hidden');
-            // Hide AI Box
             document.getElementById('aiAnalysisBox').classList.add('hidden');
             document.getElementById('aiContent').innerHTML = '';
-            aiReportContent = ""; // Reset AI content
-            
-            if(hideResult) {
-                document.getElementById('resultArea').classList.add('hidden');
-            }
+            aiReportContent = ""; 
+            if(hideResult) document.getElementById('resultArea').classList.add('hidden');
             setStatus('GREEN');
-            if(hideResult) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            if(hideResult) window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
-        
         function formatPrice(num) {
             return parseFloat(num).toFixed(2);
         }
-
         function setStatus(status) {
             document.getElementById('currentStatus').value = status;
-            document.getElementById('btn-green').className = "py-3 px-4 border-2 rounded-lg font-bold transition-all border-slate-200 text-slate-400 hover:bg-slate-50 opacity-60";
-            document.getElementById('btn-red').className = "py-3 px-4 border-2 rounded-lg font-bold transition-all border-slate-200 text-slate-400 hover:bg-slate-50 opacity-60";
-
+            document.getElementById('btn-green').className = status === 'GREEN' ? "py-3 px-4 border-2 rounded-lg font-bold transition-all border-green-500 bg-green-50 text-green-700 shadow-inner ring-2 ring-green-100 opacity-100" : "py-3 px-4 border-2 rounded-lg font-bold transition-all border-slate-200 text-slate-400 hover:bg-slate-50 opacity-60";
+            document.getElementById('btn-red').className = status === 'RED' ? "py-3 px-4 border-2 rounded-lg font-bold transition-all border-red-500 bg-red-50 text-red-700 shadow-inner ring-2 ring-red-100 opacity-100" : "py-3 px-4 border-2 rounded-lg font-bold transition-all border-slate-200 text-slate-400 hover:bg-slate-50 opacity-60";
+            
             if(status === 'GREEN') {
-                document.getElementById('btn-green').className = "py-3 px-4 border-2 rounded-lg font-bold transition-all border-green-500 bg-green-50 text-green-700 shadow-inner ring-2 ring-green-100 opacity-100";
                 document.getElementById('advancedInputs').classList.add('hidden');
                 document.getElementById('sellChecklist').classList.add('hidden');
             } else {
-                document.getElementById('btn-red').className = "py-3 px-4 border-2 rounded-lg font-bold transition-all border-red-500 bg-red-50 text-red-700 shadow-inner ring-2 ring-red-100 opacity-100";
                 document.getElementById('advancedInputs').classList.remove('hidden');
                 document.getElementById('sellChecklist').classList.remove('hidden');
             }
@@ -727,11 +689,9 @@
 
         function calculateStrategy() {
             document.querySelectorAll('input').forEach(el => el.classList.remove('input-error'));
-            
-            // Clear previous AI result when recalculating
             document.getElementById('aiAnalysisBox').classList.add('hidden');
             document.getElementById('aiContent').innerHTML = '';
-            aiReportContent = ""; // Reset AI content
+            aiReportContent = "";
 
             const stockName = document.getElementById('stockName').value || "未輸入股名";
             const status = document.getElementById('currentStatus').value;
@@ -743,7 +703,6 @@
             const todayVol = parseFloat(document.getElementById('todayVol').value);
             const avgVol = parseFloat(document.getElementById('avgVol').value);
             const isFullSell = Array.from(checkboxes).every(c => c.checked);
-            
             const prevClose = parseFloat(document.getElementById('prevClose').value);
             const todayLow = parseFloat(document.getElementById('todayLow').value);
             const prevLow = parseFloat(document.getElementById('prevLow').value);
@@ -751,76 +710,56 @@
 
             let hasError = false;
             let errorMsg = "請檢查紅框欄位：\n";
-
             if (!status) { errorMsg += "- 請選擇目前狀態\n"; hasError = true; }
             if (isNaN(close)) { document.getElementById('closePrice').classList.add('input-error'); errorMsg += "- 請輸入目前價\n"; hasError = true; }
             if (isNaN(high3d)) { document.getElementById('high3d').classList.add('input-error'); errorMsg += "- 請輸入前三高\n"; hasError = true; }
             if (isNaN(L)) { document.getElementById('low3d').classList.add('input-error'); errorMsg += "- 請輸入前三低\n"; hasError = true; }
-
             if (hasError) { alert(errorMsg); return; }
 
-            // === 邏輯運算 ===
             let h2 = isNaN(todayH) ? close : todayH; 
             if(h2 < close) h2 = close;
-
             const gap = h2 - L;
             let target1 = 0, target2 = 0, target5 = 0;
             let targetReport = "";
             let isTargetValid = true;
-            
-            if (!isNaN(breakoutLow) && close < breakoutLow) {
-                isTargetValid = false; 
-            }
+            if (!isNaN(breakoutLow) && close < breakoutLow) isTargetValid = false; 
 
-            // 測幅計算
             if (gap > 0) {
                 target1 = h2 + gap;
                 target2 = h2 + (2 * gap);
                 target5 = h2 + (5 * gap);
-
                 document.getElementById('valH2').innerText = h2;
                 document.getElementById('valL').innerText = L;
                 document.getElementById('target1').innerText = formatPrice(target1);
                 document.getElementById('target2').innerText = formatPrice(target2);
                 document.getElementById('target5').innerText = formatPrice(target5);
-                
                 const targetBox = document.getElementById('targetBox');
-                const targetList = document.getElementById('targetList');
-                const invalidMsg = document.getElementById('targetInvalidMsg');
-                const statusBadge = document.getElementById('targetStatusBadge');
-                
                 targetBox.classList.remove('hidden');
-
                 if (isTargetValid) {
                     targetBox.className = "bg-green-50 p-3 rounded border border-green-200 mb-3 text-xs shadow-sm";
-                    targetList.classList.remove('invalid-target');
-                    invalidMsg.classList.add('hidden');
-                    statusBadge.innerText = "Active";
-                    statusBadge.className = "text-[10px] bg-green-200 px-1 rounded text-green-800";
-                    targetReport = `\n🎯 動態測幅 (h2=${h2})\n• 一飽(1N)：${formatPrice(target1)}\n• 二吐(2N)：${formatPrice(target2)}\n• 五倍(5N)：${formatPrice(target5)}`;
+                    document.getElementById('targetList').classList.remove('invalid-target');
+                    document.getElementById('targetInvalidMsg').classList.add('hidden');
+                    document.getElementById('targetStatusBadge').innerText = "Active";
+                    document.getElementById('targetStatusBadge').className = "text-[10px] bg-green-200 px-1 rounded text-green-800";
                 } else {
                     targetBox.className = "bg-gray-100 p-3 rounded border border-gray-300 mb-3 text-xs shadow-sm opacity-75";
-                    targetList.classList.add('invalid-target');
-                    invalidMsg.classList.remove('hidden');
-                    statusBadge.innerText = "Invalid";
-                    statusBadge.className = "text-[10px] bg-gray-300 px-1 rounded text-gray-700";
-                    targetReport = `\n🎯 動態測幅 (h2=${h2})\n❌ 破軋空低，目標抵銷失效`;
+                    document.getElementById('targetList').classList.add('invalid-target');
+                    document.getElementById('targetInvalidMsg').classList.remove('hidden');
+                    document.getElementById('targetStatusBadge').innerText = "Invalid";
+                    document.getElementById('targetStatusBadge').className = "text-[10px] bg-gray-300 px-1 rounded text-gray-700";
                 }
             } else {
                 document.getElementById('targetBox').classList.add('hidden');
             }
 
-            // 盤態與長紅強弱判定
             let isStrong = false;
             let patternType = ""; 
-            let patternReport = "";
             let patternClass = "";
             let redCandleAdvice = "";
             let tacticalAdvice = "";
-            
-            // Text report variables
             let trendVerdict = "";
             let marketDesc = "";
+            let reportTrend = "";
 
             if (status === 'RED') {
                 if (!isNaN(prevClose) && !isNaN(todayLow) && !isNaN(prevLow)) {
@@ -845,7 +784,6 @@
                         marketDesc = "空頭抵抗強烈，回檔深，守住軋空低即可。";
                     }
                 } else {
-                    // 若無參數，簡易判斷
                     if (close > high3d) {
                         patternType = "📈 軋空盤"; 
                         patternClass = "bg-blue-100 text-blue-700 border-blue-300";
@@ -861,19 +799,14 @@
                     }
                 }
 
-                // 長紅隔日強弱覆蓋
                 if (!isNaN(prevClose) && !isNaN(prevLongRedLow)) { 
                     let redLen = prevClose - prevLongRedLow;
                     let p1_3 = prevClose - (redLen * 0.33); 
                     let p1_2 = prevClose - (redLen * 0.5);  
-                    
-                    if (close > prevClose) {
-                        redCandleAdvice = "強勢續漲";
-                    } else if (close >= p1_3) {
-                        redCandleAdvice = "次強 (守1/3)";
-                    } else if (close >= p1_2) {
-                        redCandleAdvice = "次次強 (守1/2)";
-                    } else if (close < p1_2 || close < prevLongRedLow) {
+                    if (close > prevClose) redCandleAdvice = "強勢續漲";
+                    else if (close >= p1_3) redCandleAdvice = "次強 (守1/3)";
+                    else if (close >= p1_2) redCandleAdvice = "次次強 (守1/2)";
+                    else if (close < p1_2 || close < prevLongRedLow) {
                         redCandleAdvice = "轉弱 (破1/2)";
                         patternType = "⚠️ 疑似假突破"; 
                         patternClass = "bg-yellow-100 text-yellow-800 border-yellow-300";
@@ -882,60 +815,48 @@
                         marketDesc = "攻擊失敗風險增高，建議減碼。";
                     }
                 }
-                
                 const pTag = document.getElementById('patternTag');
                 pTag.innerText = patternType;
                 pTag.className = `text-xs font-bold px-2 py-1 rounded border ${patternClass}`;
                 pTag.classList.remove('hidden');
-                patternReport = `\n型態：${patternType}`;
-            } else { // GREEN (空方)
+            } else { 
                 if(close < L) { 
-                      // 圖二: 空方盤態邏輯 (這裡用簡單判斷模擬，可再細分)
                       patternType = "📉 空方殺多";
                       patternClass = "bg-green-100 text-green-800 border-green-300";
                       tacticalAdvice = "📉 趨勢：空方殺多。\n依圖二所示，空方趨勢確立 (強殺多/殺多盤)，反彈不過殺多高就是空。若持有，請立刻停損，絕不接刀。";
                       trendVerdict = "📉 空方殺多";
                       marketDesc = "空方趨勢確立，反彈皆是空點。";
-                      
                       const pTag = document.getElementById('patternTag');
                       pTag.innerText = patternType;
                       pTag.className = `text-xs font-bold px-2 py-1 rounded border ${patternClass}`;
                       pTag.classList.remove('hidden');
-                      patternReport = `\n型態：${patternType}`;
                 } else {
                       patternType = "💤 盤跌/觀望";
                       patternClass = "bg-gray-100 text-gray-600 border-gray-300";
                       tacticalAdvice = "💤 趨勢：盤勢不明 (盤跌)。\n依圖二所示，反彈深(假突破)，隨後再殺。建議多看少做，保留現金，等待突破訊號。";
                       trendVerdict = "💤 盤勢不明 (盤跌)";
                       marketDesc = "反彈深似假突破，多看少做。";
-                      
                       const pTag = document.getElementById('patternTag');
                       pTag.innerText = patternType;
                       pTag.className = `text-xs font-bold px-2 py-1 rounded border ${patternClass}`;
                       pTag.classList.remove('hidden');
-                      patternReport = `\n型態：${patternType}`;
                 }
             }
 
-            // 量價推演與劇本生成
             let volStatus = "一般";
             let volRatio = 0;
             let inferenceReportText = "";
             let inferenceText = "";
             let scenarioScript = "";
+            let v_strong = 0, v_break = 0, v_wash = 0;
+            const safeTarget5 = isNaN(target5) || target5 === 0 ? "待計算" : formatPrice(target5);
+            const safeHigh3d = isNaN(high3d) ? "前高" : high3d;
+            const safeBreakoutLow = isNaN(breakoutLow) ? "防守點" : breakoutLow;
 
             if (!isNaN(avgVol) && avgVol > 0) {
-                // 計算量能門檻
-                const v_strong = Math.round(avgVol * 1.5);
-                const v_break = Math.round(avgVol * 1.3);
-                const v_wash = Math.round(avgVol * 0.8);
-                
-                // 動態數據準備
-                const safeTarget5 = isNaN(target5) || target5 === 0 ? "待計算" : formatPrice(target5);
-                const safeHigh3d = isNaN(high3d) ? "前高" : high3d;
-                const safeBreakoutLow = isNaN(breakoutLow) ? "防守點" : breakoutLow;
-
-                // NEW: Prepare the specific text for "Volume Price Inference" (★ 量價推演)
+                v_strong = Math.round(avgVol * 1.5);
+                v_break = Math.round(avgVol * 1.3);
+                v_wash = Math.round(avgVol * 0.8);
                 const targetAttackFormatted = formatNumber(Math.round(avgVol * 1.3));
                 const targetWashFormatted = formatNumber(Math.round(avgVol * 0.8));
                 const isAttack = todayVol >= (avgVol * 1.3) ? "(🔥達標)" : "";
@@ -945,13 +866,10 @@
 • 攻擊門檻(1.3x)：${targetAttackFormatted} ${isAttack}
 • 洗盤門檻(0.8x)：${targetWashFormatted} ${isWash}`;
 
-                // 產生 UI 顯示 HTML
                 inferenceText = `
                     <div class="bg-slate-50 p-3 rounded border border-slate-300 mb-3 text-xs">
                         <h5 class="font-bold text-slate-700 border-b border-slate-200 pb-1 mb-2">【明日開盤・量能作戰劇本】(依均量 ${formatNumber(avgVol)})</h5>
-                        
                         <div class="space-y-2">
-                            <!-- A 劇本 -->
                             <div class="bg-red-50 p-2 rounded border border-red-100">
                                 <div class="flex justify-between font-bold text-red-800 mb-1">
                                     <span>🔴 劇本 A：模擬極強 (主力強攻)</span>
@@ -962,20 +880,16 @@
                                     <p>● 指令：<span class="bg-red-600 text-white px-1 rounded font-bold">追價 (Buy)</span> 目標直指 5N (${safeTarget5})。</p>
                                 </div>
                             </div>
-
-                            <!-- B 劇本 -->
                             <div class="bg-green-50 p-2 rounded border border-green-100">
                                 <div class="flex justify-between font-bold text-green-800 mb-1">
                                     <span>🟢 劇本 B：模擬突破 (趨勢延續)</span>
                                     <span>${formatNumber(v_break)}~${formatNumber(v_strong)}張</span>
                                 </div>
                                 <div class="text-[10px] text-slate-600 space-y-0.5">
-                                    <p>● 行為：穩健推升，確認站穩 ${safeHigh3d} 支撐。</p>
+                                    <p>● 行為：穩健推升，確認突破前高 ${safeHigh3d}。</p>
                                     <p>● 指令：<span class="bg-green-600 text-white px-1 rounded font-bold">加碼 (Add)</span> 確認過頸線後進場。</p>
                                 </div>
                             </div>
-
-                            <!-- C 劇本 -->
                             <div class="bg-yellow-50 p-2 rounded border border-yellow-200">
                                 <div class="flex justify-between font-bold text-yellow-800 mb-1">
                                     <span>🟡 劇本 C：模擬盤整 (量縮洗盤)</span>
@@ -986,8 +900,6 @@
                                     <p>● 指令：<span class="bg-yellow-600 text-white px-1 rounded font-bold">觀望 (Hold)</span> 守住防守點即可。</p>
                                 </div>
                             </div>
-
-                            <!-- D 劇本 -->
                             <div class="bg-gray-100 p-2 rounded border border-gray-300">
                                 <div class="flex justify-between font-bold text-gray-800 mb-1">
                                     <span>⚫ 劇本 D：模擬大跌 (出貨/假突破)</span>
@@ -999,23 +911,19 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- 戰術小卡 -->
                         <div class="mt-3 p-2 bg-white border border-slate-200 rounded shadow-sm">
                             <p class="font-bold text-slate-700 border-b border-slate-100 pb-1 mb-1">💡 石頭戰術小卡：如何計算「預估量」？</p>
                             <p class="text-[10px] text-slate-500">公式：<span class="font-bold text-blue-600">09:15 成交量 x 8</span> = 預估全日量</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">範例：09:15 成交 500 張 → 500 x 8 = 4,000 張 (對照上方劇本)</p>
                         </div>
                     </div>`;
                 
-                // 產生純文字報表內容 (Scenario Script)
                 scenarioScript = `【明日開盤・量能作戰劇本】(均量 ${formatNumber(avgVol)})
 🔴 劇本 A (極強)
 預估量 > ${formatNumber(v_strong)} 張 (1.5倍↑)
 → 指令：追價 (Buy)，目標直指 5N (${safeTarget5})。
 🟢 劇本 B (突破)
 預估量 ${formatNumber(v_break)} ~ ${formatNumber(v_strong)} 張
-→ 指令：加碼 (Add)，確認站穩 ${safeHigh3d} 支撐。
+→ 指令：加碼 (Add)，確認突破前高 ${safeHigh3d}。
 🟡 劇本 C (盤整)
 預估量 < ${formatNumber(v_wash)} 張 (0.8倍↓)
 → 指令：觀望 (Hold)，嚴守防守位。
@@ -1033,11 +941,8 @@
                 }
             }
 
-            // 顯示結果
             const resultArea = document.getElementById('resultArea');
             resultArea.classList.remove('hidden');
-            // resultArea.scrollIntoView({ behavior: 'smooth' }); // 改由 simulate 控制或手動觸發時控制
-
             const resultBox = document.getElementById('resultBox');
             const rTitle = document.getElementById('resultTitle');
             const rAction = document.getElementById('resultAction');
@@ -1048,135 +953,46 @@
             const rStock = document.getElementById('stockBadge');
             const rInference = document.getElementById('inferenceBox');
 
-            let reportTrend = "";
-            let reportAdvice = "";
-            let titleText = "";
-            let actionText = "";
-            let boxClass = "";
-            let titleClass = "";
-            let actionClass = "";
-            let volClass = (volRatio >= 1.3) ? "bg-purple-100 text-purple-700 border-purple-300" : (volRatio <= 0.8 ? "bg-blue-100 text-blue-700 border-blue-300" : "bg-slate-100 text-slate-600 border-slate-200");
+            let titleText = "", actionText = "", boxClass = "", titleClass = "", actionClass = "", volClass = "";
+            volClass = (volRatio >= 1.3) ? "bg-purple-100 text-purple-700 border-purple-300" : (volRatio <= 0.8 ? "bg-blue-100 text-blue-700 border-blue-300" : "bg-slate-100 text-slate-600 border-slate-200");
 
             if (status === 'GREEN') {
                 if (close > high3d) {
-                    titleText = "🔥 三盤突破 (翻紅)";
-                    reportTrend = "3. N字起漲 (Day 1)";
-                    actionText = "市價買進";
-                    reportAdvice = "紅財神確認。守住今日低點(軋空低)。";
-                    tacticalAdvice = "🚀 趨勢：多方起漲 (Day 1)。\n【圖解】：突破 N 字頸線，攻擊發起。\n【建議】：空手者建議市價買進，防守今日低點。";
-                    trendVerdict = "🚀 多方起漲 (Day 1)";
-                    marketDesc = "突破 N 字頸線，攻擊發起。";
-                    boxClass = "bg-red-50 border-red-500";
-                    titleClass = "text-xl font-bold text-red-600";
-                    actionClass = "text-2xl font-black text-red-700 border-b border-red-200 pb-2 mb-2";
-                    rTrend.className = "text-xs font-bold px-2 py-1 rounded bg-red-100 text-red-700 border border-red-200";
-                    rIcon.innerText = "🚀";
+                    titleText = "🔥 三盤突破 (翻紅)"; reportTrend = "3. N字起漲 (Day 1)"; actionText = "市價買進";
+                    boxClass = "bg-red-50 border-red-500"; titleClass = "text-xl font-bold text-red-600"; actionClass = "text-2xl font-black text-red-700 border-b border-red-200 pb-2 mb-2"; rTrend.className = "text-xs font-bold px-2 py-1 rounded bg-red-100 text-red-700 border border-red-200"; rIcon.innerText = "🚀";
                 } else {
-                    titleText = "💤 盤整延續";
-                    actionText = "觀望 (WAIT)";
-                    reportAdvice = "價格未過頸線。";
-                    tacticalAdvice = "💤 趨勢：盤整中。\n【建議】：空手者請觀望，保留現金等待突破訊號。";
-                    trendVerdict = "💤 盤整中";
-                    marketDesc = "價格未過頸線，觀望為上。";
-                    boxClass = "bg-green-50 border-green-500";
-                    titleClass = "text-xl font-bold text-green-700";
-                    actionClass = "text-2xl font-black text-green-800 border-b border-green-200 pb-2 mb-2";
-                    rTrend.className = "text-xs font-bold px-2 py-1 rounded bg-green-100 text-green-700 border border-green-200";
-                    rIcon.innerText = "🐢";
+                    titleText = "💤 盤整延續"; actionText = "觀望 (WAIT)";
+                    boxClass = "bg-green-50 border-green-500"; titleClass = "text-xl font-bold text-green-700"; actionClass = "text-2xl font-black text-green-800 border-b border-green-200 pb-2 mb-2"; rTrend.className = "text-xs font-bold px-2 py-1 rounded bg-green-100 text-green-700 border border-green-200"; rIcon.innerText = "🐢";
                 }
-            } else { // RED
+            } else {
                 if (isFullSell) {
-                    titleText = "🚨 逃命訊號";
-                    actionText = "收回資金，換股";
-                    reportAdvice = "世紀鋼模式：多頭力竭，離場。";
-                    tacticalAdvice = "🚨 趨勢：多頭力竭 (趨勢反轉)。\n【建議】：無條件離場，換股操作。不要留戀。";
-                    trendVerdict = "🚨 多頭力竭 (趨勢反轉)";
-                    marketDesc = "無條件離場，換股操作。";
-                    boxClass = "bg-red-200 border-red-700";
-                    titleClass = "text-xl font-black text-red-900";
-                    actionClass = "text-2xl font-black text-red-900 border-b border-red-400 pb-2 mb-2";
-                    rIcon.innerText = "📉";
+                    titleText = "🚨 逃命訊號"; actionText = "收回資金，換股";
+                    boxClass = "bg-red-200 border-red-700"; titleClass = "text-xl font-black text-red-900"; actionClass = "text-2xl font-black text-red-900 border-b border-red-400 pb-2 mb-2"; rIcon.innerText = "📉";
                 } else if (close < L) {
-                    titleText = "⚠️ 三盤跌破";
-                    actionText = "無條件離場";
-                    reportAdvice = "結構破壞。";
-                    tacticalAdvice = "🏃 趨勢：三盤跌破 (轉空)。\n【圖解】：空方控盤，反彈皆是空點。\n【建議】：持有者反彈逃命，空手者嚴禁進場。";
-                    trendVerdict = "🏃 三盤跌破 (轉空)";
-                    marketDesc = "結構破壞，反彈逃命。";
-                    boxClass = "bg-green-100 border-green-600";
-                    titleClass = "text-xl font-bold text-green-900";
-                    actionClass = "text-2xl font-black text-green-900 underline border-b border-green-300 pb-2 mb-2";
-                    rIcon.innerText = "🏃";
+                    titleText = "⚠️ 三盤跌破"; actionText = "無條件離場";
+                    boxClass = "bg-green-100 border-green-600"; titleClass = "text-xl font-bold text-green-900"; actionClass = "text-2xl font-black text-green-900 underline border-b border-green-300 pb-2 mb-2"; rIcon.innerText = "🏃";
                 } else {
                     if (!isTargetValid) {
-                        titleText = "⚠️ 攻擊失效";
-                        actionText = "減碼觀望";
-                        reportAdvice = "跌破軋空低，攻擊失敗。";
-                        tacticalAdvice = "⚠️ 趨勢：假突破 (破軋空低)。\n【建議】：目標抵銷，建議減碼或移動停損。";
-                        trendVerdict = "⚠️ 假突破 (破軋空低)";
-                        marketDesc = "目標抵銷，減碼觀望。";
-                        boxClass = "bg-yellow-50 border-yellow-500";
-                        titleClass = "text-xl font-bold text-yellow-700";
-                        actionClass = "text-2xl font-black text-yellow-800 border-b border-yellow-300 pb-2 mb-2";
-                        rIcon.innerText = "⚠️";
+                        titleText = "⚠️ 攻擊失效"; actionText = "減碼觀望";
+                        boxClass = "bg-yellow-50 border-yellow-500"; titleClass = "text-xl font-bold text-yellow-700"; actionClass = "text-2xl font-black text-yellow-800 border-b border-yellow-300 pb-2 mb-2"; rIcon.innerText = "⚠️";
                     } else {
-                        // 使用上面算好的 tacticalAdvice
-                        if(isStrong) {
-                            titleText = "🐂 強軋空盤";
-                            actionText = "死抱不放";
-                            boxClass = "bg-red-100 border-red-600";
-                            titleClass = "text-xl font-bold text-red-700";
-                            actionClass = "text-2xl font-black text-red-800 border-b border-red-300 pb-2 mb-2";
-                            rIcon.innerText = "💎";
-                        } else {
-                            titleText = "✅ 多頭續抱";
-                            actionText = "續抱 (HOLD)";
-                            boxClass = "bg-orange-50 border-orange-400";
-                            titleClass = "text-xl font-bold text-orange-600";
-                            actionClass = "text-2xl font-black text-orange-700 border-b border-orange-200 pb-2 mb-2";
-                            rIcon.innerText = "✊";
-                        }
-                        
-                        if(redCandleAdvice) {
-                            reportAdvice = redCandleAdvice;
-                        } else {
-                            reportAdvice = "守住軋空低，目標有效。";
-                        }
+                        if(isStrong) { titleText = "🐂 強軋空盤"; actionText = "死抱不放"; boxClass = "bg-red-100 border-red-600"; titleClass = "text-xl font-bold text-red-700"; actionClass = "text-2xl font-black text-red-800 border-b border-red-300 pb-2 mb-2"; rIcon.innerText = "💎"; } 
+                        else { titleText = "✅ 多頭續抱"; actionText = "續抱 (HOLD)"; boxClass = "bg-orange-50 border-orange-400"; titleClass = "text-xl font-bold text-orange-600"; actionClass = "text-2xl font-black text-orange-700 border-b border-orange-200 pb-2 mb-2"; rIcon.innerText = "✊"; }
                     }
                 }
             }
 
-            // 更新 UI
             resultBox.className = `p-5 rounded-xl border-l-8 shadow-md relative overflow-hidden ${boxClass}`;
-            rStock.innerText = stockName;
-            rTitle.innerText = titleText;
-            rTitle.className = titleClass;
-            rAction.innerText = actionText;
-            rAction.className = actionClass;
-            rAdvice.innerText = tacticalAdvice; // 使用具體的戰術指引
-            rTrend.innerText = reportTrend;
-            rVol.innerText = volStatus;
-            rVol.className = `text-xs font-bold px-2 py-1 rounded border ${volClass}`;
-            
-            if(inferenceText) {
-                rInference.innerHTML = inferenceText;
-                rInference.classList.remove('hidden');
-            } else {
-                rInference.classList.add('hidden');
-            }
+            rStock.innerText = stockName; rTitle.innerText = titleText; rTitle.className = titleClass;
+            rAction.innerText = actionText; rAction.className = actionClass;
+            rAdvice.innerText = tacticalAdvice; rTrend.innerText = reportTrend; rVol.innerText = volStatus; rVol.className = `text-xs font-bold px-2 py-1 rounded border ${volClass}`;
+            if(inferenceText) { rInference.innerHTML = inferenceText; rInference.classList.remove('hidden'); } else { rInference.classList.add('hidden'); }
 
-            // 準備複製文字
-            const today = new Date().toLocaleDateString('zh-TW'); // Use standard YYYY/MM/DD
-            
-            // Construct Target Price Section conditionally
+            const today = new Date().toLocaleDateString('zh-TW');
             let targetSection = '・無測幅 (未過頸線)';
-            if (gap > 0) {
-                targetSection = `• 一飽(1N)：${formatPrice(target1)}
-• 二吐(2N)：${formatPrice(target2)}
-• 五倍(5N)：${formatPrice(target5)}`;
-            }
+            if (gap > 0) targetSection = `• 一飽(1N)：${formatPrice(target1)}\n• 二吐(2N)：${formatPrice(target2)}\n• 五倍(5N)：${formatPrice(target5)}`;
 
-            baseReportText = `戰報分析結果：「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」
+            baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」
 N字戰法指揮中心 by.石頭 V12.2 (${today})
 股名：${stockName}
 
@@ -1198,56 +1014,119 @@ ${scenarioScript}
 長紅力道：${redCandleAdvice || '無特殊訊號'}
 ⚠️ 防守要點：不破軋空低點(${breakoutLow})，上述目標才有效。`;
             
-            // 自動觸發 AI 分析
-            askGeminiStrategy();
-            
+            triggerAnalysis(stockName, close, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isStrong, patternType);
             document.getElementById('copyBtn').innerHTML = '<span>📋 複製完整戰報</span>';
         }
 
         function copyReport() {
             if (!baseReportText) return;
-            
-            // Combine base report with AI content if available
             let fullReport = baseReportText;
             if (aiReportContent) {
-                // Ensure proper spacing and the standard header for AI report
                 fullReport += `\n\n三、🧠 石頭戰略 (${document.getElementById('stockName').value}) 分析報告\n${aiReportContent}`;
             }
 
             const textarea = document.createElement('textarea');
             textarea.value = fullReport;
+            textarea.style.position = 'fixed'; 
+            textarea.style.left = '-9999px';
             document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
+            
+            if (navigator.userAgent.match(/ipad|iphone/i)) {
+                const range = document.createRange();
+                range.selectNodeContents(textarea);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                textarea.setSelectionRange(0, 999999);
+            } else {
+                textarea.select();
+            }
+            
+            try {
+                document.execCommand('copy');
+                const btn = document.getElementById('copyBtn');
+                btn.innerHTML = '<span class="text-green-600">✅ 已複製到剪貼簿！</span>';
+                setTimeout(() => btn.innerHTML = '<span>📋 複製完整戰報</span>', 2000);
+            } catch (err) {
+                alert('複製失敗，請手動複製');
+            }
             document.body.removeChild(textarea);
-            const btn = document.getElementById('copyBtn');
-            btn.innerHTML = '<span class="text-green-600">✅ 已複製到剪貼簿！</span>';
-            setTimeout(() => btn.innerHTML = '<span>📋 複製完整戰報</span>', 2000);
         }
 
-        // --- AI Gemini Integration Logic ---
-
-        async function askGeminiStrategy() {
-            const stockName = document.getElementById('stockName').value || "未知個股";
-            const closePrice = document.getElementById('closePrice').value;
-            const todayVol = document.getElementById('todayVol').value;
-            const avgVol = document.getElementById('avgVol').value;
-            const status = document.getElementById('currentStatus').value;
-            const tacticalAdvice = document.getElementById('resultAdvice').innerText;
-            const target1 = document.getElementById('target1').innerText;
-            const breakoutLow = document.getElementById('breakoutLow').value;
-            const high3d = document.getElementById('high3d').value;
-
-            // Update UI Header immediately
-            document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName})分析報告`;
-
-            // Show UI Elements
+        async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isStrong, patternType) {
+            const userKey = localStorage.getItem('gemini_api_key');
             document.getElementById('aiAnalysisBox').classList.remove('hidden');
             document.getElementById('aiLoading').classList.remove('hidden');
-            document.getElementById('aiContent').innerHTML = ''; 
-            aiReportContent = ""; // Reset variable
+            document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName})分析報告`;
+
+            if (userKey) {
+                await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1);
+            } else {
+                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status), 800); 
+            }
+        }
+
+        function generateLocalAnalysis(isStrong, patternType, status) {
+            document.getElementById('aiLoading').classList.add('hidden');
+            let psychology = "", trap = "", mantra = "", conclusion = "";
+
+            if (status === 'RED') {
+                if (isStrong) {
+                    psychology = "根據量價結構，主力正進行積極操作。現價穩站頸線與軋空低防守點，成交量放大顯示資金積極湧入而非震盪。主力的目的在於利用買盤壓力迫使空單回補，目前處於明確的進貨拉抬階段，目標直接衝擊第一測幅，此為積極的籌碼集中，並非出貨。";
+                    trap = "在強軋空行情中，散戶最易掉入兩大陷阱：\n1. 過早下車：持有者因無法承受浮盈誘惑或擔心回檔，在接近 1N 目標前提前了結，錯失主升段精華。\n2. 追高恐懼：空手者因價格持續上攻而恐懼，等待不曾出現的「完美拉回點」，最後在最高點情緒性進場。";
+                    mantra = "「趨勢確立，死抱是功德。」";
+                    conclusion = "● 盤勢定調：處於「強勢攻擊區」，多方擁有絕對控盤權。\n● 關鍵指標：若預估量能持續放大，代表多頭動能猛烈。\n● 防守底線：嚴守軋空低關卡，不破此位，5N 路徑依然成立。\n● 操作核心：對抗小利即安的心態，鎖定 1N 目標後再考慮分批停利。";
+                } else if (patternType.includes("軋空")) {
+                    psychology = "目前主力採取「穩健推升」策略，透過盤中震盪消化獲利了結賣壓。成交量溫和放大，顯示主力控盤穩定，意在清洗浮額而非拉高出貨。";
+                    trap = "散戶容易因盤中震盪而失去耐心，誤將主力洗盤視為轉弱訊號而提早離場。";
+                    mantra = "「買在分歧，抱在一致。」";
+                    conclusion = "● 盤勢定調：多方架構完整，屬於標準攻擊型態。\n● 操作核心：續抱，移動停損點至今日低點。";
+                } else {
+                    psychology = "主力目前進行防守型操作，雖未發動猛攻，但堅守關鍵支撐位。此階段多為蓄力期，測試下方買盤支撐力道。";
+                    trap = "容易陷入「不耐久盤」的心理，在發動攻擊前夕因無聊而賣出。";
+                    mantra = "「耐心是交易者的美德。」";
+                    conclusion = "● 盤勢定調：多方整理，等待放量攻擊訊號。";
+                }
+            } else {
+                psychology = "目前由空方掌控節奏，主力利用反彈測試壓力並減碼。任何上漲皆可能為誘多陷阱。";
+                trap = "散戶常誤以為跌深即是買點，試圖「抄底」卻接住掉落的刀子。";
+                mantra = "「空頭不猜底，現金為王。」";
+                conclusion = "● 盤勢定調：空方趨勢或盤整偏弱。\n● 操作核心：空手觀望，持有者反彈減碼。";
+            }
+
+            const reportHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(一)、 主力心理透視</h5>
+                        <p>${psychology}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(二)、 散戶心理陷阱</h5>
+                        <p>${trap.replace(/\n/g, '<br>')}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(三)、 教練心法</h5>
+                        <p class="bg-indigo-50 p-2 rounded text-indigo-800 font-bold italic">${mantra}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(四)、 石頭戰略結論</h5>
+                        <p>${conclusion.replace(/\n/g, '<br>')}</p>
+                    </div>
+                </div>
+            `;
             
-            // Construct Prompt
+            document.getElementById('aiContent').innerHTML = reportHTML;
+            aiReportContent = `(一)、 主力心理透視
+${psychology}
+(二)、 散戶心理陷阱
+${trap}
+(三)、 教練心法
+${mantra}
+(四)、 石頭戰略結論
+${conclusion}`;
+        }
+
+        async function askGeminiStrategy(key, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1) {
             const promptText = `
                 你現在是精通「N字戰法」的資深操盤手教練。請根據以下數據，為使用者進行盤勢心理分析與操作建議。
                 
@@ -1272,84 +1151,39 @@ ${scenarioScript}
                 (內容：一句簡短有力的操作格言)
                 (四)、 石頭戰略結論 (第四點結論法)
                 (內容：請用條列式總結 1.盤勢定調 2.關鍵指標 3.防守底線 4.操作核心)
-                
-                請不要重複列出數據，直接進行定性分析。
             `;
 
             try {
-                const responseText = await callGeminiAPI(promptText);
+                const responseText = await callGeminiAPI(key, promptText);
                 document.getElementById('aiLoading').classList.add('hidden');
-                
-                // Store raw text for copying
                 aiReportContent = responseText;
-
-                // Parse Markdown for UI display
                 const htmlContent = marked.parse(responseText);
                 document.getElementById('aiContent').innerHTML = htmlContent;
-                
-                // Scroll to view
                 document.getElementById('aiAnalysisBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             } catch (error) {
-                // console.error("AI Error:", error); // 移除這行，避免在Console顯示紅色錯誤
                 document.getElementById('aiLoading').classList.add('hidden');
-                
-                // 更友善的錯誤提示，引導使用者輸入 Key
-                if (error.message.includes("請先設定 API Key")) {
-                     document.getElementById('aiContent').innerHTML = `
-                        <div class="text-center p-2">
-                            <p class="text-slate-500 font-bold mb-2">🤖 AI 分析小幫手尚未啟動</p>
-                            <p class="text-xs text-slate-400 mb-2">💡 請至下方「⚙️ 設定 API Key」輸入金鑰以啟動 AI 分析。</p>
-                            <a href="#userApiKey" onclick="document.querySelector('details.group').open = true" class="text-xs text-blue-500 underline">前往設定</a>
-                        </div>
-                     `;
-                } else {
-                     document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold text-xs">⚠️ 連線異常: ${error.message}</p>`;
-                }
+                document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold">⚠️ 連線異常 (請檢查 Key): ${error.message} <br> <button onclick="generateLocalAnalysis(true, '🔥 強軋空盤', 'RED')" class="text-blue-500 underline mt-2">切換至內建邏輯庫</button></p>`;
             }
         }
 
-        async function callGeminiAPI(prompt) {
-            // Logic to use user-provided key if available
-            let keyToUse = apiKey; // Try the const first (in case environment injected it)
-            const userKey = document.getElementById('userApiKey').value.trim();
-            if (userKey) keyToUse = userKey; // Override or use if const is empty
+        async function callGeminiAPI(key, prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
 
-            if (!keyToUse) {
-                // 不使用 alert，直接拋出錯誤讓 askGeminiStrategy 處理 UI 顯示
-                throw new Error("請先設定 API Key 才能使用 AI 功能");
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                if(response.status === 429) throw new Error("請求過於頻繁 (429)，請稍候再試");
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${keyToUse}`;
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }]
-            };
-
-            // Exponential backoff retry logic
-            const maxRetries = 3;
-            let delay = 1000;
-
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "無法取得分析結果。";
-
-                } catch (error) {
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
-                }
-            }
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "無法取得分析結果。";
         }
     </script>
 </body>
