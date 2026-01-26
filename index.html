@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N字戰法：三盤轉折判斷計算機 (V13.0 AI戰略版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V13.5 戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -82,28 +82,6 @@
         .ai-content ul { list-style-type: disc; padding-left: 1.2em; margin-bottom: 0.5em; }
         .ai-content p { margin-bottom: 0.5em; line-height: 1.6; }
         .ai-content strong { color: #b91c1c; }
-
-        /* Audio Wave Animation */
-        .audio-wave {
-            display: flex;
-            align-items: center;
-            height: 20px;
-        }
-        .audio-wave .bar {
-            width: 4px;
-            height: 100%;
-            background: #4f46e5;
-            margin: 0 2px;
-            border-radius: 2px;
-            animation: sound 0ms -800ms linear infinite alternate;
-        }
-        .audio-wave.playing .bar {
-            animation-duration: 400ms;
-        }
-        @keyframes sound {
-            0% { opacity: .35; height: 3px; }
-            100% { opacity: 1; height: 20px; }
-        }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
@@ -111,8 +89,8 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V13.0</span></h1>
-            <p class="text-xs text-slate-400 mt-1">✨ AI 語音指揮官 x 智能教練對話</p>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V13.5</span></h1>
+            <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x 實戰三問</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
@@ -561,16 +539,9 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2 mt-2">
-                             <button onclick="copyReport()" id="copyBtn" class="flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-slate-300 shadow-sm">
+                        <div class="mt-2">
+                             <button onclick="copyReport()" id="copyBtn" class="w-full flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-slate-300 shadow-sm">
                                 <span>📋 複製完整戰報</span>
-                            </button>
-                            <button onclick="playAudioReport()" id="ttsBtn" class="flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-indigo-700 shadow-sm disabled:opacity-50">
-                                <span id="ttsIcon">✨</span>
-                                <span id="ttsText">播放語音指揮官</span>
-                                <div id="audioWave" class="hidden audio-wave ml-2">
-                                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                                </div>
                             </button>
                         </div>
 
@@ -600,7 +571,7 @@
                 </summary>
                 <div class="p-3 bg-white">
                     <p class="text-xs text-gray-500 mb-2">本系統已內建「石頭戰略邏輯庫」，不需 Key 也能產出完整報告！<br>
-                    <span class="text-indigo-600 font-bold">✨ 若需啟用「語音戰報」與「教練問答」，請填入 Gemini API Key。</span></p>
+                    <span class="text-indigo-600 font-bold">✨ 若需啟用「教練問答」與「完整 AI 分析」，請填入 Gemini API Key。</span></p>
                     <input type="password" id="userApiKey" class="w-full p-2 border border-gray-300 rounded text-sm mb-2" placeholder="貼上 API Key (選填)">
                     <button onclick="saveApiKey()" class="bg-gray-800 text-white text-xs px-3 py-1.5 rounded hover:bg-gray-900 transition-colors w-full">💾 儲存設定</button>
                 </div>
@@ -633,19 +604,20 @@
 
             let fullReport = baseReportText;
             if (aiReportContent) {
-                fullReport += `\n\n三、🧠 石頭戰略 (${document.getElementById('stockName').value}) 分析報告\n${aiReportContent}`;
+                // V13.5: AI content is Part 4
+                // baseReportText contains parts 1-3. We just append Part 4.
+                // Note: The template requires specific formatting which aiReportContent should already have.
+                fullReport += `\n\n【四、🧠 石頭戰略分析報告】\n${aiReportContent}`;
             }
 
-            // 嘗試方法 1: 現代 API (navigator.clipboard) - 優先使用
             try {
                 await navigator.clipboard.writeText(fullReport);
                 showCopySuccess();
-                return; // 成功就結束
+                return;
             } catch (err) {
                 console.warn('Clipboard API failed, trying fallback...', err);
             }
 
-            // 嘗試方法 2: Legacy execCommand (針對 iOS 優化)
             const textarea = document.createElement('textarea');
             textarea.value = fullReport;
             textarea.style.position = 'fixed'; 
@@ -696,7 +668,7 @@
             const key = document.getElementById('userApiKey').value.trim();
             if (key) {
                 localStorage.setItem('gemini_api_key', key);
-                alert("✅ API Key 已儲存！已啟用增強版 AI 分析、語音戰報與教練問答功能。");
+                alert("✅ API Key 已儲存！已啟用增強版 AI 分析與教練問答功能。");
             } else {
                 localStorage.removeItem('gemini_api_key');
                 alert("⚠️ API Key 已清除，將切換回內建戰略邏輯庫。");
@@ -837,7 +809,6 @@
             if(h2 < close) h2 = close;
             const gap = h2 - L;
             let target1 = 0, target2 = 0, target5 = 0;
-            let targetReport = "";
             let isTargetValid = true;
             if (!isNaN(breakoutLow) && close < breakoutLow) isTargetValid = false; 
 
@@ -885,19 +856,19 @@
                         patternType = "🔥 強軋空盤";
                         patternClass = "bg-red-100 text-red-700 border-red-300";
                         tacticalAdvice = "🔥 趨勢：多方強勢 (強軋空)。\n依圖一所示，空頭抵抗失敗，K線連紅，建議死抱不放，目標看五倍。";
-                        trendVerdict = "🔥 多方強勢 (強軋空)";
+                        trendVerdict = "🔥 強軋空盤 (主力鎖碼)";
                         marketDesc = "空頭抵抗失敗，K線連紅，建議死抱不放。";
                     } else if (close >= high3d) {
                         patternType = "📈 軋空盤";
                         patternClass = "bg-blue-100 text-blue-700 border-blue-300";
                         tacticalAdvice = "📈 趨勢：多方攻擊 (軋空盤)。\n依圖一所示，空頭抵抗微弱，以盤代跌，建議續抱，看一飽二吐。";
-                        trendVerdict = "📈 多方攻擊 (軋空盤)";
+                        trendVerdict = "📈 軋空盤 (多方攻擊)";
                         marketDesc = "空頭抵抗微弱，以盤代跌，建議續抱。";
                     } else {
                         patternType = "🐢 盤堅盤";
                         patternClass = "bg-orange-100 text-orange-800 border-orange-300";
                         tacticalAdvice = "🐢 趨勢：多方整理 (盤堅盤)。\n依圖一所示，空頭抵抗強烈，回檔較深，但只要不破軋空低，建議耐心等待。";
-                        trendVerdict = "🐢 多方整理 (盤堅盤)";
+                        trendVerdict = "🐢 盤堅盤 (多方整理)";
                         marketDesc = "空頭抵抗強烈，回檔深，守住軋空低即可。";
                     }
                 } else {
@@ -905,13 +876,13 @@
                         patternType = "📈 軋空盤"; 
                         patternClass = "bg-blue-100 text-blue-700 border-blue-300";
                         tacticalAdvice = "📈 趨勢：多方強勢 (軋空盤)。\n建議：守住昨日高點，續抱。";
-                        trendVerdict = "📈 多方強勢 (軋空盤)";
+                        trendVerdict = "📈 軋空盤";
                         marketDesc = "多方控盤，守住前高續抱。";
                     } else {
                         patternType = "🐢 盤堅盤";
                         patternClass = "bg-orange-100 text-orange-800 border-orange-300";
                         tacticalAdvice = "🐢 趨勢：多方整理 (盤堅盤)。\n建議：回檔整理，嚴守軋空低。";
-                        trendVerdict = "🐢 多方整理 (盤堅盤)";
+                        trendVerdict = "🐢 盤堅盤";
                         marketDesc = "回檔整理中，嚴守軋空低。";
                     }
                 }
@@ -928,7 +899,7 @@
                         patternType = "⚠️ 疑似假突破"; 
                         patternClass = "bg-yellow-100 text-yellow-800 border-yellow-300";
                         tacticalAdvice = "⚠️ 趨勢：轉弱疑慮 (假突破)。\n建議：跌破長紅1/2，攻擊失敗風險增高，建議減碼觀察。";
-                        trendVerdict = "⚠️ 轉弱疑慮 (假突破)";
+                        trendVerdict = "⚠️ 疑似假突破";
                         marketDesc = "攻擊失敗風險增高，建議減碼。";
                     }
                 }
@@ -951,7 +922,7 @@
                       patternType = "💤 盤跌/觀望";
                       patternClass = "bg-gray-100 text-gray-600 border-gray-300";
                       tacticalAdvice = "💤 趨勢：盤勢不明 (盤跌)。\n依圖二所示，反彈深(假突破)，隨後再殺。建議多看少做，保留現金，等待突破訊號。";
-                      trendVerdict = "💤 盤勢不明 (盤跌)";
+                      trendVerdict = "💤 盤跌/觀望";
                       marketDesc = "反彈深似假突破，多看少做。";
                       const pTag = document.getElementById('patternTag');
                       pTag.innerText = patternType;
@@ -963,7 +934,6 @@
             let volStatus = "一般";
             let volRatio = 0;
             let inferenceReportText = "";
-            let inferenceText = "";
             let scenarioScript = "";
             let v_strong = 0, v_break = 0, v_wash = 0;
             const safeTarget5 = isNaN(target5) || target5 === 0 ? "待計算" : formatPrice(target5);
@@ -976,78 +946,27 @@
                 v_wash = Math.round(avgVol * 0.8);
                 const targetAttackFormatted = formatNumber(Math.round(avgVol * 1.3));
                 const targetWashFormatted = formatNumber(Math.round(avgVol * 0.8));
-                const isAttack = todayVol >= (avgVol * 1.3) ? "(达標) ✅" : "";
-                const isWash = todayVol <= (avgVol * 0.8) ? "(达標) ✅" : "";
+                const isAttack = todayVol >= (avgVol * 1.3) ? "(達標) ✅" : "";
+                const isWash = todayVol <= (avgVol * 0.8) ? "(達標) ✅" : "";
                 
                 inferenceReportText = `★ 量價推演 (均量 ${formatNumber(avgVol)})：
 • 攻擊門檻 (1.3x)：${targetAttackFormatted} ${isAttack}
 • 洗盤門檻 (0.8x)：${targetWashFormatted} ${isWash}`;
 
-                inferenceText = `
-                    <div class="bg-slate-50 p-3 rounded border border-slate-300 mb-3 text-xs">
-                        <h5 class="font-bold text-slate-700 border-b border-slate-200 pb-1 mb-2">【明日開盤・量能作戰劇本】(依均量 ${formatNumber(avgVol)})</h5>
-                        <div class="space-y-2">
-                            <div class="bg-red-50 p-2 rounded border border-red-100">
-                                <div class="flex justify-between font-bold text-red-800 mb-1">
-                                    <span>🔴 劇本 A：模擬極強 (主力強攻)</span>
-                                    <span>> ${formatNumber(v_strong)}張</span>
-                                </div>
-                                <div class="text-[10px] text-slate-600 space-y-0.5">
-                                    <p>● 行為：跳空開高，不破開盤，直攻漲停。</p>
-                                    <p>● 指令：<span class="bg-red-600 text-white px-1 rounded font-bold">追價 (Buy)</span> 目標直指 5N (${safeTarget5})。</p>
-                                </div>
-                            </div>
-                            <div class="bg-green-50 p-2 rounded border border-green-100">
-                                <div class="flex justify-between font-bold text-green-800 mb-1">
-                                    <span>🟢 劇本 B：模擬突破 (趨勢延續)</span>
-                                    <span>${formatNumber(v_break)}~${formatNumber(v_strong)}張</span>
-                                </div>
-                                <div class="text-[10px] text-slate-600 space-y-0.5">
-                                    <p>● 行為：穩健推升，確認突破前高 ${safeHigh3d}。</p>
-                                    <p>● 指令：<span class="bg-green-600 text-white px-1 rounded font-bold">加碼 (Add)</span> 確認過頸線後進場。</p>
-                                </div>
-                            </div>
-                            <div class="bg-yellow-50 p-2 rounded border border-yellow-200">
-                                <div class="flex justify-between font-bold text-yellow-800 mb-1">
-                                    <span>🟡 劇本 C：模擬盤整 (量縮洗盤)</span>
-                                    <span>< ${formatNumber(v_wash)}張</span>
-                                </div>
-                                <div class="text-[10px] text-slate-600 space-y-0.5">
-                                    <p>● 行為：價格震盪，無攻擊意圖。</p>
-                                    <p>● 指令：<span class="bg-yellow-600 text-white px-1 rounded font-bold">觀望 (Hold)</span> 守住防守點即可。</p>
-                                </div>
-                            </div>
-                            <div class="bg-gray-100 p-2 rounded border border-gray-300">
-                                <div class="flex justify-between font-bold text-gray-800 mb-1">
-                                    <span>⚫ 劇本 D：模擬大跌 (出貨/假突破)</span>
-                                    <span>爆量但收黑</span>
-                                </div>
-                                <div class="text-[10px] text-slate-600 space-y-0.5">
-                                    <p>● 行為：爆量不漲 (> ${formatNumber(v_break)}張)，或跌破 ${safeBreakoutLow}。</p>
-                                    <p>● 指令：<span class="bg-black text-white px-1 rounded font-bold">快逃 (Sell)</span> 主力倒貨，無條件離場。</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-3 p-2 bg-white border border-slate-200 rounded shadow-sm">
-                            <p class="font-bold text-slate-700 border-b border-slate-100 pb-1 mb-1">💡 石頭戰術小卡：如何計算「預估量」？</p>
-                            <p class="text-[10px] text-slate-500">公式：<span class="font-bold text-blue-600">09:15 成交量 x 8</span> = 預估全日量</p>
-                        </div>
-                    </div>`;
                 
-                scenarioScript = `【明日開盤・量能作戰劇本】(均量 ${formatNumber(avgVol)})
+                scenarioScript = `💡 戰術小卡：預估量 = 09:15 成交量 x 8
 🔴 劇本 A (極強)
 預估量 > ${formatNumber(v_strong)} 張 (1.5倍↑)
 → 指令：追價 (Buy)，目標直指 5N (${safeTarget5})。
-🟢 劇本 B (突破)
+🟢 劇本 B (突破 - 最標準)
 預估量 ${formatNumber(v_break)} ~ ${formatNumber(v_strong)} 張
 → 指令：加碼 (Add)，確認突破前高 ${safeHigh3d}。
 🟡 劇本 C (盤整)
 預估量 < ${formatNumber(v_wash)} 張 (0.8倍↓)
 → 指令：觀望 (Hold)，嚴守防守位。
-⚫ 劇本 D (大跌)
-爆量 (> ${formatNumber(v_break)}) 但收黑或跌破 ${safeBreakoutLow}
-→ 指令：快逃 (Sell)，此為主力倒貨訊號。
-💡 戰術小卡：預估量 = 09:15 成交量 x 8`;
+⚫ 劇本 D (大跌/騙線)
+爆量 (> ${formatNumber(v_break)}) 但收黑 K 或跌破 ${safeBreakoutLow}
+→ 指令：快逃 (Sell)，此為主力倒貨訊號。`;
 
                 if (!isNaN(todayVol)) {
                     volRatio = todayVol / avgVol;
@@ -1103,21 +1022,15 @@
             rStock.innerText = stockName; rTitle.innerText = titleText; rTitle.className = titleClass;
             rAction.innerText = actionText; rAction.className = actionClass;
             rAdvice.innerText = tacticalAdvice; rTrend.innerText = reportTrend; rVol.innerText = volStatus; rVol.className = `text-xs font-bold px-2 py-1 rounded border ${volClass}`;
-            if(inferenceText) { rInference.innerHTML = inferenceText; rInference.classList.remove('hidden'); } else { rInference.classList.add('hidden'); }
+            if(inferenceReportText) { rInference.innerText = inferenceReportText; rInference.classList.remove('hidden'); } else { rInference.classList.add('hidden'); }
 
-            const today = new Date().toLocaleDateString('zh-TW');
             let targetSection = '・無測幅 (未過頸線)';
-            if (gap > 0) targetSection = `• 一飽(1N)：${formatPrice(target1)}\n• 二吐(2N)：${formatPrice(target2)}\n• 五倍(5N)：${formatPrice(target5)}`;
+            if (gap > 0) targetSection = `• 一飽(1N)：${formatPrice(target1)} (初步獲利點)\n• 二吐(2N)：${formatPrice(target2)} (加碼單減碼點)\n• 五倍(5N)：${formatPrice(target5)} (波段終極目標)`;
 
             let volumeCheck = "量能溫和";
-            if(volRatio >= 1.3) volumeCheck = "攻擊量能達標 (符合1.3倍↑)";
-            else if (volRatio <= 0.8) volumeCheck = "量縮洗盤達標 (符合0.8倍↓)";
-
-            let nextDayKey = "";
-            if(!isNaN(avgVol) && avgVol > 0) {
-                 const v_target = Math.round(avgVol * 1.3);
-                 nextDayKey = `關鍵提醒：明日開盤請緊盯成交量，若預估量能未達 ${formatNumber(v_target)} 張 (攻擊門檻)，則強軋空攻勢可能減弱。`;
-            }
+            if(volRatio >= 1.3) volumeCheck = "攻擊量能達標 (符合1.3倍↑)，動能充沛。";
+            else if (volRatio <= 0.8) volumeCheck = "量縮洗盤達標 (符合0.8倍↓)，主力惜售。";
+            else volumeCheck = "量能溫和，等待攻擊訊號。";
 
             let targetGoal = "待確認";
             if(isStrong) targetGoal = `5N (${formatPrice(target5)})`;
@@ -1127,15 +1040,17 @@
             let safeGuard = `不破軋空低點 (${breakoutLow})，上述目標才有效。`;
             if (isNaN(breakoutLow)) safeGuard = "請設定軋空低以確認防守點。";
 
-            baseReportText = `嗨，我是石頭，我的N字戰法分析系統希望能讓你大幅提升勝率
-N字戰法指揮中心 by.石頭 V13.0 (${today})
+            // Logic for Part 3 Q&A
+            const q1_price = Math.max(close, h2, high3d) * 1.005; // Slightly above current high
+            const q1_price_str = `${q1_price.toFixed(1)} ~ ${(q1_price + 0.4).toFixed(1)}`;
+            
+            baseReportText = `N字戰法指揮中心 by.石頭 V13.5 (2026/1/26)
 股名：${stockName}
-
-【個股現況分析】
+【一、個股現況分析】
 📌 操作指令：【 ${actionText} 】
 ⚡ 量能狀態：${volStatus}
 💰 當前現價：${close}
-📈 盤勢型態：${patternType || '一般盤整'}
+📈 盤勢型態：${trendVerdict}
 ✅ 目標直指：${targetGoal}
 ⚠️ 防守要點：${safeGuard}
 ${inferenceReportText}
@@ -1143,13 +1058,20 @@ ${inferenceReportText}
 🎯 動態測幅基準 (h2=${h2})
 ${targetSection}
 
-【明日開盤・量能作戰劇本】
+【二、明日開盤・量能作戰劇本】
 ${scenarioScript}
 
-★ 戰術指引：
-趨勢判定：${trendVerdict}
-盤勢現狀：${marketDesc}
-${nextDayKey}`;
+【三、明日實戰・關鍵三問】(最重要的部分)
+❓ Q1：明天多少價位適合加碼？
+✅建議價位：${q1_price_str} (突破開盤高)
+前提條件：明早 09:15 預估量必須大於 ${formatNumber(v_break)} 張 (攻擊門檻)。
+邏輯：N字戰法講究「有量才有價」，若明天開盤帶量過高，代表主力延續攻勢，可利用盤中拉回不破平盤時加碼。
+❓ Q2：若明天量縮 (沒人玩) 怎麼辦？
+🤑應對策略：續抱不動，不用緊張。
+邏輯：只要預估量低於 ${formatNumber(v_wash)} 張，視為「量縮洗盤」。只要收盤價沒有跌破防守點 ${safeBreakoutLow}，這只是主力在讓浮額下車，趨勢依然向上，切勿被洗出場。
+❓ Q3：明天多少價位要換檔退場？
+‼️撤退警報：跌破 ${safeBreakoutLow} (收盤確認)
+邏輯：${safeBreakoutLow} 是本波 N 字攻擊的起漲防守點 (軋空低)。一旦跌破，代表多頭架構被破壞，資金效率轉差，建議果斷停損或獲利了結，將資金轉入其他「剛起漲」的標的。`;
             
             // 儲存全域上下文供聊天機器人使用
             globalContext = {
@@ -1167,10 +1089,8 @@ ${nextDayKey}`;
 
             if (userKey) {
                 document.getElementById('aiChatSection').classList.remove('hidden');
-                document.getElementById('ttsBtn').disabled = false;
                 await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1);
             } else {
-                document.getElementById('ttsBtn').disabled = true;
                 setTimeout(() => generateLocalAnalysis(isStrong, patternType, status), 800);
             }
         }
@@ -1181,10 +1101,10 @@ ${nextDayKey}`;
 
             if (status === 'RED') {
                 if (isStrong) {
-                    psychology = "根據量價結構，主力正進行積極操作。現價穩站頸線與軋空低防守點，成交量放大顯示資金積極湧入而非震盪。主力的目的在於利用買盤壓力迫使空單回補，目前處於明確的進貨拉抬階段，目標直接衝擊第一測幅，此為積極的籌碼集中，並非出貨。";
-                    trap = "在強軋空行情中，散戶最易掉入兩大陷阱：\n1. 過早下車：持有者因無法承受浮盈誘惑或擔心回檔，在接近 1N 目標前提前了結，錯失主升段精華。\n2. 追高恐懼：空手者因價格持續上攻而恐懼，等待不曾出現的「完美拉回點」，最後在最高點情緒性進場。";
-                    mantra = "「趨勢確立，死抱是功德。」";
-                    conclusion = "● 盤勢定調：處於「強勢攻擊區」，多方擁有絕對控盤權。\n● 關鍵指標：若預估量能持續放大，代表多頭動能猛烈。\n● 防守底線：嚴守軋空低關卡，不破此位，5N 路徑依然成立。\n● 操作核心：對抗小利即安的心態，鎖定 1N 目標後再考慮分批停利。";
+                    psychology = "根據量價結構，主力正進行積極操作。現價穩站頸線與軋空低防守點，成交量放大顯示資金積極湧入而非震盪。主力的目的在於利用買盤壓力迫使空單回補，目前處於明確的「進貨拉抬階段」，並非出貨。";
+                    trap = "在強軋空行情中，新手最容易犯兩個錯：\n1. 過早下車：看到紅棒就想跑，結果賣在起漲點，錯失後面 5N 的大魚身。\n2. 預設高點：自己嚇自己，覺得「漲太多了」，結果股價越過高點繼續噴。";
+                    mantra = "「趨勢確立後，最大的風險不是下跌，而是你『不在車上』。守住防守點，死抱是功德。」";
+                    conclusion = "● 盤勢定調：目前處於「軋空主升段」，多方控盤力度極強。\n● 操作核心：\n1. 持有者：只要不破防守點，請將目標放遠至 5N，不要賺一點就跑。\n2. 空手者：明天若見「量增」且「價格過高」，可勇敢進場建立基本部位。\n3. 風險控制：嚴格執行停損指令，這條線是你的保命符。";
                 } else if (patternType.includes("軋空")) {
                     psychology = "目前主力採取「穩健推升」策略，透過盤中震盪消化獲利了結賣壓。成交量溫和放大，顯示主力控盤穩定，意在清洗浮額而非拉高出貨。";
                     trap = "散戶容易因盤中震盪而失去耐心，誤將主力洗盤視為轉弱訊號而提早離場。";
@@ -1218,7 +1138,7 @@ ${nextDayKey}`;
                         <p class="bg-indigo-50 p-2 rounded text-indigo-800 font-bold italic">${mantra}</p>
                     </div>
                     <div>
-                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(四)、 石頭戰略結論</h5>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(四)、 石頭戰略結論 (客製化建議)</h5>
                         <p>${conclusion.replace(/\n/g, '<br>')}</p>
                     </div>
                 </div>
@@ -1231,7 +1151,7 @@ ${psychology}
 ${trap}
 (三)、 教練心法
 ${mantra}
-(四)、 石頭戰略結論
+(四)、 石頭戰略結論 (客製化建議)
 ${conclusion}`;
         }
 
@@ -1251,19 +1171,22 @@ ${conclusion}`;
                 測幅目標：一飽 ${target1}
 
                 【任務要求】
-                請用直白、專業、不誇飾的語氣 (繁體中文)，提供以下分析 (請使用 Markdown 格式)：
+                請使用直白、不誇飾、具備高度資訊密度的繁體中文。
+                請嚴格依照以下格式輸出（不要有額外的開場白，直接輸出內容）：
                 
-                請嚴格依照以下格式輸出（不要有額外的開場白）：
                 (一)、 主力心理透視
                 (內容：根據量價結構，推測主力是在進貨、洗盤還是出貨？)
                 (二)、 散戶心理陷阱
-                (內容：現在散戶容易犯什麼錯？例如追高、不敢買、過早下車)
+                (內容：在當前這種盤勢下，新手最容易犯什麼錯？例如過早下車或預設高點？)
                 (三)、 教練心法
-                (內容：一句簡短有力的操作格言)
-                (四)、 石頭戰略結論 (第四點結論法)
-                (內容：請用條列式總結 1.盤勢定調 2.關鍵指標 3.防守底線 4.操作核心)
-                
-                請不要重複列出數據，直接進行定性分析。
+                (內容：一句簡短有力、具有視覺化語言的操作格言)
+                (四)、 石頭戰略結論 (客製化建議)
+                (內容：請使用「第四點結論法」，條列式總結以下幾點：
+                ● 盤勢定調：(例如：處於軋空主升段)
+                ● 操作核心：
+                1. 持有者策略
+                2. 空手者策略
+                3. 風險控制 (強調防守點))
             `;
 
             try {
@@ -1351,111 +1274,8 @@ ${conclusion}`;
             }
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
-
-        // --- NEW: Text-to-Speech Function ---
-        async function playAudioReport() {
-            const key = localStorage.getItem('gemini_api_key');
-            if (!key) return alert("請先設定 API Key！");
-            
-            if(!aiReportContent) return alert("請先產生分析報告！");
-
-            const btn = document.getElementById('ttsBtn');
-            const icon = document.getElementById('ttsIcon');
-            const textSpan = document.getElementById('ttsText');
-            const wave = document.getElementById('audioWave');
-
-            btn.disabled = true;
-            textSpan.innerText = "生成語音中...";
-            
-            // Construct text to say (Simplified for TTS)
-            const textToSay = `
-                石頭戰略語音指揮官報告。
-                股票名稱：${globalContext.stockName}。
-                目前狀態：${globalContext.status === 'RED' ? '多方攻擊' : '空方整理'}。
-                戰略結論：${globalContext.trendVerdict}。
-                ${aiReportContent.replace(/[*#]/g, '').slice(0, 300)}... (以下省略)
-            `;
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${key}`;
-            const payload = {
-                contents: [{ parts: [{ text: textToSay }] }],
-                generationConfig: {
-                    responseModalities: ["AUDIO"],
-                    speechConfig: {
-                        voiceConfig: {
-                            prebuiltVoiceConfig: {
-                                voiceName: "Kore" // Energetic voice suitable for a coach
-                            }
-                        }
-                    }
-                }
-            };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) throw new Error(response.statusText);
-                const data = await response.json();
-                const audioData = data.candidates[0].content.parts[0].inlineData.data;
-                
-                // Play Audio
-                playPCM(audioData);
-                
-                // UI Animation
-                textSpan.innerText = "播放中...";
-                icon.innerText = "🔊";
-                wave.classList.remove('hidden');
-                wave.classList.add('playing');
-
-            } catch (error) {
-                alert("語音生成失敗: " + error.message);
-                btn.disabled = false;
-                textSpan.innerText = "播放語音指揮官";
-            }
-        }
-
-        // Helper to handle PCM Audio from Gemini
-        function playPCM(base64PCM) {
-            const binaryString = window.atob(base64PCM);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            const int16Array = new Int16Array(bytes.buffer);
-
-            // Create AudioContext
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const buffer = audioCtx.createBuffer(1, int16Array.length, 24000); // Gemini TTS default is 24kHz
-            const channelData = buffer.getChannelData(0);
-            
-            // Convert Int16 to Float32
-            for (let i = 0; i < int16Array.length; i++) {
-                channelData[i] = int16Array[i] / 32768.0;
-            }
-
-            const source = audioCtx.createBufferSource();
-            source.buffer = buffer;
-            source.connect(audioCtx.destination);
-            source.start();
-
-            source.onended = () => {
-                const btn = document.getElementById('ttsBtn');
-                const icon = document.getElementById('ttsIcon');
-                const textSpan = document.getElementById('ttsText');
-                const wave = document.getElementById('audioWave');
-                
-                btn.disabled = false;
-                icon.innerText = "✨";
-                textSpan.innerText = "播放語音指揮官";
-                wave.classList.add('hidden');
-                wave.classList.remove('playing');
-            };
-        }
     </script>
 </body>
 </html>
+
+
