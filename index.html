@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N字戰法：三盤轉折判斷計算機 (V13.7 邏輯修正版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V13.8 戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -89,7 +89,7 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V13.7</span></h1>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V13.8</span></h1>
             <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x 實戰三問</p>
         </div>
 
@@ -988,7 +988,7 @@
 → 指令：空手 (Avoid)，鈍刀割肉最痛，切勿進場接刀。`;
 
                 baseReportText = `嗨，我是石頭，希望我的N字戰法分析系統能讓你大幅提升勝率📈💯
-N字戰法指揮中心 by.石頭 V13.7 (2026/1/26)
+N字戰法指揮中心 by.石頭 V13.8 (2026/1/26)
 股名：${stockName}
 【一、個股現況分析】
 📌 操作指令：【 ${actionText} 】
@@ -1057,7 +1057,7 @@ ${scenarioScript}
 → 指令：停損 (Stop Loss)，突破失敗形成「避雷針」或「假突破」，需立即撤退。`;
 
                 baseReportText = `嗨，我是石頭，希望我的N字戰法分析系統能讓你大幅提升勝率📈💯
-N字戰法指揮中心 by.石頭 V13.7 (2026/1/26)
+N字戰法指揮中心 by.石頭 V13.8 (2026/1/26)
 股名：${stockName}
 【一、個股現況分析】
 📌 操作指令：【 ${actionText} 】
@@ -1084,7 +1084,7 @@ ${scenarioScript}
 邏輯：突破後隔日量縮整理是常態（只要不是爆量長黑），目的是讓短線獲利盤換手。只要股價維持在頸線之上，都是強勢整理。`;
 
             } else if (isStrong) {
-                // NEW: Strong Trend Scenario (V13.7 Update)
+                // NEW: Strong Trend Scenario (V13.8 Update)
                 titleText = "🐂 強軋空盤"; 
                 actionText = "死抱不放 / 順勢加碼";
                 boxClass = "bg-red-100 border-red-600"; 
@@ -1124,7 +1124,7 @@ ${scenarioScript}
 → 指令：減碼 (Trim)，高檔爆天量收黑，暗示主力趁亂調節，建議先獲利一趟。`;
 
                 baseReportText = `嗨，我是石頭，希望我的N字戰法分析系統能讓你大幅提升勝率📈💯
-N字戰法指揮中心 by.石頭 V13.7 (2026/1/26)
+N字戰法指揮中心 by.石頭 V13.8 (2026/1/26)
 股名：${stockName}
 【一、個股現況分析】
 📌 操作指令：【 ${actionText} 】
@@ -1205,7 +1205,7 @@ ${scenarioScript}
 → 指令：快逃 (Sell)，此為主力倒貨訊號。`;
 
                 baseReportText = `嗨，我是石頭，希望我的N字戰法分析系統能讓你大幅提升勝率📈💯
-N字戰法指揮中心 by.石頭 V13.7 (2026/1/26)
+N字戰法指揮中心 by.石頭 V13.8 (2026/1/26)
 股名：${stockName}
 【一、個股現況分析】
 📌 操作指令：【 ${actionText} 】
@@ -1273,7 +1273,7 @@ ${scenarioScript}
                 conclusion = "● 盤勢定調：多頭起漲確認 (N字第一波)。\n● 操作核心：\n1. 持有者：移動停利設在紅棒低點，不破不賣，讓利潤奔跑。\n2. 空手者：明日開盤市價建立部位，回測頸線是加碼禮物。\n3. 紀律：收盤若跌破突破低點，承認是假突破，果斷離場。";
             } else if (status === 'RED' && !isBreakdown) {
                 if (isStrong) {
-                    // NEW: Strong AI logic (V13.7 Update)
+                    // NEW: Strong AI logic (V13.8 Update)
                     psychology = "主力目前處於「加速趕頂」階段，利用連續紅棒製造市場 FOMO (錯失恐懼) 情緒，吸引散戶進場幫忙抬轎。此時主力尚未有出貨跡象，而是享受資產膨脹的過程。";
                     trap = "「懼高症」與「賣飛」。散戶常因為「賺了 10% 覺得夠了」就下車，結果眼睜睜看著股價後面再漲 50%，心態崩潰後反而在最高點追回來。";
                     mantra = "「風口上的豬也會飛。在極強趨勢中，你的任務不是分析，而是『抓緊欄杆』，直到風停(破防守點)為止。」";
