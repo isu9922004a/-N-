@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N字戰法：三盤轉折判斷計算機 (V12.9.1 iOS修復版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V13.0 AI戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -82,6 +82,28 @@
         .ai-content ul { list-style-type: disc; padding-left: 1.2em; margin-bottom: 0.5em; }
         .ai-content p { margin-bottom: 0.5em; line-height: 1.6; }
         .ai-content strong { color: #b91c1c; }
+
+        /* Audio Wave Animation */
+        .audio-wave {
+            display: flex;
+            align-items: center;
+            height: 20px;
+        }
+        .audio-wave .bar {
+            width: 4px;
+            height: 100%;
+            background: #4f46e5;
+            margin: 0 2px;
+            border-radius: 2px;
+            animation: sound 0ms -800ms linear infinite alternate;
+        }
+        .audio-wave.playing .bar {
+            animation-duration: 400ms;
+        }
+        @keyframes sound {
+            0% { opacity: .35; height: 3px; }
+            100% { opacity: 1; height: 20px; }
+        }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
@@ -89,8 +111,8 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.9.1</span></h1>
-            <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x AI 戰略</p>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V13.0</span></h1>
+            <p class="text-xs text-slate-400 mt-1">✨ AI 語音指揮官 x 智能教練對話</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
@@ -539,9 +561,33 @@
                             </div>
                         </div>
 
-                        <button onclick="copyReport()" id="copyBtn" class="w-full flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-slate-300 shadow-sm mt-2">
-                            <span>📋 複製完整戰報</span>
-                        </button>
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                             <button onclick="copyReport()" id="copyBtn" class="flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-slate-300 shadow-sm">
+                                <span>📋 複製完整戰報</span>
+                            </button>
+                            <button onclick="playAudioReport()" id="ttsBtn" class="flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-indigo-700 shadow-sm disabled:opacity-50">
+                                <span id="ttsIcon">✨</span>
+                                <span id="ttsText">播放語音指揮官</span>
+                                <div id="audioWave" class="hidden audio-wave ml-2">
+                                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Chat Section -->
+                        <div id="aiChatSection" class="hidden mt-4 pt-4 border-t border-slate-200">
+                             <h4 class="font-black text-slate-700 mb-2 flex items-center text-sm">
+                                ✨ AI 戰略教練問答室
+                            </h4>
+                            <div id="chatHistory" class="bg-slate-50 border border-slate-200 rounded-lg p-3 h-40 overflow-y-auto mb-2 text-xs space-y-2">
+                                <div class="text-center text-slate-400 italic">請在下方輸入問題，教練將基於上述盤勢數據回答...</div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <input type="text" id="chatInput" class="flex-1 p-2 border border-slate-300 rounded text-sm focus:ring-2 focus:ring-indigo-500" placeholder="例如：明天如果開高怎麼做？" onkeypress="if(event.key==='Enter') askCoach()">
+                                <button onclick="askCoach()" class="bg-slate-800 text-white px-3 py-1 rounded text-sm font-bold hover:bg-slate-900 transition-colors">發送</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -549,11 +595,12 @@
             <!-- API Key 設定區 (選用) -->
             <details class="group mt-4 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
                 <summary class="flex justify-between items-center font-bold text-gray-700 p-3 cursor-pointer hover:bg-gray-100">
-                    <span>⚙️ 設定 API Key (選用：增強文采)</span>
+                    <span>⚙️ 設定 API Key (選用：解鎖 AI 功能)</span>
                     <span class="text-gray-400 transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <div class="p-3 bg-white">
-                    <p class="text-xs text-gray-500 mb-2">本系統已內建「石頭戰略邏輯庫」，不需 Key 也能產出完整報告！<br>若您有 Gemini API Key，填入後可獲得更多變化的 AI 文案。</p>
+                    <p class="text-xs text-gray-500 mb-2">本系統已內建「石頭戰略邏輯庫」，不需 Key 也能產出完整報告！<br>
+                    <span class="text-indigo-600 font-bold">✨ 若需啟用「語音戰報」與「教練問答」，請填入 Gemini API Key。</span></p>
                     <input type="password" id="userApiKey" class="w-full p-2 border border-gray-300 rounded text-sm mb-2" placeholder="貼上 API Key (選填)">
                     <button onclick="saveApiKey()" class="bg-gray-800 text-white text-xs px-3 py-1.5 rounded hover:bg-gray-900 transition-colors w-full">💾 儲存設定</button>
                 </div>
@@ -567,6 +614,7 @@
         let baseReportText = "";
         let aiReportContent = "";
         let lastStockName = "";
+        let globalContext = {}; // Store current analysis context for chatbot
 
         // 初始化：讀取儲存的 API Key
         document.addEventListener('DOMContentLoaded', () => {
@@ -595,14 +643,11 @@
                 return; // 成功就結束
             } catch (err) {
                 console.warn('Clipboard API failed, trying fallback...', err);
-                // 失敗則繼續往下執行 Fallback
             }
 
             // 嘗試方法 2: Legacy execCommand (針對 iOS 優化)
             const textarea = document.createElement('textarea');
             textarea.value = fullReport;
-            
-            // 關鍵樣式：確保不可見但不影響 DOM 存在
             textarea.style.position = 'fixed'; 
             textarea.style.bottom = '0';
             textarea.style.left = '0';
@@ -613,12 +658,9 @@
             textarea.style.outline = 'none';
             textarea.style.boxShadow = 'none';
             textarea.style.background = 'transparent';
-            
-            // iOS 關鍵屬性
             textarea.setAttribute('readonly', '');
             document.body.appendChild(textarea);
 
-            // iOS 專用選取邏輯
             if (navigator.userAgent.match(/ipad|iphone/i)) {
                 const range = document.createRange();
                 range.selectNodeContents(textarea); 
@@ -632,11 +674,8 @@
 
             try {
                 const successful = document.execCommand('copy');
-                if (successful) {
-                    showCopySuccess();
-                } else {
-                    alert('複製失敗，請長按文字手動複製');
-                }
+                if (successful) showCopySuccess();
+                else alert('複製失敗，請長按文字手動複製');
             } catch (err) {
                 alert('複製失敗，瀏覽器不支援');
             }
@@ -651,24 +690,21 @@
            setTimeout(() => btn.innerHTML = originalText, 2000);
         }
         
-        // 強制綁定到 window 物件
         window.copyReport = copyReport;
 
         function saveApiKey() {
             const key = document.getElementById('userApiKey').value.trim();
             if (key) {
                 localStorage.setItem('gemini_api_key', key);
-                alert("✅ API Key 已儲存！將啟用增強版 AI 分析。");
+                alert("✅ API Key 已儲存！已啟用增強版 AI 分析、語音戰報與教練問答功能。");
             } else {
                 localStorage.removeItem('gemini_api_key');
                 alert("⚠️ API Key 已清除，將切換回內建戰略邏輯庫。");
             }
         }
 
-        // 模擬數據函數
         function simulate(type) {
             clearInputs(false); 
-            // 基礎設定
             document.getElementById('stockName').value = "模擬個股 (TEST)";
             document.getElementById('high3d').value = 100;
             document.getElementById('low3d').value = 90;
@@ -739,6 +775,8 @@
             adviceBox.classList.add('hidden');
             document.getElementById('aiAnalysisBox').classList.add('hidden');
             document.getElementById('aiContent').innerHTML = '';
+            document.getElementById('aiChatSection').classList.add('hidden');
+            document.getElementById('chatHistory').innerHTML = '<div class="text-center text-slate-400 italic">請在下方輸入問題，教練將基於上述盤勢數據回答...</div>';
             aiReportContent = ""; 
             if(hideResult) document.getElementById('resultArea').classList.add('hidden');
             setStatus('GREEN');
@@ -769,6 +807,7 @@
             document.querySelectorAll('input').forEach(el => el.classList.remove('input-error'));
             document.getElementById('aiAnalysisBox').classList.add('hidden');
             document.getElementById('aiContent').innerHTML = '';
+            document.getElementById('aiChatSection').classList.add('hidden');
             aiReportContent = "";
 
             const stockName = document.getElementById('stockName').value || "未輸入股名";
@@ -1089,7 +1128,7 @@
             if (isNaN(breakoutLow)) safeGuard = "請設定軋空低以確認防守點。";
 
             baseReportText = `嗨，我是石頭，我的N字戰法分析系統希望能讓你大幅提升勝率
-N字戰法指揮中心 by.石頭 V12.2 (${today})
+N字戰法指揮中心 by.石頭 V13.0 (${today})
 股名：${stockName}
 
 【個股現況分析】
@@ -1112,11 +1151,14 @@ ${scenarioScript}
 盤勢現狀：${marketDesc}
 ${nextDayKey}`;
             
+            // 儲存全域上下文供聊天機器人使用
+            globalContext = {
+                stockName, close, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isStrong, patternType, trendVerdict, marketDesc
+            };
+
             triggerAnalysis(stockName, close, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isStrong, patternType);
-            // document.getElementById('copyBtn').innerHTML = '<span>📋 複製完整戰報</span>';
         }
 
-        // 整合邏輯：判斷是有 Key (AI) 還是無 Key (內建邏輯)
         async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isStrong, patternType) {
             const userKey = localStorage.getItem('gemini_api_key');
             document.getElementById('aiAnalysisBox').classList.remove('hidden');
@@ -1124,15 +1166,15 @@ ${nextDayKey}`;
             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName})分析報告`;
 
             if (userKey) {
-                // 有 Key -> 呼叫 Gemini
+                document.getElementById('aiChatSection').classList.remove('hidden');
+                document.getElementById('ttsBtn').disabled = false;
                 await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1);
             } else {
-                // 無 Key -> 使用內建邏輯庫 (JS)
-                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status), 800); // 模擬運算時間
+                document.getElementById('ttsBtn').disabled = true;
+                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status), 800);
             }
         }
 
-        // 本地端邏輯產生器 (免 Key 核心)
         function generateLocalAnalysis(isStrong, patternType, status) {
             document.getElementById('aiLoading').classList.add('hidden');
             let psychology = "", trap = "", mantra = "", conclusion = "";
@@ -1192,6 +1234,8 @@ ${mantra}
 (四)、 石頭戰略結論
 ${conclusion}`;
         }
+
+        // --- Gemini API Functions ---
 
         async function askGeminiStrategy(key, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1) {
             const promptText = `
@@ -1254,7 +1298,164 @@ ${conclusion}`;
             const data = await response.json();
             return data.candidates?.[0]?.content?.parts?.[0]?.text || "無法取得分析結果。";
         }
+
+        // --- NEW: Chatbot Function ---
+        async function askCoach() {
+            const key = localStorage.getItem('gemini_api_key');
+            if (!key) return alert("請先設定 API Key 才能使用教練功能！");
+
+            const inputEl = document.getElementById('chatInput');
+            const userMsg = inputEl.value.trim();
+            if (!userMsg) return;
+
+            const chatHistory = document.getElementById('chatHistory');
+            // 清除初始提示
+            if(chatHistory.querySelector('.italic')) chatHistory.innerHTML = '';
+
+            // User UI
+            const userDiv = document.createElement('div');
+            userDiv.className = "text-right";
+            userDiv.innerHTML = `<span class="inline-block bg-slate-200 rounded px-2 py-1 text-slate-800">${userMsg}</span>`;
+            chatHistory.appendChild(userDiv);
+            inputEl.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            // Loading UI
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = "text-left";
+            loadingDiv.innerHTML = `<span class="inline-block bg-indigo-100 rounded px-2 py-1 text-indigo-800 text-[10px] animate-pulse">教練思考中...</span>`;
+            chatHistory.appendChild(loadingDiv);
+
+            // Context Construction
+            const ctx = globalContext;
+            const contextPrompt = `
+                現在使用者針對股票「${ctx.stockName}」提問。
+                背景數據：現價 ${ctx.close}, 狀態 ${ctx.status}, 均量 ${ctx.avgVol}, 
+                系統判定為「${ctx.trendVerdict}」。
+                使用者的問題是：「${userMsg}」。
+                請以 N 字戰法教練的身份，簡短回答（50字以內），給予具體操作建議。
+            `;
+
+            try {
+                const reply = await callGeminiAPI(key, contextPrompt);
+                chatHistory.removeChild(loadingDiv);
+                const aiDiv = document.createElement('div');
+                aiDiv.className = "text-left";
+                aiDiv.innerHTML = `<span class="inline-block bg-indigo-100 rounded px-2 py-1 text-indigo-900 font-bold">🤖 ${reply}</span>`;
+                chatHistory.appendChild(aiDiv);
+            } catch (err) {
+                chatHistory.removeChild(loadingDiv);
+                const errDiv = document.createElement('div');
+                errDiv.innerHTML = `<span class="text-red-500 text-[10px]">連線錯誤</span>`;
+                chatHistory.appendChild(errDiv);
+            }
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // --- NEW: Text-to-Speech Function ---
+        async function playAudioReport() {
+            const key = localStorage.getItem('gemini_api_key');
+            if (!key) return alert("請先設定 API Key！");
+            
+            if(!aiReportContent) return alert("請先產生分析報告！");
+
+            const btn = document.getElementById('ttsBtn');
+            const icon = document.getElementById('ttsIcon');
+            const textSpan = document.getElementById('ttsText');
+            const wave = document.getElementById('audioWave');
+
+            btn.disabled = true;
+            textSpan.innerText = "生成語音中...";
+            
+            // Construct text to say (Simplified for TTS)
+            const textToSay = `
+                石頭戰略語音指揮官報告。
+                股票名稱：${globalContext.stockName}。
+                目前狀態：${globalContext.status === 'RED' ? '多方攻擊' : '空方整理'}。
+                戰略結論：${globalContext.trendVerdict}。
+                ${aiReportContent.replace(/[*#]/g, '').slice(0, 300)}... (以下省略)
+            `;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${key}`;
+            const payload = {
+                contents: [{ parts: [{ text: textToSay }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: {
+                                voiceName: "Kore" // Energetic voice suitable for a coach
+                            }
+                        }
+                    }
+                }
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(response.statusText);
+                const data = await response.json();
+                const audioData = data.candidates[0].content.parts[0].inlineData.data;
+                
+                // Play Audio
+                playPCM(audioData);
+                
+                // UI Animation
+                textSpan.innerText = "播放中...";
+                icon.innerText = "🔊";
+                wave.classList.remove('hidden');
+                wave.classList.add('playing');
+
+            } catch (error) {
+                alert("語音生成失敗: " + error.message);
+                btn.disabled = false;
+                textSpan.innerText = "播放語音指揮官";
+            }
+        }
+
+        // Helper to handle PCM Audio from Gemini
+        function playPCM(base64PCM) {
+            const binaryString = window.atob(base64PCM);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            const int16Array = new Int16Array(bytes.buffer);
+
+            // Create AudioContext
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const buffer = audioCtx.createBuffer(1, int16Array.length, 24000); // Gemini TTS default is 24kHz
+            const channelData = buffer.getChannelData(0);
+            
+            // Convert Int16 to Float32
+            for (let i = 0; i < int16Array.length; i++) {
+                channelData[i] = int16Array[i] / 32768.0;
+            }
+
+            const source = audioCtx.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioCtx.destination);
+            source.start();
+
+            source.onended = () => {
+                const btn = document.getElementById('ttsBtn');
+                const icon = document.getElementById('ttsIcon');
+                const textSpan = document.getElementById('ttsText');
+                const wave = document.getElementById('audioWave');
+                
+                btn.disabled = false;
+                icon.innerText = "✨";
+                textSpan.innerText = "播放語音指揮官";
+                wave.classList.add('hidden');
+                wave.classList.remove('playing');
+            };
+        }
     </script>
 </body>
 </html>
-
