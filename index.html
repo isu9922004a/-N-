@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N字戰法：三盤轉折判斷計算機 (V12.0 AI 戰略版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V12.1 AI 行動版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -89,7 +89,7 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.0 AI</span></h1>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.1 AI</span></h1>
             <p class="text-xs text-slate-400 mt-1">實戰圖解 x 盤態判讀 x AI 戰略參謀</p>
         </div>
 
@@ -548,14 +548,46 @@
                 </div>
             </div>
 
+            <!-- API Key 設定區 (行動版必備) -->
+            <details class="group mt-4 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+                <summary class="flex justify-between items-center font-bold text-gray-700 p-3 cursor-pointer hover:bg-gray-100">
+                    <span>⚙️ 設定 API Key (行動版必填)</span>
+                    <span class="text-gray-400 transition-transform group-open:rotate-180">▼</span>
+                </summary>
+                <div class="p-3 bg-white">
+                    <p class="text-xs text-gray-500 mb-2">若在手機或非開發環境執行，請在此貼上您的 Google Gemini API Key 以啟用 AI 分析。</p>
+                    <input type="password" id="userApiKey" class="w-full p-2 border border-gray-300 rounded text-sm mb-2" placeholder="貼上 API Key (sk-...)">
+                    <button onclick="saveApiKey()" class="bg-gray-800 text-white text-xs px-3 py-1.5 rounded hover:bg-gray-900 transition-colors w-full">💾 儲存並記憶</button>
+                    <p class="text-[10px] text-gray-400 mt-2 text-center"><a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-blue-500">👉 點此免費取得 Key</a></p>
+                </div>
+            </details>
+
         </div>
     </div>
 
     <script>
-        const apiKey = ""; // API Key provided by runtime environment
+        const apiKey = ""; // Keep empty for local usage logic
         let baseReportText = "";
         let aiReportContent = "";
         let lastStockName = "";
+
+        // 初始化：讀取儲存的 API Key
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedKey = localStorage.getItem('gemini_api_key');
+            if (savedKey) {
+                document.getElementById('userApiKey').value = savedKey;
+            }
+        });
+
+        function saveApiKey() {
+            const key = document.getElementById('userApiKey').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                alert("✅ API Key 已儲存！下次開啟網頁會自動帶入。");
+            } else {
+                alert("⚠️ 請輸入有效的 API Key");
+            }
+        }
 
         // 模擬數據函數
         function simulate(type) {
@@ -1035,7 +1067,7 @@
 
             // 準備複製文字
             const today = new Date().toLocaleDateString();
-            baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V12.0 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}${inferenceReportText}\n本檔「${stockName}」${volRatio >= 1.3 ? "攻擊量能達標 (符合1.3倍)" : (volRatio <= 0.8 ? "量縮洗盤達標 (符合0.8倍)" : "量能溫和")}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
+            baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V12.1 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}${inferenceReportText}\n本檔「${stockName}」${volRatio >= 1.3 ? "攻擊量能達標 (符合1.3倍)" : (volRatio <= 0.8 ? "量縮洗盤達標 (符合0.8倍)" : "量能溫和")}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
             
             // 自動觸發 AI 分析
             askGeminiStrategy();
@@ -1122,14 +1154,36 @@
                 document.getElementById('aiAnalysisBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             } catch (error) {
-                console.error("AI Error:", error);
+                // console.error("AI Error:", error); // 移除這行，避免在Console顯示紅色錯誤
                 document.getElementById('aiLoading').classList.add('hidden');
-                document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold">⚠️ AI 連線忙碌中，請稍後再試。</p>`;
+                
+                // 更友善的錯誤提示，引導使用者輸入 Key
+                if (error.message.includes("請先設定 API Key")) {
+                     document.getElementById('aiContent').innerHTML = `
+                        <div class="text-center p-2">
+                            <p class="text-slate-500 font-bold mb-2">🤖 AI 分析小幫手尚未啟動</p>
+                            <p class="text-xs text-slate-400 mb-2">💡 請至下方「⚙️ 設定 API Key」輸入金鑰以啟動 AI 分析。</p>
+                            <a href="#userApiKey" onclick="document.querySelector('details.group').open = true" class="text-xs text-blue-500 underline">前往設定</a>
+                        </div>
+                     `;
+                } else {
+                     document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold text-xs">⚠️ 連線異常: ${error.message}</p>`;
+                }
             }
         }
 
         async function callGeminiAPI(prompt) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            // Logic to use user-provided key if available
+            let keyToUse = apiKey; // Try the const first (in case environment injected it)
+            const userKey = document.getElementById('userApiKey').value.trim();
+            if (userKey) keyToUse = userKey; // Override or use if const is empty
+
+            if (!keyToUse) {
+                // 不使用 alert，直接拋出錯誤讓 askGeminiStrategy 處理 UI 顯示
+                throw new Error("請先設定 API Key 才能使用 AI 功能");
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${keyToUse}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }]
             };
