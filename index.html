@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N字戰法：三盤轉折判斷計算機 (V11.1 戰情預判版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V12.0 AI 戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; }
@@ -33,6 +34,54 @@
         details > summary::-webkit-details-marker { display: none; }
         details[open] > summary { margin-bottom: 0.5rem; }
         details > summary:hover { background-color: #f8fafc; }
+
+        /* AI Loading Animation */
+        .dot-flashing {
+            position: relative;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: #6366f1;
+            color: #6366f1;
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: 0.5s;
+        }
+        .dot-flashing::before, .dot-flashing::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            top: 0;
+        }
+        .dot-flashing::before {
+            left: -10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: #6366f1;
+            color: #6366f1;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 0s;
+        }
+        .dot-flashing::after {
+            left: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: #6366f1;
+            color: #6366f1;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 1s;
+        }
+        @keyframes dot-flashing {
+            0% { background-color: #6366f1; }
+            50%, 100% { background-color: #e0e7ff; }
+        }
+        
+        /* Markdown Styles for AI Response */
+        .ai-content h1, .ai-content h2, .ai-content h3 { font-weight: 800; margin-top: 0.5em; margin-bottom: 0.3em; color: #1e1b4b; }
+        .ai-content ul { list-style-type: disc; padding-left: 1.2em; margin-bottom: 0.5em; }
+        .ai-content p { margin-bottom: 0.5em; line-height: 1.6; }
+        .ai-content strong { color: #b91c1c; }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
@@ -40,8 +89,8 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V11.1</span></h1>
-            <p class="text-xs text-slate-400 mt-1">實戰圖解 x 盤態判讀 x 模擬演習</p>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="text-yellow-400 text-sm align-top">V12.0 AI</span></h1>
+            <p class="text-xs text-slate-400 mt-1">實戰圖解 x 盤態判讀 x AI 戰略參謀</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
@@ -478,7 +527,26 @@
                             <p id="resultAdvice" class="text-sm text-slate-800 font-medium leading-relaxed"></p>
                         </div>
                         
-                        <button onclick="copyReport()" id="copyBtn" class="w-full flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-slate-300 shadow-sm">
+                        <!-- AI 按鈕區 -->
+                        <button onclick="askGeminiStrategy()" id="aiBtn" class="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg transition-all text-sm shadow-lg mb-2 transform active:scale-95">
+                            <span>✨ AI 戰略參謀 (點擊解析)</span>
+                        </button>
+
+                        <div id="aiAnalysisBox" class="hidden mt-3 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-sm text-slate-700 shadow-inner relative">
+                            <div class="absolute top-0 right-0 p-1 opacity-20 text-4xl">🤖</div>
+                            <h4 id="aiReportTitle" class="font-black text-indigo-900 mb-2 border-b border-indigo-200 pb-1 flex items-center">
+                                🧠 Gemini 戰略分析報告
+                            </h4>
+                            <div id="aiContent" class="ai-content">
+                                <!-- AI Content will be injected here -->
+                            </div>
+                            <div id="aiLoading" class="hidden flex flex-col items-center justify-center py-4">
+                                <div class="dot-flashing"></div>
+                                <p class="text-xs text-indigo-400 mt-3 animate-pulse">正在解讀盤勢心理...</p>
+                            </div>
+                        </div>
+
+                        <button onclick="copyReport()" id="copyBtn" class="w-full flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-lg transition-colors text-sm border border-slate-300 shadow-sm mt-2">
                             <span>📋 複製完整戰報</span>
                         </button>
                     </div>
@@ -489,7 +557,10 @@
     </div>
 
     <script>
-        let currentReportText = "";
+        const apiKey = ""; // API Key provided by runtime environment
+        let baseReportText = "";
+        let aiReportContent = "";
+        let lastStockName = "";
 
         // 模擬數據函數
         function simulate(type) {
@@ -589,6 +660,11 @@
             });
             document.querySelectorAll('input[type="checkbox"]').forEach(box => box.checked = false);
             adviceBox.classList.add('hidden');
+            // Hide AI Box
+            document.getElementById('aiAnalysisBox').classList.add('hidden');
+            document.getElementById('aiContent').innerHTML = '';
+            aiReportContent = ""; // Reset AI content
+            
             if(hideResult) {
                 document.getElementById('resultArea').classList.add('hidden');
             }
@@ -624,6 +700,11 @@
 
         function calculateStrategy() {
             document.querySelectorAll('input').forEach(el => el.classList.remove('input-error'));
+            
+            // Clear previous AI result when recalculating
+            document.getElementById('aiAnalysisBox').classList.add('hidden');
+            document.getElementById('aiContent').innerHTML = '';
+            aiReportContent = ""; // Reset AI content
 
             const stockName = document.getElementById('stockName').value || "未輸入股名";
             const status = document.getElementById('currentStatus').value;
@@ -766,26 +847,26 @@
                 patternReport = `\n型態：${patternType}`;
             } else { // GREEN (空方)
                 if(close < L) { 
-                     // 圖二: 空方盤態邏輯 (這裡用簡單判斷模擬，可再細分)
-                     patternType = "📉 空方殺多";
-                     patternClass = "bg-green-100 text-green-800 border-green-300";
-                     tacticalAdvice = "📉 趨勢：空方殺多。\n依圖二所示，空方趨勢確立 (強殺多/殺多盤)，反彈不過殺多高就是空。若持有，請立刻停損，絕不接刀。";
-                     
-                     const pTag = document.getElementById('patternTag');
-                     pTag.innerText = patternType;
-                     pTag.className = `text-xs font-bold px-2 py-1 rounded border ${patternClass}`;
-                     pTag.classList.remove('hidden');
-                     patternReport = `\n型態：${patternType}`;
+                      // 圖二: 空方盤態邏輯 (這裡用簡單判斷模擬，可再細分)
+                      patternType = "📉 空方殺多";
+                      patternClass = "bg-green-100 text-green-800 border-green-300";
+                      tacticalAdvice = "📉 趨勢：空方殺多。\n依圖二所示，空方趨勢確立 (強殺多/殺多盤)，反彈不過殺多高就是空。若持有，請立刻停損，絕不接刀。";
+                      
+                      const pTag = document.getElementById('patternTag');
+                      pTag.innerText = patternType;
+                      pTag.className = `text-xs font-bold px-2 py-1 rounded border ${patternClass}`;
+                      pTag.classList.remove('hidden');
+                      patternReport = `\n型態：${patternType}`;
                 } else {
-                     patternType = "💤 盤跌/觀望";
-                     patternClass = "bg-gray-100 text-gray-600 border-gray-300";
-                     tacticalAdvice = "💤 趨勢：盤勢不明 (盤跌)。\n依圖二所示，反彈深(假突破)，隨後再殺。建議多看少做，保留現金，等待突破訊號。";
-                     
-                     const pTag = document.getElementById('patternTag');
-                     pTag.innerText = patternType;
-                     pTag.className = `text-xs font-bold px-2 py-1 rounded border ${patternClass}`;
-                     pTag.classList.remove('hidden');
-                     patternReport = `\n型態：${patternType}`;
+                      patternType = "💤 盤跌/觀望";
+                      patternClass = "bg-gray-100 text-gray-600 border-gray-300";
+                      tacticalAdvice = "💤 趨勢：盤勢不明 (盤跌)。\n依圖二所示，反彈深(假突破)，隨後再殺。建議多看少做，保留現金，等待突破訊號。";
+                      
+                      const pTag = document.getElementById('patternTag');
+                      pTag.innerText = patternType;
+                      pTag.className = `text-xs font-bold px-2 py-1 rounded border ${patternClass}`;
+                      pTag.classList.remove('hidden');
+                      patternReport = `\n型態：${patternType}`;
                 }
             }
 
@@ -802,19 +883,30 @@
                 const washMark = (todayVol <= targetWash) ? "✅達標" : "";
                 
                 inferenceText = `
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <span class="text-[10px] text-slate-400 block">攻擊標準 (1.3x)</span>
-                            <span class="font-bold text-red-600">${formatNumber(targetAttack)}</span>
-                            <span class="text-[10px] text-red-500">${attackMark}</span>
+                    <div class="bg-slate-50 p-3 rounded border border-slate-300 mb-3 text-xs">
+                        <h5 class="font-bold text-slate-700 border-b border-slate-200 pb-1 mb-2">📊 明日量能預判標準 (依均量 ${formatNumber(avgVol)})</h5>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-red-50 p-2 rounded border border-red-100 text-center">
+                                <span class="block text-red-400 text-[10px] font-bold">🔥 欲攻擊/極強/突破</span>
+                                <span class="block text-red-700 font-black text-lg mt-1">> ${formatNumber(targetAttack)}</span>
+                                <span class="block text-red-300 text-[9px]">達標 (1.3倍)</span>
+                            </div>
+                            <div class="bg-blue-50 p-2 rounded border border-blue-100 text-center">
+                                <span class="block text-blue-400 text-[10px] font-bold">➖ 欲盤整/洗盤/量縮</span>
+                                <span class="block text-blue-700 font-black text-lg mt-1">< ${formatNumber(targetWash)}</span>
+                                <span class="block text-blue-300 text-[9px]">達標 (0.8倍)</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="text-[10px] text-slate-400 block">洗盤標準 (0.8x)</span>
-                            <span class="font-bold text-blue-600">${formatNumber(targetWash)}</span>
-                            <span class="text-[10px] text-blue-500">${washMark}</span>
+                        <div class="mt-2 text-center bg-white p-1 rounded border border-slate-200 shadow-inner">
+                           <span class="text-slate-500 font-bold mr-1">目前預估量：</span>
+                           <span class="font-black text-lg ${todayVol >= targetAttack ? 'text-red-600' : (todayVol <= targetWash ? 'text-blue-600' : 'text-slate-600')}">${formatNumber(todayVol)}</span>
+                           <span class="ml-1 text-[10px] font-bold ${todayVol >= targetAttack ? 'text-red-500' : (todayVol <= targetWash ? 'text-blue-500' : 'text-slate-400')}">
+                               ${todayVol >= targetAttack ? '🚀 符合攻擊量' : (todayVol <= targetWash ? '✅ 符合盤整量' : '⚖️ 量能溫和')}
+                           </span>
                         </div>
                     </div>`;
-                inferenceReportText = `\n★ 量價推演：\n• 攻擊門檻(1.3x)：${formatNumber(targetAttack)} ${(todayVol >= targetAttack) ? "(🔥達標)" : ""}\n• 洗盤門檻(0.8x)：${formatNumber(targetWash)} ${(todayVol <= targetWash) ? "(✅達標)" : ""}`;
+                
+                inferenceReportText = `\n★ 明日量能劇本：\n🔥 欲攻擊/突破：需大於 ${formatNumber(targetAttack)} (1.3x)\n➖ 欲盤整/洗盤：需小於 ${formatNumber(targetWash)} (0.8x)\n👉 目前預估：${formatNumber(todayVol)} ${todayVol >= targetAttack ? "(🔥符合攻擊)" : (todayVol <= targetWash ? "(✅符合盤整)" : "(量能溫和)")}`;
 
                 if (!isNaN(todayVol)) {
                     volRatio = todayVol / avgVol;
@@ -948,15 +1040,22 @@
 
             // 準備複製文字
             const today = new Date().toLocaleDateString();
-            currentReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V10.9 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}${inferenceReportText}\n本檔「${stockName}」${volRatio >= 1.3 ? "攻擊量能達標 (符合1.3倍)" : (volRatio <= 0.8 ? "量縮洗盤達標 (符合0.8倍)" : "量能溫和")}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
+            baseReportText = `「嗨，我是石頭，我的N字戰法分析系統希望能讓你勝率💯」\n\n戰報分析結果：\nN字戰法指揮中心 by.石頭 V12.0 (${today})\n股名：${stockName}\n-------------------\n指令：${actionText}\n量能：${volStatus}\n現價：${close}${patternReport}${targetReport}${inferenceReportText}\n本檔「${stockName}」${volRatio >= 1.3 ? "攻擊量能達標 (符合1.3倍)" : (volRatio <= 0.8 ? "量縮洗盤達標 (符合0.8倍)" : "量能溫和")}\n\n★ 戰術指引：\n${tacticalAdvice}\n${redCandleAdvice ? `(${redCandleAdvice})` : ""}\n-------------------\n防守：不破軋空低，目標才有效。`;
             
             document.getElementById('copyBtn').innerHTML = '<span>📋 複製完整戰報</span>';
         }
 
         function copyReport() {
-            if (!currentReportText) return;
+            if (!baseReportText) return;
+            
+            // Combine base report with AI content if available
+            let fullReport = baseReportText;
+            if (aiReportContent) {
+                fullReport += `\n\n=================================\n🧠 石頭戰略(${document.getElementById('stockName').value})分析報告\n=================================\n${aiReportContent}`;
+            }
+
             const textarea = document.createElement('textarea');
-            textarea.value = currentReportText;
+            textarea.value = fullReport;
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand('copy');
@@ -964,6 +1063,104 @@
             const btn = document.getElementById('copyBtn');
             btn.innerHTML = '<span class="text-green-600">✅ 已複製到剪貼簿！</span>';
             setTimeout(() => btn.innerHTML = '<span>📋 複製完整戰報</span>', 2000);
+        }
+
+        // --- AI Gemini Integration Logic ---
+
+        async function askGeminiStrategy() {
+            const stockName = document.getElementById('stockName').value || "未知個股";
+            const closePrice = document.getElementById('closePrice').value;
+            const todayVol = document.getElementById('todayVol').value;
+            const avgVol = document.getElementById('avgVol').value;
+            const status = document.getElementById('currentStatus').value;
+            const tacticalAdvice = document.getElementById('resultAdvice').innerText;
+            const target1 = document.getElementById('target1').innerText;
+            const breakoutLow = document.getElementById('breakoutLow').value;
+            const high3d = document.getElementById('high3d').value;
+
+            // Update UI Header immediately
+            document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName})分析報告`;
+
+            // Show UI Elements
+            document.getElementById('aiAnalysisBox').classList.remove('hidden');
+            document.getElementById('aiLoading').classList.remove('hidden');
+            document.getElementById('aiContent').innerHTML = ''; 
+            aiReportContent = ""; // Reset variable
+            
+            // Construct Prompt
+            const promptText = `
+                你現在是精通「N字戰法」的資深操盤手教練。請根據以下數據，為使用者進行盤勢心理分析與操作建議。
+                
+                【當前數據】
+                股名：${stockName}
+                現價：${closePrice}
+                狀態：${status === 'RED' ? '多方 (持有/攻擊)' : '空方 (觀望/整理)'}
+                成交量：${todayVol} (均量: ${avgVol})
+                關鍵價位：頸線 ${high3d}, 軋空低防守點 ${breakoutLow}
+                系統判斷：${tacticalAdvice}
+                測幅目標：一飽 ${target1}
+
+                【任務要求】
+                請用直白、專業、不誇飾的語氣 (繁體中文)，提供以下分析 (請使用 Markdown 格式)：
+                1. **主力心理透視**：根據量價結構（例如是否爆量、是否過高），推測主力是在進貨、洗盤還是出貨？
+                2. **散戶心理陷阱**：現在散戶容易犯什麼錯（例如追高、不敢買、過早下車）？
+                3. **教練心法**：給出一句簡短有力的操作格言（第四點結論法）。
+                
+                請不要重複列出數據，直接進行定性分析。
+            `;
+
+            try {
+                const responseText = await callGeminiAPI(promptText);
+                document.getElementById('aiLoading').classList.add('hidden');
+                
+                // Store raw text for copying (removing bold markers for cleaner plain text copy if desired, but markdown is fine)
+                aiReportContent = responseText;
+
+                // Parse Markdown for UI display
+                const htmlContent = marked.parse(responseText);
+                document.getElementById('aiContent').innerHTML = htmlContent;
+                
+                // Scroll to view
+                document.getElementById('aiAnalysisBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            } catch (error) {
+                console.error("AI Error:", error);
+                document.getElementById('aiLoading').classList.add('hidden');
+                document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold">⚠️ AI 連線忙碌中，請稍後再試。</p>`;
+            }
+        }
+
+        async function callGeminiAPI(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }]
+            };
+
+            // Exponential backoff retry logic
+            const maxRetries = 3;
+            let delay = 1000;
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "無法取得分析結果。";
+
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
         }
     </script>
 </body>
