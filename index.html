@@ -659,34 +659,47 @@
 
         function simulate(type) {
             clearInputs(false); 
-            document.getElementById('stockName').value = "模擬個股 (TEST)";
-            document.getElementById('high3d').value = 100;
-            // Set L to 90 to match user's h2=108, 5N=198 logic (198 = 108 + 5*18)
-            document.getElementById('low3d').value = 90; 
-            document.getElementById('avgVol').value = 1000;
             
             if (type === 'strong') {
+                document.getElementById('stockName').value = "模擬個股 (TEST)";
+                document.getElementById('high3d').value = 100;
+                // Set L to 90 to match user's h2=108, 5N=198 logic (198 = 108 + 5*18)
+                document.getElementById('low3d').value = 90; 
+                document.getElementById('avgVol').value = 1000;
                 setStatus('RED');
                 document.getElementById('closePrice').value = 108;
                 document.getElementById('todayHigh').value = 108; 
                 document.getElementById('breakoutLow').value = 98; 
                 document.getElementById('todayVol').value = 2000;
-                document.getElementById('prevClose').value = 100; // Implied breakout point, makes midpoint 104
+                // To generate mid point 104, we assume prevClose 100
+                document.getElementById('prevClose').value = 100; 
                 document.getElementById('todayLow').value = 105;
                 document.getElementById('prevLow').value = 98;
             } else if (type === 'break') {
+                document.getElementById('stockName').value = "模擬個股 (TEST)";
+                document.getElementById('high3d').value = 100;
+                document.getElementById('low3d').value = 90; 
+                document.getElementById('avgVol').value = 1000;
                 setStatus('GREEN'); 
                 document.getElementById('closePrice').value = 102;
                 document.getElementById('todayHigh').value = 103;
                 document.getElementById('breakoutLow').value = 101; 
                 document.getElementById('todayVol').value = 1500;
             } else if (type === 'crash') {
+                document.getElementById('stockName').value = "模擬個股 (TEST)";
+                document.getElementById('high3d').value = 100;
+                document.getElementById('low3d').value = 90; 
+                document.getElementById('avgVol').value = 1000;
                 setStatus('RED'); 
                 document.getElementById('closePrice').value = 85; 
                 document.getElementById('todayHigh').value = 92;
                 document.getElementById('breakoutLow').value = 95; 
                 document.getElementById('todayVol').value = 3000;
             } else if (type === 'flat') {
+                document.getElementById('stockName').value = "模擬個股 (TEST)";
+                document.getElementById('high3d').value = 100;
+                document.getElementById('low3d').value = 90; 
+                document.getElementById('avgVol').value = 1000;
                 setStatus('GREEN');
                 document.getElementById('closePrice').value = 98; 
                 document.getElementById('todayHigh').value = 99;
@@ -1086,7 +1099,7 @@ ${scenarioScript}
 
             } else if (isStrong) {
                 // NEW: Strong Trend Scenario (V13.8 Update)
-                titleText = "🐂 強軋空盤"; 
+                titleText = "🔥 強軋空盤"; 
                 actionText = "死抱不放 / 順勢加碼";
                 boxClass = "bg-red-100 border-red-600"; 
                 titleClass = "text-xl font-bold text-red-700"; 
@@ -1134,7 +1147,10 @@ N字戰法指揮中心 by.石頭 V13.8 (2026/1/26)
 📈 盤勢型態：${trendVerdict}
 ✅ 目標直指：5N (${formatPrice(target5)})
 ⚠️ 防守要點：${midPointStr} (今日紅棒中值) 或 ${safeBreakoutLow} (波段防守)
-${inferenceReportText}
+★ 量價推演 (均量 ${formatNumber(avgVol)})：
+• 攻擊門檻 (1.3x)：${formatNumber(Math.round(avgVol * 1.3))} (達標) ✅
+• 洗盤門檻 (0.8x)：${formatNumber(Math.round(avgVol * 0.8))}
+本檔「${stockName}」呈現噴出型態，量價齊揚，主力態度堅決，進入「不計價追買」的瘋狂階段。
 ${targetSection}
 
 【二、明日開盤・量能作戰劇本】
