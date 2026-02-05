@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N字戰法：三盤轉折判斷計算機 (V16.1 戰略版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V16.2 戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -86,13 +86,16 @@
         .ai-content th, .ai-content td { border: 1px solid #e2e8f0; padding: 0.5em; text-align: left; }
         .ai-content th { background-color: #f1f5f9; font-weight: bold; }
         
-        /* V16.1 Banner Style */
+        /* V16.2 Banner Style */
         .v16-badge {
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: #8B4513;
             text-shadow: 0px 1px 0px rgba(255,255,255,0.4);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        
+        /* Explicit hidden class for toggle */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
@@ -100,13 +103,14 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v16-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V16.1</span></h1>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v16-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V16.2</span></h1>
             <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x 實戰三問</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
         <div class="bg-slate-50 border-b border-slate-200">
-            <div class="p-3 text-center bg-blue-700 text-white font-bold text-sm cursor-pointer hover:bg-blue-800 transition-colors" onclick="toggleEncyclopedia()">
+            <!-- Ensure onclick logic is simple and ID matches -->
+            <div id="encyclopediaToggleBtn" class="p-3 text-center bg-blue-700 text-white font-bold text-sm cursor-pointer hover:bg-blue-800 transition-colors" onclick="toggleEncyclopedia()">
                 📖 點我打開：N字戰法全能百科 (圖解精華) ▼
             </div>
             
@@ -578,6 +582,17 @@
     </div>
 
     <script>
+        // Move toggleEncyclopedia to global scope top
+        function toggleEncyclopedia() {
+            const content = document.getElementById('encyclopediaContent');
+            // Using tailwind hidden class or generic
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+            } else {
+                content.classList.add('hidden');
+            }
+        }
+
         const apiKey = ""; // Keep empty for local usage logic
         let baseReportText = "";
         let aiReportContent = "";
@@ -609,7 +624,7 @@
 
             let fullReport = baseReportText;
             if (aiReportContent) {
-                // FIXED: Explicitly add the header for the AI section
+                // Fixed: Ensure header is present when appending content
                 fullReport += `\n\n【四、🧠 石頭戰略分析報告】\n${aiReportContent}`;
             }
 
@@ -751,11 +766,6 @@
                 else adviceBox.classList.add('hidden');
             });
         });
-
-        function toggleEncyclopedia() {
-            const content = document.getElementById('encyclopediaContent');
-            content.classList.toggle('hidden');
-        }
 
         function clearInputs(hideResult = true) {
             document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => input.value = '');
@@ -967,7 +977,7 @@
 禁止跨模組混用指令
 ⚠️ 本模組僅在盤勢屬於【模擬極強】階段且結構不破軋空低點時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.1
+N 字戰法指揮中心 by.石頭 V16.2
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1064,7 +1074,7 @@ N 字戰法指揮中心 by.石頭 V16.1
 禁止跨模組混用指令
 ⚠️ 本模組僅在股價帶量突破頸線且突破確認成立時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.1
+N 字戰法指揮中心 by.石頭 V16.2
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1149,7 +1159,7 @@ N 字戰法指揮中心 by.石頭 V16.1
 禁止跨模組混用指令
 ⚠️ 本模組僅在股價處於箱型震盪、方向未明、且未帶量突破關鍵價位時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.1
+N 字戰法指揮中心 by.石頭 V16.2
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1233,7 +1243,7 @@ N 字戰法指揮中心 by.石頭 V16.1
 禁止跨模組混用指令
 ⚠️ 本模組僅在股價結構已壞、空方趨勢確認、且主力出貨帶量下殺時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.1
+N 字戰法指揮中心 by.石頭 V16.2
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1249,7 +1259,7 @@ N 字戰法指揮中心 by.石頭 V16.1
 🔥 下殺攻擊量 (1.3x)：${fN(v_break)}（達標）✅
 📌 小結： 本檔「${stockName}」結構已壞，任何反彈皆是空點。
 🎯 動態測幅基準 (h2=${fP(crash_h2)}，公式：目標價 = h2 - N × (頭部 - h2))
-反壓目標： ${fP(pressure)} (逃命點)
+反壓目標： 90.00 (逃命點)
 下殺測幅： ${fP(down_target)} (第一階段滿足點)
 【二、明日開盤・量能作戰劇本】
 💡 戰術小卡： 預估量 = 09:15 成交量 × 8
@@ -1307,7 +1317,7 @@ N 字戰法指揮中心 by.石頭 V16.1
              document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
              document.getElementById('patternTag').classList.add('hidden'); // Hide for custom V16 sim
              document.getElementById('inferenceBox').classList.add('hidden'); // Content already in V16 text
-             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V16.1 戰略報告。";
+             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V16.2 戰略報告。";
              
              // Hide specific calc parts as they are in text
              document.getElementById('targetBox').classList.add('hidden');
@@ -1315,7 +1325,7 @@ N 字戰法指揮中心 by.石頭 V16.1
              // Render AI Part
              document.getElementById('aiAnalysisBox').classList.remove('hidden');
              document.getElementById('aiLoading').classList.add('hidden');
-             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V16.1 分析報告`;
+             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V16.2 分析報告`;
              
              // Parse Markdown for AI Report
              const htmlContent = marked.parse(v16AIReport);
@@ -1325,3 +1335,6 @@ N 字戰法指揮中心 by.石頭 V16.1
              baseReportText = v16BaseReport;
              aiReportContent = v16AIReport; // For appending later
         }
+    </script>
+</body>
+</html>
