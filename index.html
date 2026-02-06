@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N字戰法：三盤轉折判斷計算機 (V17.2 戰略版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V17.3 戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -86,7 +86,7 @@
         .ai-content th, .ai-content td { border: 1px solid #e2e8f0; padding: 0.5em; text-align: left; }
         .ai-content th { background-color: #f1f5f9; font-weight: bold; }
         
-        /* V17.2 Banner Style */
+        /* V17.3 Banner Style */
         .v17-badge {
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: #8B4513;
@@ -98,15 +98,11 @@
         .hidden { display: none !important; }
     </style>
     <script>
-        // Ensure toggle function is globally available
+        // Move toggle function to head to ensure availability
         function toggleEncyclopedia() {
             const content = document.getElementById('encyclopediaContent');
             if (content) {
-                if (content.classList.contains('hidden')) {
-                    content.classList.remove('hidden');
-                } else {
-                    content.classList.add('hidden');
-                }
+                content.classList.toggle('hidden');
             } else {
                 console.error("Encyclopedia content element not found!");
             }
@@ -118,12 +114,13 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v17-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V17.2</span></h1>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v17-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V17.3</span></h1>
             <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x 實戰三問</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
         <div class="bg-slate-50 border-b border-slate-200">
+            <!-- Ensure onclick logic is simple and ID matches -->
             <div id="encyclopediaToggleBtn" class="p-3 text-center bg-blue-700 text-white font-bold text-sm cursor-pointer hover:bg-blue-800 transition-colors" onclick="toggleEncyclopedia()">
                 📖 點我打開：N字戰法全能百科 (圖解精華) ▼
             </div>
@@ -390,6 +387,79 @@
                                 <li class="text-red-600 font-bold">禁止跨模組混用指令</li>
                                 <li>⚠️ 本模組僅在股價結構已壞、空方趨勢確認、且主力出貨帶量下殺時適用</li>
                              </ul>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- NEW: N字戰法心法 (PPT Translation) -->
+                <details class="group border border-pink-200 rounded overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold text-pink-800 bg-pink-50 p-3">
+                        <span>12. 觀念篇：N字戰法心法邏輯說明 (新手白話版)</span>
+                        <span class="text-pink-500 transition-transform group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="p-3 text-xs text-slate-700 bg-white space-y-3">
+                        <div class="bg-slate-50 p-2 rounded border border-slate-200">
+                             <p class="font-bold text-slate-800 mb-1">【新手終極版】跟著主力畫圖：小白也能懂的「N字戰法」</p>
+                             
+                             <p class="font-bold text-slate-700 mt-2">一、 什麼是「N字理論」？</p>
+                             <p class="mb-1">想像你在寫英文字母的 "N"。股價的走勢，其實就是無數個 "N" 連接起來的。</p>
+                             <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>第一筆（攻擊）：</strong> 股價用力上漲（主力買進）。</li>
+                                <li><strong>第二筆（休息）：</strong> 股價下跌回檔（主力洗盤，把信心不足的人洗出去）。</li>
+                                <li><strong>第三筆（再攻擊）：</strong> 股價再次上漲，並且衝過第一筆的高點。</li>
+                             </ul>
+                             <p class="bg-yellow-50 p-1 rounded mt-1 border border-yellow-200"><strong>💡 小白金句：</strong> 只有當股價走出「N」字形，衝過前波高點，才代表主力是真的要拉抬這檔股票！</p>
+
+                             <p class="font-bold text-slate-700 mt-3">二、 為什麼主力要畫「N」？（背後的心理學）</p>
+                             <p class="mb-1">主力手上有幾億資金，他不能像我們一樣想買就買。他的劇本通常是這樣：</p>
+                             <ul class="list-decimal list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>第一段（漲）：</strong> 主力試探性買進，股價拉高。這時候散戶還在觀望。</li>
+                                <li><strong>第二段（跌）：</strong> 主力故意不買了，甚至賣一點點。這時候股價下跌，膽小的散戶會以為「漲完了」趕快賣出。這就是所謂的<strong>「洗盤」</strong>！主力要把不堅定的籌碼洗掉，車子變輕了才好拉。</li>
+                                <li><strong>第三段（漲）：</strong> 當散戶賣得差不多了，主力突然發力，一口氣買上去，突破前波高點。這時候散戶才發現「賣錯了」，想追回來，股價就噴出了。</li>
+                             </ul>
+
+                             <p class="font-bold text-slate-700 mt-3">三、 N字戰法的四個關鍵點</p>
+                             <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>A點（起漲點）：</strong> 股價開始起飛的地方。</li>
+                                <li><strong>B點（前波高點）：</strong> 第一波漲到的最高點。</li>
+                                <li><strong>C點（回檔低點）：</strong> 股價休息回調到的最低點。</li>
+                                <li class="text-red-600"><strong>🔥 重要規則：</strong> C點絕對不能跌破A點！ 如果跌破A點，代表主力棄守了，這不是N字，是個爛股票。</li>
+                                <li><strong>D點（突破點）：</strong> 股價再次上漲，穿越B點價格的那一瞬間。</li>
+                             </ul>
+
+                             <p class="font-bold text-slate-700 mt-3">四、 小白怎麼買？（操作 SOP）</p>
+                             <p class="mb-1">不要去猜股價最低點在哪，我們要做的是「確認主力意圖」。</p>
+                             <ol class="list-decimal list-inside pl-1 text-slate-600 space-y-2">
+                                <li><strong>買點在哪裡？</strong>
+                                    <ul class="list-disc list-inside pl-4 mt-1">
+                                        <li><strong>最安全買點（D點突破）：</strong> 當股價正式突破 B點（前波高點） 時。這代表「N字」正式寫完，主力宣告：「休息結束，我要進攻下一波了！」這時候上車，勝率最高。</li>
+                                        <li><strong>高手潛伏點（C點附近）：</strong> 當股價回檔休息，沒有跌破 A 點，且開始出現紅K棒止跌時。這適合心臟大顆一點的人，成本較低，但有失敗風險。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>賣點（目標價）怎麼算？</strong>
+                                    <p class="pl-4 mt-1">公式很簡單：「跌多深，漲多高」 或 「第一波漲多少，第三波就漲多少」（1:1 等幅測量）。<br>
+                                    例如：第一波漲5元，回檔休息後，下一波目標大約就是再漲5元。</p>
+                                </li>
+                                <li><strong>什麼時候要逃命（停損）？</strong>
+                                    <p class="pl-4 mt-1 text-red-600 font-bold">動作： 立刻賣出，不要猶豫。</p>
+                                    <p class="pl-4">理由： 如果買進後，股價沒有往上衝，反而跌破了 C點（回檔低點），甚至跌破了「突破那根長紅棒的低點」。代表「N字失敗」，主力可能已經跑了。</p>
+                                </li>
+                             </ol>
+
+                             <p class="font-bold text-slate-700 mt-3">五、 進階：小心「倒N字」（空頭信號）</p>
+                             <p class="mb-1">股市不只會漲，也會跌。跌勢就是「倒著寫的N」。</p>
+                             <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>倒N字劇本：</strong> 下跌（A→B） → 反彈（B→C） → 跌破前低（突破B點往下殺）。</li>
+                                <li class="text-green-700 font-bold"><strong>小白警告：</strong> 一旦看到股價走出「倒N字」，並且跌破前波低點，手上有股票要快逃，千萬不要去接刀子！</li>
+                             </ul>
+
+                             <p class="font-bold text-slate-700 mt-3">六、 總結：給小白的 3 個建議</p>
+                             <ol class="list-decimal list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>不要追在第一波：</strong> 看到急漲不要興奮，那是給主力表演的。</li>
+                                <li><strong>耐心等回檔：</strong> 等股價休息（走N字的中間那筆），確認沒死（沒破底），才是你的機會。</li>
+                                <li><strong>突破才加碼：</strong> 看到股價衝過前波高點（完成N字），確認趨勢成立，這時候才是賺大錢的開始。</li>
+                             </ol>
+                             <p class="bg-indigo-50 p-2 rounded mt-2 border border-indigo-200 text-center font-bold text-indigo-900">這份 PPT 的精髓就是告訴你：交易不是靠運氣，而是靠辨識圖形。看懂 N 字，你就看懂了漲跌的節奏。</p>
                         </div>
                     </div>
                 </details>
@@ -1027,7 +1097,7 @@
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.2
+N 字戰法指揮中心 by.石頭 V17.3
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1189,7 +1259,7 @@ N 字戰法指揮中心 by.石頭 V17.2
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.2
+N 字戰法指揮中心 by.石頭 V17.3
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1326,7 +1396,7 @@ N 字戰法指揮中心 by.石頭 V17.2
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.2
+N 字戰法指揮中心 by.石頭 V17.3
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1408,7 +1478,7 @@ N 字戰法指揮中心 by.石頭 V17.2
 
 箱頂附近的灰色誘惑：
 
-狀況： 價格來到 ${fP(boxTop)}附近，但量能只有 ${fN(v_wash)}~${fN(avgVol)} 張（未達攻擊量）。
+狀況： 價格來到 ${fP(boxTop)}附近，但量能只有 ${fN(v_wash_flat)}~${fN(avgVol)} 張（未達攻擊量）。
 
 應變： 不要偷跑。必須嚴格遵守「量突破 ${fN(v_break)} 且 價格確認站上 ${fP(boxTop)}」才能進場。
 
@@ -1457,7 +1527,7 @@ N 字戰法指揮中心 by.石頭 V17.2
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.2
+N 字戰法指揮中心 by.石頭 V17.3
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1581,7 +1651,7 @@ N 字戰法指揮中心 by.石頭 V17.2
              document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
              document.getElementById('patternTag').classList.add('hidden'); // Hide for custom V16 sim
              document.getElementById('inferenceBox').classList.add('hidden'); // Content already in V16 text
-             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V17.2 戰略報告。";
+             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V17.3 戰略報告。";
              
              // Hide specific calc parts as they are in text
              document.getElementById('targetBox').classList.add('hidden');
@@ -1589,7 +1659,7 @@ N 字戰法指揮中心 by.石頭 V17.2
              // Render AI Part
              document.getElementById('aiAnalysisBox').classList.remove('hidden');
              document.getElementById('aiLoading').classList.add('hidden');
-             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V17.2 分析報告`;
+             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V17.3 分析報告`;
              
              // Parse Markdown for AI Report
              const htmlContent = marked.parse(v16AIReport);
@@ -1599,6 +1669,168 @@ N 字戰法指揮中心 by.石頭 V17.2
              baseReportText = v16BaseReport;
              aiReportContent = v16AIReport; // For appending later
         }
-    </script>
+
+        // --- Functions missing in previous version that caused ReferenceError ---
+
+        async function triggerAnalysis(stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, patternType, isBreakout, isBreakdown, isStrong) {
+            const userKey = localStorage.getItem('gemini_api_key');
+            document.getElementById('aiAnalysisBox').classList.remove('hidden');
+            document.getElementById('aiLoading').classList.remove('hidden');
+            document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName})分析報告`;
+
+            if (userKey) {
+                await askGeminiStrategy(userKey, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong);
+            } else {
+                setTimeout(() => generateLocalAnalysis(isStrong, patternType, status, isBreakout, isBreakdown), 800);
+            }
+        }
+
+        function generateLocalAnalysis(isStrong, patternType, status, isBreakout, isBreakdown) {
+            document.getElementById('aiLoading').classList.add('hidden');
+            let psychology = "", trap = "", mantra = "", conclusion = "";
+
+            if (isBreakdown) {
+                psychology = "主力已在高檔完成出貨，目前的下跌是為了打壓股價以利未來（可能是數月後）的低檔回補。現階段主力不會護盤，甚至會利用利空消息加速趕底。";
+                trap = "「定錨效應」作祟。散戶會記得這檔股票曾經 108 元，覺得現在 85 元打了八折「好划算」，卻忽略了趨勢已經反轉向下。";
+                mantra = "「新手死在追高，老手死在抄底。空頭趨勢中，現金是最好的部位。」";
+                conclusion = "● 盤勢定調：空方主跌段 (需避開)。\n● 操作核心：\n1. 持有者：反彈至 90 以上分批停損，保留資金。\n2. 空手者：刪除自選股，眼不見為淨，尋找其他剛起漲的 N 字型態個股。\n3. 紀律：承認錯誤是交易的一部分，留得青山在，不怕沒柴燒。";
+            } else if (isBreakout) {
+                psychology = "主力花費成本帶量攻過整數關卡，顯示其作價意願強烈。目前的拉抬是為了吸引市場目光，引發追價買盤以利推升股價，此時主力與散戶利益暫時一致。";
+                trap = "「懼高症」。散戶看到股價創高會害怕，想等回檔深一點再買，結果往往目送股價噴出，最後受不了在 1N 位置追高被套。";
+                mantra = "「突破第一根，寧可追錯，不能放過。買錯了有停損保護，錯過了就是目送獲利。」";
+                conclusion = "● 盤勢定調：多頭起漲確認 (N字第一波)。\n● 操作核心：\n1. 持有者：移動停利設在紅棒低點，不破不賣，讓利潤奔跑。\n2. 空手者：明日開盤市價建立部位，回測頸線是加碼禮物。\n3. 紀律：收盤若跌破突破低點，承認是假突破，果斷離場。";
+            } else if (status === 'RED' && !isBreakdown) {
+                if (isStrong) {
+                    psychology = "根據量價結構，主力正進行積極操作。現價穩站頸線與軋空低防守點，成交量放大顯示資金積極湧入而非震盪。主力的目的在於利用買盤壓力迫使空單回補，目前處於明確的「進貨拉抬階段」，並非出貨。";
+                    trap = "在強軋空行情中，新手最容易犯兩個錯：\n1. 過早下車：看到紅棒就想跑，結果賣在起漲點，錯失後面 5N 的大魚身。\n2. 預設高點：自己嚇自己，覺得「漲太多了」，結果股價越過高點繼續噴。";
+                    mantra = "「趨勢確立後，最大的風險不是下跌，而是你『不在車上』。守住防守點，死抱是功德。」";
+                    conclusion = "● 盤勢定調：目前處於「軋空主升段」，多方控盤力度極強。\n● 操作核心：\n1. 持有者：只要不破防守點，請將目標放遠至 5N，不要賺一點就跑。\n2. 空手者：明天若見「量增」且「價格過高」，可勇敢進場建立基本部位。\n3. 風險控制：嚴格執行停損指令，這條線是你的保命符。";
+                } else if (patternType.includes("軋空")) {
+                    psychology = "目前主力採取「穩健推升」策略，透過盤中震盪消化獲利了結賣壓。成交量溫和放大，顯示主力控盤穩定，意在清洗浮額而非拉高出貨。";
+                    trap = "散戶容易因盤中震盪而失去耐心，誤將主力洗盤視為轉弱訊號而提早離場。";
+                    mantra = "「買在分歧，抱在一致。」";
+                    conclusion = "● 盤勢定調：多方架構完整，屬於標準攻擊型態。\n● 操作核心：續抱，移動停損點至今日低點。";
+                } else {
+                    psychology = "主力目前進行防守型操作，雖未發動猛攻，但堅守關鍵支撐位。此階段多為蓄力期，測試下方買盤支撐力道。";
+                    trap = "容易陷入「不耐久盤」的心理，在發動攻擊前夕因無聊而賣出。";
+                    mantra = "「耐心是交易者的美德。」";
+                    conclusion = "● 盤勢定調：多方整理，等待放量攻擊訊號。";
+                }
+            } else {
+                  psychology = "多空不明或處於盤整區間，主力觀望意願濃厚，量能不足以發動攻擊。";
+                  trap = "容易在盤整區間內追高殺低，耗損資金與信心。";
+                  mantra = "「看不懂就休息，不交易也是一種交易。」";
+                  conclusion = "● 盤勢定調：盤整或空方抵抗。\n● 操作核心：等待明確突破訊號 (日出+過頸線) 再進場。";
+            }
+
+            const reportHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(一)、 主力心理透視</h5>
+                        <p>${psychology}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(二)、 散戶心理陷阱</h5>
+                        <p>${trap.replace(/\n/g, '<br>')}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(三)、 教練心法</h5>
+                        <p class="bg-indigo-50 p-2 rounded text-indigo-800 font-bold italic">${mantra}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-indigo-900 border-l-4 border-indigo-500 pl-2 mb-1">(四)、 石頭戰略結論 (客製化建議)</h5>
+                        <p>${conclusion.replace(/\n/g, '<br>')}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('aiContent').innerHTML = reportHTML;
+            aiReportContent = `(一)、 主力心理透視
+${psychology}
+(二)、 散戶心理陷阱
+${trap}
+(三)、 教練心法
+${mantra}
+(四)、 石頭戰略結論 (客製化建議)
+${conclusion}`;
+             
+             // Update base report for manual calc so it includes AI part
+             baseReportText += `\n\n【四、🧠 石頭戰略分析報告】\n${aiReportContent}`;
+        }
+
+        async function askGeminiStrategy(key, stockName, closePrice, status, todayVol, avgVol, high3d, breakoutLow, tacticalAdvice, target1, isBreakout, isBreakdown, isStrong) {
+            
+            let phaseDesc = status === 'RED' ? '多方 (持有/攻擊)' : '空方 (觀望/整理)';
+            if(isBreakout) phaseDesc = "多方攻擊 (剛突破前高)";
+            if(isBreakdown) phaseDesc = "空方殺多 (跌破防守點)";
+            if(isStrong) phaseDesc = "極強軋空 (噴出段)";
+
+            const promptText = `
+                你現在是精通「N字戰法」的資深操盤手教練。請根據以下數據，為使用者進行盤勢心理分析與操作建議。
+                
+                【當前數據】
+                股名：${stockName}
+                現價：${closePrice}
+                目前盤勢階段：${phaseDesc}
+                成交量：${todayVol} (均量: ${avgVol})
+                關鍵價位：頸線 ${high3d}, 軋空低防守點 ${breakoutLow}
+                系統判斷：${tacticalAdvice}
+                測幅目標：一飽 ${target1}
+
+                【任務要求】
+                請使用直白、不誇飾、具備高度資訊密度的繁體中文。
+                請嚴格依照以下格式輸出（不要有額外的開場白，直接輸出內容）：
+                
+                (一)、 主力心理透視
+                (內容：根據量價結構，推測主力是在進貨、洗盤還是出貨？)
+                (二)、 散戶心理陷阱
+                (內容：在當前這種盤勢下，新手最容易犯什麼錯？例如過早下車或預設高點？)
+                (三)、 教練心法
+                (內容：一句簡短有力、具有視覺化語言的操作格言)
+                (四)、 石頭戰略結論 (客製化建議)
+                (內容：請使用「第四點結論法」，條列式總結以下幾點：
+                ● 盤勢定調：(例如：處於軋空主升段)
+                ● 操作核心：
+                1. 持有者策略
+                2. 空手者策略
+                3. 風險控制 (強調防守點))
+            `;
+
+            try {
+                const responseText = await callGeminiAPI(key, promptText);
+                document.getElementById('aiLoading').classList.add('hidden');
+                aiReportContent = responseText;
+                const htmlContent = marked.parse(responseText);
+                document.getElementById('aiContent').innerHTML = htmlContent;
+                document.getElementById('aiAnalysisBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Update base report text for manual calc
+                baseReportText += `\n\n【四、🧠 石頭戰略分析報告】\n${aiReportContent}`;
+
+            } catch (error) {
+                document.getElementById('aiLoading').classList.add('hidden');
+                document.getElementById('aiContent').innerHTML = `<p class="text-red-500 font-bold">⚠️ 連線異常 (請檢查 Key): ${error.message} <br> <button onclick="generateLocalAnalysis(${isStrong}, '${patternType}', '${status}', ${isBreakout}, ${isBreakdown})" class="text-blue-500 underline mt-2">切換至內建邏輯庫</button></p>`;
+            }
+        }
+
+        async function callGeminiAPI(key, prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                if(response.status === 429) throw new Error("請求過於頻繁 (429)，請稍候再試");
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "無法取得分析結果。";
+        }
+    </script>
 </body>
 </html>
