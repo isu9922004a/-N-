@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N字戰法：三盤轉折判斷計算機 (V16.2 戰略版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V16.3 戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -86,7 +86,7 @@
         .ai-content th, .ai-content td { border: 1px solid #e2e8f0; padding: 0.5em; text-align: left; }
         .ai-content th { background-color: #f1f5f9; font-weight: bold; }
         
-        /* V16.2 Banner Style */
+        /* V16.3 Banner Style */
         .v16-badge {
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: #8B4513;
@@ -97,13 +97,24 @@
         /* Explicit hidden class for toggle */
         .hidden { display: none !important; }
     </style>
+    <script>
+        // Move toggle function to head to ensure availability
+        function toggleEncyclopedia() {
+            const content = document.getElementById('encyclopediaContent');
+            if (content) {
+                content.classList.toggle('hidden');
+            } else {
+                console.error("Encyclopedia content element not found!");
+            }
+        }
+    </script>
 </head>
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
 
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v16-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V16.2</span></h1>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v16-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V16.3</span></h1>
             <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x 實戰三問</p>
         </div>
 
@@ -582,17 +593,6 @@
     </div>
 
     <script>
-        // Move toggleEncyclopedia to global scope top
-        function toggleEncyclopedia() {
-            const content = document.getElementById('encyclopediaContent');
-            // Using tailwind hidden class or generic
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-            } else {
-                content.classList.add('hidden');
-            }
-        }
-
         const apiKey = ""; // Keep empty for local usage logic
         let baseReportText = "";
         let aiReportContent = "";
@@ -624,7 +624,7 @@
 
             let fullReport = baseReportText;
             if (aiReportContent) {
-                // Fixed: Ensure header is present when appending content
+                // FIXED: Explicitly add the header for the AI section
                 fullReport += `\n\n【四、🧠 石頭戰略分析報告】\n${aiReportContent}`;
             }
 
@@ -638,7 +638,7 @@
 
             const textarea = document.createElement('textarea');
             textarea.value = fullReport;
-            textarea.style.position = 'fixed'; 
+            textarea.style.position = 'fixed'; 
             textarea.style.bottom = '0';
             textarea.style.left = '0';
             textarea.style.width = '2em';
@@ -653,7 +653,7 @@
 
             if (navigator.userAgent.match(/ipad|iphone/i)) {
                 const range = document.createRange();
-                range.selectNodeContents(textarea); 
+                range.selectNodeContents(textarea); 
                 const selection = window.getSelection();
                 selection.removeAllRanges();
                 selection.addRange(range);
@@ -694,28 +694,28 @@
         }
 
         function simulate(type) {
-            clearInputs(false); 
-            currentSimulationType = type; 
+            clearInputs(false); 
+            currentSimulationType = type; 
 
             if (type === 'strong') {
                 document.getElementById('stockName').value = "模擬個股 (TEST)";
                 document.getElementById('high3d').value = 100;
-                document.getElementById('low3d').value = 90; 
+                document.getElementById('low3d').value = 90; 
                 document.getElementById('avgVol').value = 1000;
                 setStatus('RED');
                 document.getElementById('closePrice').value = 108;
-                document.getElementById('todayHigh').value = 108; 
-                document.getElementById('breakoutLow').value = 98; 
+                document.getElementById('todayHigh').value = 108; 
+                document.getElementById('breakoutLow').value = 98; 
                 document.getElementById('todayVol').value = 2000;
-                document.getElementById('prevClose').value = 100; 
+                document.getElementById('prevClose').value = 100; 
                 document.getElementById('todayLow').value = 105;
                 document.getElementById('prevLow').value = 98;
             } else if (type === 'break') {
                 document.getElementById('stockName').value = "模擬個股 (TEST)";
                 document.getElementById('high3d').value = 100;
-                document.getElementById('low3d').value = 90; 
+                document.getElementById('low3d').value = 90; 
                 document.getElementById('avgVol').value = 1000;
-                setStatus('GREEN'); 
+                setStatus('GREEN'); 
                 document.getElementById('closePrice').value = 103;
                 document.getElementById('todayHigh').value = 103;
                 document.getElementById('breakoutLow').value = 100;
@@ -723,20 +723,20 @@
             } else if (type === 'crash') {
                 document.getElementById('stockName').value = "模擬個股 (TEST)";
                 document.getElementById('high3d').value = 100;
-                document.getElementById('low3d').value = 90; 
+                document.getElementById('low3d').value = 90; 
                 document.getElementById('avgVol').value = 1000;
-                setStatus('RED'); 
-                document.getElementById('closePrice').value = 85; 
+                setStatus('RED'); 
+                document.getElementById('closePrice').value = 85; 
                 document.getElementById('todayHigh').value = 92;
-                document.getElementById('breakoutLow').value = 95; 
+                document.getElementById('breakoutLow').value = 95; 
                 document.getElementById('todayVol').value = 3000;
             } else if (type === 'flat') {
                 document.getElementById('stockName').value = "模擬個股 (TEST)";
                 document.getElementById('high3d').value = 100;
-                document.getElementById('low3d').value = 90; 
+                document.getElementById('low3d').value = 90; 
                 document.getElementById('avgVol').value = 1000;
                 setStatus('GREEN');
-                document.getElementById('closePrice').value = 98; 
+                document.getElementById('closePrice').value = 98; 
                 document.getElementById('todayHigh').value = 99;
                 document.getElementById('breakoutLow').value = 95;
                 document.getElementById('todayVol').value = 600;
@@ -773,8 +773,8 @@
             adviceBox.classList.add('hidden');
             document.getElementById('aiAnalysisBox').classList.add('hidden');
             document.getElementById('aiContent').innerHTML = '';
-            aiReportContent = ""; 
-            currentSimulationType = null; 
+            aiReportContent = ""; 
+            currentSimulationType = null; 
             if(hideResult) document.getElementById('resultArea').classList.add('hidden');
             setStatus('GREEN');
             if(hideResult) window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -813,10 +813,10 @@
             const stockName = document.getElementById('stockName').value || "未輸入股名";
             const status = document.getElementById('currentStatus').value;
             const close = parseFloat(document.getElementById('closePrice').value);
-            const todayH = parseFloat(document.getElementById('todayHigh').value); 
-            const high3d = parseFloat(document.getElementById('high3d').value); 
-            const L = parseFloat(document.getElementById('low3d').value);    
-            const breakoutLow = parseFloat(document.getElementById('breakoutLow').value); 
+            const todayH = parseFloat(document.getElementById('todayHigh').value); 
+            const high3d = parseFloat(document.getElementById('high3d').value); 
+            const L = parseFloat(document.getElementById('low3d').value);    
+            const breakoutLow = parseFloat(document.getElementById('breakoutLow').value); 
             const todayVol = parseFloat(document.getElementById('todayVol').value);
             const avgVol = parseFloat(document.getElementById('avgVol').value);
             const isFullSell = Array.from(checkboxes).every(c => c.checked);
@@ -833,12 +833,12 @@
             if (isNaN(L)) { document.getElementById('low3d').classList.add('input-error'); errorMsg += "- 請輸入前三低\n"; hasError = true; }
             if (hasError) { alert(errorMsg); return; }
 
-            let h2 = isNaN(todayH) ? close : todayH; 
+            let h2 = isNaN(todayH) ? close : todayH; 
             if(h2 < close) h2 = close;
             const gap = h2 - L;
             let target1 = 0, target2 = 0, target5 = 0;
             let isTargetValid = true;
-            if (!isNaN(breakoutLow) && close < breakoutLow) isTargetValid = false; 
+            if (!isNaN(breakoutLow) && close < breakoutLow) isTargetValid = false; 
 
             if (gap > 0) {
                 target1 = h2 + gap;
@@ -876,7 +876,7 @@
 
             if (status === 'RED') {
                 if (close < L) {
-                    isBreakdown = true; 
+                    isBreakdown = true; 
                     determinedType = 'crash';
                 } else {
                     if (!isNaN(prevClose) && !isNaN(todayLow) && !isNaN(prevLow)) {
@@ -888,7 +888,7 @@
                             // Actually 'breakout' is usually Day 1.
                             // If status is RED (Holding), it might be strong or breakout.
                             // Let's use Strong template for Holding RED.
-                            determinedType = 'strong'; 
+                            determinedType = 'strong'; 
                         } else {
                             // Accumulation / Pan-Jian
                             determinedType = 'flat'; // Or a separate 'accumulation' type if we had one
@@ -901,7 +901,7 @@
                         }
                     }
                 }
-            } 
+            } 
             
             if (isBreakdown || (status === 'RED' && close < L) || (status === 'GREEN' && close < L)) {
                   isBreakdown = true;
@@ -909,7 +909,7 @@
             }
 
             if (status === 'GREEN' && close > high3d) {
-                isBreakout = true; 
+                isBreakout = true; 
                 determinedType = 'break';
             } else if (status === 'GREEN' && !isBreakout && !isBreakdown) {
                 determinedType = 'flat';
@@ -932,10 +932,10 @@
              // Get values directly from inputs to make it dynamic (floating)
              const stockName = document.getElementById('stockName').value || "模擬個股";
              const close = parseFloat(document.getElementById('closePrice').value);
-             const todayH = parseFloat(document.getElementById('todayHigh').value); 
-             const high3d = parseFloat(document.getElementById('high3d').value); 
-             const L = parseFloat(document.getElementById('low3d').value);    
-             const breakoutLow = parseFloat(document.getElementById('breakoutLow').value); 
+             const todayH = parseFloat(document.getElementById('todayHigh').value); 
+             const high3d = parseFloat(document.getElementById('high3d').value); 
+             const L = parseFloat(document.getElementById('low3d').value);    
+             const breakoutLow = parseFloat(document.getElementById('breakoutLow').value); 
              const avgVol = parseFloat(document.getElementById('avgVol').value);
              
              // Calculations for dynamic text
@@ -977,7 +977,7 @@
 禁止跨模組混用指令
 ⚠️ 本模組僅在盤勢屬於【模擬極強】階段且結構不破軋空低點時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.2
+N 字戰法指揮中心 by.石頭 V16.3
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1046,7 +1046,7 @@ N 字戰法指揮中心 by.石頭 V16.2
 連續兩日量增，但高點停滯： 連續兩日量增（>${fN(v_break)} 張）但高點推不動 → 降級。
 跌破結構防守點： 收盤跌破 ${fP(breakoutLow)} → 必須減碼。`;
 
-                v16AIReport = `(一) 主力心理透視： 主力仍處於拉抬主升段，但會透過震盪與洗盤測試市場耐心。
+                v16AIReport = `(一) 主力心理透視： 主力仍處於拉抬主升段，但會透過震盪與洗盤測試市場耐心。
 (二) 散戶心理陷阱： 過早獲利了結；把「極強盤」當成永遠不會結束的信仰。
 (三) 教練心法： 「死抱是紀律，不是信仰；抱的是趨勢，不是幻想。」
 (四) 石頭戰略結論：
@@ -1056,17 +1056,17 @@ N 字戰法指揮中心 by.石頭 V16.2
 動能鈍化 → 降
 模組切換 → 全面重新評估`;
 
-             } else if (type === 'break') {
-                rTitleText = "🔥 三盤突破 (翻紅)";
-                rActionText = "積極進場";
-                rBoxClass = "bg-red-50 border-red-500";
-                rTitleClass = "text-xl font-bold text-red-600";
-                rActionClass = "text-2xl font-black text-red-700 border-b border-red-200 pb-2 mb-2";
-                rIconText = "🚀";
-                rTrendText = "🚀 突破頸線 (N字起點)";
-                rVolText = "帶量突破 (Day 1)";
+             } else if (type === 'break') {
+                rTitleText = "🔥 三盤突破 (翻紅)";
+                rActionText = "積極進場";
+                rBoxClass = "bg-red-50 border-red-500";
+                rTitleClass = "text-xl font-bold text-red-600";
+                rActionClass = "text-2xl font-black text-red-700 border-b border-red-200 pb-2 mb-2";
+                rIconText = "🚀";
+                rTrendText = "🚀 突破頸線 (N字起點)";
+                rVolText = "帶量突破 (Day 1)";
 
-                v16BaseReport = `2. 【模擬突破】(起漲第一天)
+                v16BaseReport = `2. 【模擬突破】(起漲第一天)
 ⚠️ 模組切換原則：
 「突破 → 極強」需滿足連續攻擊量與結構不破
 「極強 → 盤整」以量大不漲 / 動能鈍化為判準
@@ -1074,7 +1074,7 @@ N 字戰法指揮中心 by.石頭 V16.2
 禁止跨模組混用指令
 ⚠️ 本模組僅在股價帶量突破頸線且突破確認成立時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.2
+N 字戰法指揮中心 by.石頭 V16.3
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1130,28 +1130,28 @@ N 字戰法指揮中心 by.石頭 V16.2
 停損點： 收盤跌破 ${fP(breakoutLow)} → 無條件停損出場。
 盤中回測情況： 盤中回測區間 (${fP(breakoutLow)}~102，約突破價 ±1%) → 視為健康回測，暫不動作。`;
 
-                v16AIReport = `(一) 主力心理透視： 主力剛花錢吃掉頸線賣壓，成本就在這附近。現在進場是「跟著主力成本一起跑」。
+                v16AIReport = `(一) 主力心理透視： 主力剛花錢吃掉頸線賣壓，成本就在這附近。現在進場是「跟著主力成本一起跑」。
 (二) 散戶心理陷阱： 猶豫不決，想等「拉回再買」，結果股價一去不回頭。
 (三) 教練心法： 「第一根突破不買，後面你就買不下手了。寧可買錯停損，不可錯過飆股。」
 (四) 石頭戰略結論：
 ● 盤勢定調： 趨勢反轉確認 (由盤整轉多)。
 🎯 核心策略： 大膽建立部位，嚴格設定停損。`;
 
-             } else if (type === 'flat') {
-                rTitleText = "💤 盤整延續";
-                rActionText = "觀望 / 空手";
-                rBoxClass = "bg-green-50 border-green-500";
-                rTitleClass = "text-xl font-bold text-green-700";
-                rActionClass = "text-2xl font-black text-green-800 border-b border-green-200 pb-2 mb-2";
-                rIconText = "🐢";
-                rTrendText = "💤 箱型震盪 (方向未明)";
-                rVolText = "量縮整理 (人氣退潮)";
+             } else if (type === 'flat') {
+                rTitleText = "💤 盤整延續";
+                rActionText = "觀望 / 空手";
+                rBoxClass = "bg-green-50 border-green-500";
+                rTitleClass = "text-xl font-bold text-green-700";
+                rActionClass = "text-2xl font-black text-green-800 border-b border-green-200 pb-2 mb-2";
+                rIconText = "🐢";
+                rTrendText = "💤 箱型震盪 (方向未明)";
+                rVolText = "量縮整理 (人氣退潮)";
 
-                // Use high3d as box top, breakoutLow as box bottom if present, else fallback
-                const boxTop = isNaN(high3d) ? close * 1.05 : high3d;
-                const boxBottom = isNaN(breakoutLow) ? close * 0.95 : breakoutLow;
+                // Use high3d as box top, breakoutLow as box bottom if present, else fallback
+                const boxTop = isNaN(high3d) ? close * 1.05 : high3d;
+                const boxBottom = isNaN(breakoutLow) ? close * 0.95 : breakoutLow;
 
-                v16BaseReport = `3. 【模擬盤整】(觀望等待)
+                v16BaseReport = `3. 【模擬盤整】(觀望等待)
 ⚠️ 模組切換原則：
 「突破 → 極強」需滿足連續攻擊量與結構不破
 「極強 → 盤整」以量大不漲 / 動能鈍化為判準
@@ -1159,7 +1159,7 @@ N 字戰法指揮中心 by.石頭 V16.2
 禁止跨模組混用指令
 ⚠️ 本模組僅在股價處於箱型震盪、方向未明、且未帶量突破關鍵價位時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.2
+N 字戰法指揮中心 by.石頭 V16.3
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1200,7 +1200,7 @@ N 字戰法指揮中心 by.石頭 V16.2
 ⚠️ 特別說明：帶量破底 (>${fN(Math.round(avgVol * 1.2))} 張) 為絕對出場點；若無量跌破箱底 (<${fN(Math.round(avgVol * 1.2))} 張)，雖暫不一定立即停損，但視為趨勢轉弱警訊，需減持觀望。
 ⚠️ 實戰灰色地帶補強 (SOP 外的應變)
 箱頂附近的灰色誘惑：
-狀況： 價格來到 ${fP(boxTop)}附近，但量能只有 800~1,000 張（未達攻擊量）。
+狀況： 價格來到 ${fP(boxTop)}附近，但量能只有 ${fN(v_wash)}~${fN(avgVol)} 張（未達攻擊量）。
 應變： 不要偷跑。必須嚴格遵守「量突破 ${fN(v_break)} 且 價格確認站上 ${fP(boxTop)}」才能進場。
 【三、📌盤整操作策略專屬明日實戰・關鍵三問】
 ❓ Q1：現在價格好便宜，我能不能先買起來放？
@@ -1211,31 +1211,31 @@ N 字戰法指揮中心 by.石頭 V16.2
 ❓ Q3：成交量越來越少，是不是沒人玩了？
 💡 解讀： 量縮其實是好事，代表籌碼沉澱。「極致量縮」往往是變盤的前兆。`;
 
-                v16AIReport = `(一) 主力心理透視： 主力正在吸納籌碼，透過長時間的磨盤，讓沒耐心的散戶離場。
+                v16AIReport = `(一) 主力心理透視： 主力正在吸納籌碼，透過長時間的磨盤，讓沒耐心的散戶離場。
 (二) 散戶心理陷阱： 耐不住寂寞隨意進場，結果被雙巴（追高殺低）。
 (三) 教練心法： 「獵人最重要不是槍法，是等待獵物出現的耐心。看不懂就休息，現金為王。」
 (四) 石頭戰略結論：
 ● 盤勢定調： 籌碼沉澱期。
 🎯 核心策略： 設好「價格警示」(${fP(boxTop)}元)，響了再來看。`;
 
-             } else if (type === 'crash') {
-                rTitleText = "⚠️ 三盤跌破";
-                rActionText = "停損 / 反手放空";
-                rBoxClass = "bg-green-100 border-green-600";
-                rTitleClass = "text-xl font-bold text-green-900";
-                rActionClass = "text-2xl font-black text-green-900 underline border-b border-green-300 pb-2 mb-2";
-                rIconText = "📉";
-                rTrendText = "📉 頭部完成 (空方趨勢)";
-                rVolText = "帶量下殺 (主力出貨)";
+             } else if (type === 'crash') {
+                rTitleText = "⚠️ 三盤跌破";
+                rActionText = "停損 / 反手放空";
+                rBoxClass = "bg-green-100 border-green-600";
+                rTitleClass = "text-xl font-bold text-green-900";
+                rActionClass = "text-2xl font-black text-green-900 underline border-b border-green-300 pb-2 mb-2";
+                rIconText = "📉";
+                rTrendText = "📉 頭部完成 (空方趨勢)";
+                rVolText = "帶量下殺 (主力出貨)";
 
-                const drop20 = (close * 0.8).toFixed(2);
-                // In simulation inputs, breakoutLow is used as pressure
-                const pressure = isNaN(breakoutLow) ? close * 1.05 : breakoutLow;
-                // Use todayHigh as h2 in crash simulation logic if available
-                const crash_h2 = todayH;
-                const down_target = L - (todayH - L); // Basic measured move
+                const drop20 = (close * 0.8).toFixed(2);
+                // In simulation inputs, breakoutLow is used as pressure
+                const pressure = isNaN(breakoutLow) ? close * 1.05 : breakoutLow;
+                // Use todayHigh as h2 in crash simulation logic if available
+                const crash_h2 = todayH;
+                const down_target = L - (todayH - L); // Basic measured move
 
-                v16BaseReport = `4. 【模擬大跌】(空方崩盤)
+                v16BaseReport = `4. 【模擬大跌】(空方崩盤)
 ⚠️ 模組切換原則：
 「突破 → 極強」需滿足連續攻擊量與結構不破
 「極強 → 盤整」以量大不漲 / 動能鈍化為判準
@@ -1243,7 +1243,7 @@ N 字戰法指揮中心 by.石頭 V16.2
 禁止跨模組混用指令
 ⚠️ 本模組僅在股價結構已壞、空方趨勢確認、且主力出貨帶量下殺時適用
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
-N 字戰法指揮中心 by.石頭 V16.2
+N 字戰法指揮中心 by.石頭 V16.3
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 股名：${stockName}
 【一、個股現況分析】
@@ -1295,46 +1295,46 @@ N 字戰法指揮中心 by.石頭 V16.2
 ❌ 迷思： 紅盤 ≠ 止跌。
 關鍵判斷： 若股價仍 < ${fP(pressure)} → 只是死貓跳，空頭趨勢未改。`;
 
-                v16AIReport = `(一) 主力心理透視： 主力早已在高檔出貨完畢，現在是讓散戶互相踩踏。
+                v16AIReport = `(一) 主力心理透視： 主力早已在高檔出貨完畢，現在是讓散戶互相踩踏。
 (二) 散戶心理陷阱： 不甘心虧損，患得患失。
 (三) 教練心法： 「留得青山在，不怕沒柴燒。截斷虧損，讓利潤奔跑。」
 (四) 石頭戰略結論：
 ● 盤勢定調： 空方主跌段。
 🎯 核心策略： 只出不進，甚至反手做空。嚴禁抄底。`;
-             }
+             }
 
-             // Update UI
-             resultBox.className = `p-5 rounded-xl border-l-8 shadow-md relative overflow-hidden ${rBoxClass}`;
-             document.getElementById('stockBadge').innerText = stockName;
-             document.getElementById('resultTitle').innerText = rTitleText;
-             document.getElementById('resultTitle').className = rTitleClass;
-             document.getElementById('resultAction').innerText = rActionText;
-             document.getElementById('resultAction').className = rActionClass;
-             document.getElementById('resultIcon').innerText = rIconText;
-             document.getElementById('trendTag').innerText = rTrendText;
-             document.getElementById('trendTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"; 
-             document.getElementById('volTag').innerText = rVolText;
-             document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
-             document.getElementById('patternTag').classList.add('hidden'); // Hide for custom V16 sim
-             document.getElementById('inferenceBox').classList.add('hidden'); // Content already in V16 text
-             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V16.2 戰略報告。";
-             
-             // Hide specific calc parts as they are in text
-             document.getElementById('targetBox').classList.add('hidden');
+             // Update UI
+             resultBox.className = `p-5 rounded-xl border-l-8 shadow-md relative overflow-hidden ${rBoxClass}`;
+             document.getElementById('stockBadge').innerText = stockName;
+             document.getElementById('resultTitle').innerText = rTitleText;
+             document.getElementById('resultTitle').className = rTitleClass;
+             document.getElementById('resultAction').innerText = rActionText;
+             document.getElementById('resultAction').className = rActionClass;
+             document.getElementById('resultIcon').innerText = rIconText;
+             document.getElementById('trendTag').innerText = rTrendText;
+             document.getElementById('trendTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"; 
+             document.getElementById('volTag').innerText = rVolText;
+             document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
+             document.getElementById('patternTag').classList.add('hidden'); // Hide for custom V16 sim
+             document.getElementById('inferenceBox').classList.add('hidden'); // Content already in V16 text
+             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V16.3 戰略報告。";
+             
+             // Hide specific calc parts as they are in text
+             document.getElementById('targetBox').classList.add('hidden');
 
-             // Render AI Part
-             document.getElementById('aiAnalysisBox').classList.remove('hidden');
-             document.getElementById('aiLoading').classList.add('hidden');
-             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V16.2 分析報告`;
-             
-             // Parse Markdown for AI Report
-             const htmlContent = marked.parse(v16AIReport);
-             document.getElementById('aiContent').innerHTML = htmlContent;
+             // Render AI Part
+             document.getElementById('aiAnalysisBox').classList.remove('hidden');
+             document.getElementById('aiLoading').classList.add('hidden');
+             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V16.3 分析報告`;
+             
+             // Parse Markdown for AI Report
+             const htmlContent = marked.parse(v16AIReport);
+             document.getElementById('aiContent').innerHTML = htmlContent;
 
-             // Set Base Report Text for Copy
-             baseReportText = v16BaseReport;
-             aiReportContent = v16AIReport; // For appending later
-        }
-    </script>
+             // Set Base Report Text for Copy
+             baseReportText = v16BaseReport;
+             aiReportContent = v16AIReport; // For appending later
+        }
+    </script>
 </body>
 </html>
