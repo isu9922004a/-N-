@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N字戰法：三盤轉折判斷計算機 (V17.3 戰略版)</title>
+    <title>N字戰法：三盤轉折判斷計算機 (V18.2 戰略版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -86,23 +86,28 @@
         .ai-content th, .ai-content td { border: 1px solid #e2e8f0; padding: 0.5em; text-align: left; }
         .ai-content th { background-color: #f1f5f9; font-weight: bold; }
         
-        /* V17.3 Banner Style */
-        .v17-badge {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #8B4513;
-            text-shadow: 0px 1px 0px rgba(255,255,255,0.4);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        /* V18.2 Banner Style */
+        .v18-badge {
+            background: linear-gradient(135deg, #000000 0%, #434343 100%);
+            color: #FFD700;
+            text-shadow: 0px 1px 0px rgba(255,255,255,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            border: 1px solid #FFD700;
         }
         
         /* Explicit hidden class for toggle */
         .hidden { display: none !important; }
     </style>
     <script>
-        // Move toggle function to head to ensure availability
+        // Ensure toggle function is globally available
         function toggleEncyclopedia() {
             const content = document.getElementById('encyclopediaContent');
             if (content) {
-                content.classList.toggle('hidden');
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
             } else {
                 console.error("Encyclopedia content element not found!");
             }
@@ -114,8 +119,8 @@
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <!-- Header -->
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v17-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V17.3</span></h1>
-            <p class="text-xs text-slate-400 mt-1">量能劇本 x 盤態判讀 x 實戰三問</p>
+            <h1 class="text-2xl font-black tracking-wider">N字戰法指揮中心 by.石頭 <span class="v18-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V18.2</span></h1>
+            <p class="text-xs text-slate-400 mt-1">主控盤態 x 高低折線 x 三分力道</p>
         </div>
 
         <!-- 戰法百科全書 (Accordion Menu) -->
@@ -134,8 +139,8 @@
                         <span class="text-indigo-500 transition-transform group-open:rotate-180">▼</span>
                     </summary>
                     <div class="p-3 text-xs text-slate-700 bg-white space-y-2">
-                        <p><span class="font-bold text-red-600">● 末升低 (Last Rising Low)：</span>多頭創高波段的「起漲點」。<br>邏輯：守住末升低=多頭，跌破=趨勢破壞。</p>
-                        <p><span class="font-bold text-green-600">● 末跌高 (Last Falling High)：</span>空頭創低波段的「起跌點」。<br>邏輯：突破末跌高=空翻多。</p>
+                        <p><span class="font-bold text-red-600">● 末升低 (Last Rising Low)：</span>多頭趨勢中，最後一波上漲的「起漲點」。<br><strong>意義：</strong>多頭最後防線。跌破 = 多翻空。</p>
+                        <p><span class="font-bold text-green-600">● 末跌高 (Last Falling High)：</span>空頭趨勢中，最後一次反彈的「起跌點」。<br><strong>意義：</strong>空頭最後防線。突破 = 空翻多。</p>
                     </div>
                 </details>
 
@@ -260,9 +265,10 @@
                     <div class="p-3 text-xs text-slate-700 bg-white space-y-2">
                         <p>參數：<span class="font-bold text-red-600">h2 (今日最高)</span>，<span class="font-bold text-green-600">L (前三低)</span></p>
                         <div class="bg-green-50 p-2 rounded border border-green-100 font-mono">
-                            <p>● <span class="font-bold">一飽 (1N)：</span> h2 × 2 - L (基本滿足)</p>
+                            <p>● <span class="font-bold">一飽 (1N)：</span> h2 × 2 - L (V測距/翻箱)</p>
                             <p>● <span class="font-bold">二吐 (2N)：</span> 一飽 + (h2 - L) (強勢飆股)</p>
                             <p>● <span class="font-bold">五倍 (5x)：</span> h2 + 5 × (h2 - L) (摺疊翻箱)</p>
+                            <p class="text-[10px] text-slate-500 mt-1 italic">註：系統採用主控盤 V 測距算法，比傳統 N 測距 (CD=AB) 更具攻擊性，專抓噴出段。</p>
                         </div>
                     </div>
                 </details>
@@ -391,7 +397,7 @@
                     </div>
                 </details>
                 
-                <!-- NEW: N字戰法心法 (PPT Translation) -->
+                <!-- NEW: N字戰法心法 (Newbie Friendly) -->
                 <details class="group border border-pink-200 rounded overflow-hidden">
                     <summary class="flex justify-between items-center font-bold text-pink-800 bg-pink-50 p-3">
                         <span>12. 觀念篇：N字戰法心法邏輯說明 (新手白話版)</span>
@@ -399,67 +405,104 @@
                     </summary>
                     <div class="p-3 text-xs text-slate-700 bg-white space-y-3">
                         <div class="bg-slate-50 p-2 rounded border border-slate-200">
-                             <p class="font-bold text-slate-800 mb-1">【新手終極版】跟著主力畫圖：小白也能懂的「N字戰法」</p>
-                             
-                             <p class="font-bold text-slate-700 mt-2">一、 什麼是「N字理論」？</p>
-                             <p class="mb-1">想像你在寫英文字母的 "N"。股價的走勢，其實就是無數個 "N" 連接起來的。</p>
+                             <p class="font-bold text-slate-800 mb-1">一、 什麼是「N字理論」？</p>
+                             <p class="mb-2">想像一個人在跳高，他必須先「蹲下」累積能量，然後才能「跳起來」。股價也是一樣，上漲（跳起）之後，通常會回檔（蹲下），只要沒跌破起漲點（地板），下一次就能跳得更高！這個「上 -> 下 -> 上」的過程，畫出來就像英文字母 "N"。</p>
                              <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
-                                <li><strong>第一筆（攻擊）：</strong> 股價用力上漲（主力買進）。</li>
-                                <li><strong>第二筆（休息）：</strong> 股價下跌回檔（主力洗盤，把信心不足的人洗出去）。</li>
-                                <li><strong>第三筆（再攻擊）：</strong> 股價再次上漲，並且衝過第一筆的高點。</li>
+                                <li><strong>實過 (Solid Pass)：</strong> 收盤價 > 前波高點收盤價。代表真突破。</li>
+                                <li><strong>虛過 (Virtual Pass)：</strong> 盤中最高價 > 前波高點。僅是刺探，不算真突破。</li>
+                                <li><strong>N字成立：</strong> 必須同時滿足「實過」與「虛過」。</li>
                              </ul>
                              <p class="bg-yellow-50 p-1 rounded mt-1 border border-yellow-200"><strong>💡 小白金句：</strong> 只有當股價走出「N」字形，衝過前波高點，才代表主力是真的要拉抬這檔股票！</p>
+                        </div>
 
-                             <p class="font-bold text-slate-700 mt-3">二、 為什麼主力要畫「N」？（背後的心理學）</p>
-                             <p class="mb-1">主力手上有幾億資金，他不能像我們一樣想買就買。他的劇本通常是這樣：</p>
+                        <div class="bg-slate-50 p-2 rounded border border-slate-200">
+                             <p class="font-bold text-slate-800 mb-1">二、 一飽二吐 (目標測量法)</p>
+                             <p class="mb-2">這是預測股價會漲到哪裡的口訣。</p>
                              <ul class="list-decimal list-inside pl-1 text-slate-600 space-y-1">
-                                <li><strong>第一段（漲）：</strong> 主力試探性買進，股價拉高。這時候散戶還在觀望。</li>
-                                <li><strong>第二段（跌）：</strong> 主力故意不買了，甚至賣一點點。這時候股價下跌，膽小的散戶會以為「漲完了」趕快賣出。這就是所謂的<strong>「洗盤」</strong>！主力要把不堅定的籌碼洗掉，車子變輕了才好拉。</li>
-                                <li><strong>第三段（漲）：</strong> 當散戶賣得差不多了，主力突然發力，一口氣買上去，突破前波高點。這時候散戶才發現「賣錯了」，想追回來，股價就噴出了。</li>
+                                <li><strong>一飽 (1-Sat)：</strong> 基礎目標。公式：<code>1N = 突破點 + (第一波漲幅)</code>。</li>
+                                <li><strong>二吐 (2-Spit)：</strong> 進階目標。公式：<code>2N = 突破點 + (第一波漲幅 x 2)</code>。</li>
                              </ul>
-
-                             <p class="font-bold text-slate-700 mt-3">三、 N字戰法的四個關鍵點</p>
+                             <p class="text-slate-500 mt-1 italic">註：本計算機使用的 V測距 (h2 * 2 - L) 是一種更強勢的「一飽」變形，專門針對主力鎖碼股設計。</p>
+                        </div>
+                        
+                        <div class="bg-slate-50 p-2 rounded border border-slate-200">
+                             <p class="font-bold text-slate-800 mb-1">三、 實戰操作心法</p>
                              <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
-                                <li><strong>A點（起漲點）：</strong> 股價開始起飛的地方。</li>
-                                <li><strong>B點（前波高點）：</strong> 第一波漲到的最高點。</li>
-                                <li><strong>C點（回檔低點）：</strong> 股價休息回調到的最低點。</li>
-                                <li class="text-red-600"><strong>🔥 重要規則：</strong> C點絕對不能跌破A點！ 如果跌破A點，代表主力棄守了，這不是N字，是個爛股票。</li>
-                                <li><strong>D點（突破點）：</strong> 股價再次上漲，穿越B點價格的那一瞬間。</li>
+                                <li><strong>買點：</strong> 突破 B 點 (前高) 時，或回測 C 點 (軋空低) 不破時。</li>
+                                <li><strong>賣點：</strong> 跌破 C 點 (軋空低/關鍵紅棒低點)。</li>
+                                <li><strong>倒N字：</strong> 若出現倒著寫的 N (跌破前低)，代表空頭來襲，快逃！</li>
                              </ul>
-
-                             <p class="font-bold text-slate-700 mt-3">四、 小白怎麼買？（操作 SOP）</p>
-                             <p class="mb-1">不要去猜股價最低點在哪，我們要做的是「確認主力意圖」。</p>
-                             <ol class="list-decimal list-inside pl-1 text-slate-600 space-y-2">
-                                <li><strong>買點在哪裡？</strong>
-                                    <ul class="list-disc list-inside pl-4 mt-1">
-                                        <li><strong>最安全買點（D點突破）：</strong> 當股價正式突破 B點（前波高點） 時。這代表「N字」正式寫完，主力宣告：「休息結束，我要進攻下一波了！」這時候上車，勝率最高。</li>
-                                        <li><strong>高手潛伏點（C點附近）：</strong> 當股價回檔休息，沒有跌破 A 點，且開始出現紅K棒止跌時。這適合心臟大顆一點的人，成本較低，但有失敗風險。</li>
-                                    </ul>
-                                </li>
-                                <li><strong>賣點（目標價）怎麼算？</strong>
-                                    <p class="pl-4 mt-1">公式很簡單：「跌多深，漲多高」 或 「第一波漲多少，第三波就漲多少」（1:1 等幅測量）。<br>
-                                    例如：第一波漲5元，回檔休息後，下一波目標大約就是再漲5元。</p>
-                                </li>
-                                <li><strong>什麼時候要逃命（停損）？</strong>
-                                    <p class="pl-4 mt-1 text-red-600 font-bold">動作： 立刻賣出，不要猶豫。</p>
-                                    <p class="pl-4">理由： 如果買進後，股價沒有往上衝，反而跌破了 C點（回檔低點），甚至跌破了「突破那根長紅棒的低點」。代表「N字失敗」，主力可能已經跑了。</p>
-                                </li>
-                             </ol>
-
-                             <p class="font-bold text-slate-700 mt-3">五、 進階：小心「倒N字」（空頭信號）</p>
-                             <p class="mb-1">股市不只會漲，也會跌。跌勢就是「倒著寫的N」。</p>
+                        </div>
+                        <div class="mt-4 border-t border-slate-200 pt-2">
+                                <p class="font-bold text-slate-700 mb-2">▼ 空頭反轉型態參考圖 (Bearish Patterns) ▼</p>
+                                <img src="bearish_pattern.jpg" alt="請將您的圖片命名為 bearish_pattern.jpg 並與此網頁放在同一資料夾，即可顯示圖片" class="w-full rounded shadow-sm border border-slate-200" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';this.alt='圖片無法載入'">
+                                <p class="text-[10px] text-gray-500 mt-1">※ 若無法顯示，請將圖片檔案命名為 <code>bearish_pattern.jpg</code> 並放在與本網頁相同的資料夾中。</p>
+                            </div>
+                    </div>
+                </details>
+                
+                <!-- NEW: 第 13 篇：主控盤態精華 (V17.5 新增) -->
+                 <details class="group border border-purple-200 rounded overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold text-purple-800 bg-purple-50 p-3">
+                        <span>13. 實戰篇：主控盤態精華 (V17.5 核心筆記)</span>
+                        <span class="text-purple-500 transition-transform group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="p-3 text-xs text-slate-700 bg-white space-y-3">
+                         <!-- 1. 突破與空頭抵抗 -->
+                        <div class="bg-purple-50 p-2 rounded border border-purple-200">
+                             <p class="font-bold text-purple-900 mb-1 border-b border-purple-200 pb-1">1. 突破與空頭抵抗 (Breakout Resistance)</p>
+                             <p class="mb-1 text-slate-600">當股價突破前高(N字頸線)後，次日通常會出現「開高走低」或「避雷針」，這是前波解套賣壓造成的正常現象。</p>
                              <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
-                                <li><strong>倒N字劇本：</strong> 下跌（A→B） → 反彈（B→C） → 跌破前低（突破B點往下殺）。</li>
-                                <li class="text-green-700 font-bold"><strong>小白警告：</strong> 一旦看到股價走出「倒N字」，並且跌破前波低點，手上有股票要快逃，千萬不要去接刀子！</li>
+                                <li><strong>標準形態：</strong> 長紅突破 -> 次日避雷針 (佔70%)。</li>
+                                <li><strong>軋空低取值：</strong> 取「實低」(當日最低) 與 「虛低」(跳空時取昨收) 之<strong>最低者</strong>作為防守點。</li>
+                                <li><strong>抵抗成功：</strong> 若股價拉回不破軋空低，且後續再創新高，代表換手成功，多頭續攻。</li>
                              </ul>
+                        </div>
 
-                             <p class="font-bold text-slate-700 mt-3">六、 總結：給小白的 3 個建議</p>
-                             <ol class="list-decimal list-inside pl-1 text-slate-600 space-y-1">
-                                <li><strong>不要追在第一波：</strong> 看到急漲不要興奮，那是給主力表演的。</li>
-                                <li><strong>耐心等回檔：</strong> 等股價休息（走N字的中間那筆），確認沒死（沒破底），才是你的機會。</li>
-                                <li><strong>突破才加碼：</strong> 看到股價衝過前波高點（完成N字），確認趨勢成立，這時候才是賺大錢的開始。</li>
-                             </ol>
-                             <p class="bg-indigo-50 p-2 rounded mt-2 border border-indigo-200 text-center font-bold text-indigo-900">這份 PPT 的精髓就是告訴你：交易不是靠運氣，而是靠辨識圖形。看懂 N 字，你就看懂了漲跌的節奏。</p>
+                         <!-- 2. 跌破與多頭抵抗 -->
+                        <div class="bg-green-50 p-2 rounded border border-green-200">
+                             <p class="font-bold text-green-900 mb-1 border-b border-green-200 pb-1">2. 跌破與多頭抵抗 (Support Failure)</p>
+                             <p class="mb-1 text-slate-600">當股價跌破關鍵支撐後，次日出現下影線或紅K試圖反彈，稱為多頭抵抗。</p>
+                             <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>殺多高取值：</strong> 取「實高」(當日最高) 與 「虛高」(跳空時取昨收) 之<strong>最高者</strong>作為壓力點。</li>
+                                <li><strong>抵抗失敗：</strong> 若反彈無法站回「殺多高」，或直接再破底，確認空頭趨勢，應立即停損或放空。</li>
+                             </ul>
+                        </div>
+
+                        <!-- 3. 連續突破 -->
+                        <div class="bg-blue-50 p-2 rounded border border-blue-200">
+                             <p class="font-bold text-blue-900 mb-1 border-b border-blue-200 pb-1">3. 連續突破與該回不回</p>
+                             <p class="mb-1 text-slate-600">若突破後次日完全沒有回檔（空頭抵抗失敗），直接開高走高，稱為「該回不回」，是超級強勢的噴出訊號！</p>
+                        </div>
+                    </div>
+                </details>
+
+                 <!-- NEW: 第 14 篇：主控盤進階 (V18 新增) -->
+                 <details class="group border border-gray-200 rounded overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold text-gray-800 bg-gray-50 p-3">
+                        <span>14. 宗師篇：主控盤核心理論 (V18 獨家)</span>
+                        <span class="text-gray-500 transition-transform group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="p-3 text-xs text-slate-700 bg-white space-y-3">
+                         <!-- 1. 趨勢與高低折線 -->
+                        <div class="bg-gray-50 p-2 rounded border border-gray-200">
+                             <p class="font-bold text-gray-900 mb-1 border-b border-gray-200 pb-1">1. 極短線轉折：出頭與落尾</p>
+                             <ul class="list-disc list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>出頭 (止跌)：</strong> 今高 > 昨高。這是極短線的第一個止跌訊號。</li>
+                                <li><strong>落尾 (止漲)：</strong> 今低 < 昨低。這是極短線的第一個轉弱訊號。</li>
+                                <li><strong>高低折線：</strong> 連接「出頭」的低點與「落尾」的高點，可過濾盤中雜訊，精確抓出「末升低」與「末跌高」。</li>
+                             </ul>
+                        </div>
+
+                         <!-- 2. 三分力道 -->
+                        <div class="bg-yellow-50 p-2 rounded border border-yellow-200">
+                             <p class="font-bold text-yellow-900 mb-1 border-b border-yellow-200 pb-1">2. 三分力道 (Retracement Strength)</p>
+                             <p class="mb-1 text-slate-600">判斷回檔強弱的黃金法則 (高點至低點區間)：</p>
+                             <ul class="list-decimal list-inside pl-1 text-slate-600 space-y-1">
+                                <li><strong>強勢回檔 (1/3)：</strong> 僅回檔 1/3，多頭極強，買盤踴躍。</li>
+                                <li><strong>中勢回檔 (1/2)：</strong> 回檔至一半，多空平衡。</li>
+                                <li><strong>弱勢回檔 (2/3)：</strong> 回檔深達 2/3，多頭虛弱，需防反轉。</li>
+                             </ul>
                         </div>
                     </div>
                 </details>
@@ -542,10 +585,18 @@
                          </div>
                         <input type="number" step="0.01" id="breakoutLow" class="w-full p-2 border-2 border-purple-300 rounded font-mono text-lg text-purple-900 font-bold bg-white focus:ring-2 focus:ring-purple-500" placeholder="目標價生存線">
                         
-                        <div class="mt-2 space-y-1 text-[11px] font-bold text-slate-600 bg-white/60 p-2 rounded border border-red-100">
-                            <p>👉 <span class="text-red-700">若今日剛突破：</span>填「今天盤中」最低點。</p>
-                            <p>👉 <span class="text-green-700">若已持有續抱：</span>填「當初買進那天」最低點。</p>
-                            <p class="text-red-500 mt-1 border-t border-red-100 pt-1 flex items-center"><span class="text-lg mr-1">⚡</span> 跌破此價 = 攻擊失敗 (目標抵銷)</p>
+                        <div class="mt-2 space-y-2 text-[11px] font-bold text-slate-600 bg-white/60 p-2 rounded border border-red-100">
+                             <div class="flex items-start">
+                                <span class="text-red-600 mr-1">A.</span>
+                                <span><span class="text-red-700 bg-red-100 px-1 rounded">空手想買：</span>請填寫「今天」的盤中最低點。</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="text-green-600 mr-1">B.</span>
+                                <span><span class="text-green-700 bg-green-100 px-1 rounded">持有續抱：</span>請填寫「當初買進那天」的最低點。</span>
+                            </div>
+                            <p class="text-red-500 mt-1 border-t border-red-200 pt-1 flex items-center justify-center">
+                                <span class="text-lg mr-1">⚡</span> 跌破此價 = 攻擊失敗 (需停損/離場)
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1097,7 +1148,7 @@
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.3
+N 字戰法指揮中心 by.石頭 V18.2
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1142,12 +1193,6 @@ N 字戰法指揮中心 by.石頭 V17.3
 【二、明日開盤・量能作戰劇本】
 
 💡 戰術小卡： 預估量 = 09:15 成交量 × 8
-
-⚠️ 進階量能提醒：
-
-這是一個通用的經驗法則，但有些個股（特別是中小型飆股）在 09:30 之後量能會快速萎縮，或者在尾盤才偷襲。
-
-邏輯補充： 如果是針對新手，維持這個簡單規則很好；如果是進階操作，請注意**「盤中若量能急凍（預估量快速下修），需重新評估劇本」**。
 
 🔴 劇本 A（極強鎖攻）
 
@@ -1259,7 +1304,7 @@ N 字戰法指揮中心 by.石頭 V17.3
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.3
+N 字戰法指揮中心 by.石頭 V18.2
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1396,7 +1441,7 @@ N 字戰法指揮中心 by.石頭 V17.3
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.3
+N 字戰法指揮中心 by.石頭 V18.2
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1527,7 +1572,7 @@ N 字戰法指揮中心 by.石頭 V17.3
 
 嗨，我是石頭，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-N 字戰法指揮中心 by.石頭 V17.3
+N 字戰法指揮中心 by.石頭 V17.2
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1636,39 +1681,39 @@ N 字戰法指揮中心 by.石頭 V17.3
 ● 盤勢定調： 空方主跌段。
 🎯 核心策略： 只出不進，甚至反手做空。嚴禁抄底。`;
              }
+             
+             // Update UI
+             resultBox.className = `p-5 rounded-xl border-l-8 shadow-md relative overflow-hidden ${rBoxClass}`;
+             document.getElementById('stockBadge').innerText = stockName;
+             document.getElementById('resultTitle').innerText = rTitleText;
+             document.getElementById('resultTitle').className = rTitleClass;
+             document.getElementById('resultAction').innerText = rActionText;
+             document.getElementById('resultAction').className = rActionClass;
+             document.getElementById('resultIcon').innerText = rIconText;
+             document.getElementById('trendTag').innerText = rTrendText;
+             document.getElementById('trendTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"; 
+             document.getElementById('volTag').innerText = rVolText;
+             document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
+             document.getElementById('patternTag').classList.add('hidden'); // Hide for custom V16 sim
+             document.getElementById('inferenceBox').classList.add('hidden'); // Content already in V16 text
+             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V18.2 戰略報告。";
+             
+             // Hide specific calc parts as they are in text
+             document.getElementById('targetBox').classList.add('hidden');
 
-             // Update UI
-             resultBox.className = `p-5 rounded-xl border-l-8 shadow-md relative overflow-hidden ${rBoxClass}`;
-             document.getElementById('stockBadge').innerText = stockName;
-             document.getElementById('resultTitle').innerText = rTitleText;
-             document.getElementById('resultTitle').className = rTitleClass;
-             document.getElementById('resultAction').innerText = rActionText;
-             document.getElementById('resultAction').className = rActionClass;
-             document.getElementById('resultIcon').innerText = rIconText;
-             document.getElementById('trendTag').innerText = rTrendText;
-             document.getElementById('trendTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"; 
-             document.getElementById('volTag').innerText = rVolText;
-             document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
-             document.getElementById('patternTag').classList.add('hidden'); // Hide for custom V16 sim
-             document.getElementById('inferenceBox').classList.add('hidden'); // Content already in V16 text
-             document.getElementById('resultAdvice').innerText = "請參閱下方完整 V17.3 戰略報告。";
-             
-             // Hide specific calc parts as they are in text
-             document.getElementById('targetBox').classList.add('hidden');
+             // Render AI Part
+             document.getElementById('aiAnalysisBox').classList.remove('hidden');
+             document.getElementById('aiLoading').classList.add('hidden');
+             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V18.2 分析報告`;
+             
+             // Parse Markdown for AI Report
+             const htmlContent = marked.parse(v16AIReport);
+             document.getElementById('aiContent').innerHTML = htmlContent;
 
-             // Render AI Part
-             document.getElementById('aiAnalysisBox').classList.remove('hidden');
-             document.getElementById('aiLoading').classList.add('hidden');
-             document.getElementById('aiReportTitle').innerText = `🧠 石頭戰略(${stockName}) V17.3 分析報告`;
-             
-             // Parse Markdown for AI Report
-             const htmlContent = marked.parse(v16AIReport);
-             document.getElementById('aiContent').innerHTML = htmlContent;
-
-             // Set Base Report Text for Copy
-             baseReportText = v16BaseReport;
-             aiReportContent = v16AIReport; // For appending later
-        }
+             // Set Base Report Text for Copy
+             baseReportText = v16BaseReport;
+             aiReportContent = v16AIReport; // For appending later
+        }
 
         // --- Functions missing in previous version that caused ReferenceError ---
 
