@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>傑克.史東：N字戰法指揮中心 (V19.5 判斷指引版)</title>
+    <title>傑克.史東：N字戰法指揮中心 (V19.7 盤態診斷優化版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -83,13 +83,13 @@
         .ai-content p { margin-bottom: 0.5em; line-height: 1.6; }
         .ai-content strong { color: #b91c1c; }
         
-        /* V19.5 Badge Style */
+        /* V19.7 Badge Style */
         .v19-badge {
-            background: linear-gradient(135deg, #4338ca 0%, #312e81 100%); /* Indigo theme */
-            color: #e0e7ff; 
+            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%); /* Red theme for Strong */
+            color: #fef2f2; 
             text-shadow: 0px 1px 0px rgba(0,0,0,0.5);
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            border: 1px solid #6366f1;
+            border: 1px solid #ef4444;
         }
         
         .hidden { display: none !important; }
@@ -111,8 +111,8 @@
 
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">傑克.史東 N字戰法指揮中心 <span class="v19-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V19.5</span></h1>
-            <p class="text-xs text-slate-400 mt-1">主控盤態 x 軋空防守 x 完整戰報</p>
+            <h1 class="text-2xl font-black tracking-wider">傑克.史東 N字戰法指揮中心 <span class="v19-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V19.7</span></h1>
+            <p class="text-xs text-slate-400 mt-1">主控盤態 x 軋空防守 x 智能診斷</p>
         </div>
 
         <div class="bg-slate-50 border-b border-slate-200">
@@ -210,22 +210,37 @@
                     </summary>
                     <div class="p-3 text-xs text-slate-700 bg-white space-y-4">
                         <div>
-                            <p class="font-bold bg-red-100 text-red-800 px-1 rounded inline-block mb-1">📈 多方趨勢 (Bullish)</p>
+                            <p class="font-bold bg-red-100 text-red-800 px-1 rounded inline-block mb-1">📈 多方趨勢 (Bullish) - V19.7 新增診斷</p>
                             <div class="flex flex-col items-center my-2 p-2 border border-slate-200 rounded bg-white">
                                 <div class="w-full text-center text-[10px] text-gray-500 mb-1">▼ 圖一：多方盤態與空頭抵抗 (按圖操作) ▼</div>
                                 <div class="w-full h-auto rounded shadow-sm bg-gray-100 p-2 text-center text-xs text-gray-500 flex justify-around">
-                                    <div class="w-1/3 border-r border-gray-300 px-1">
+                                    <div class="w-1/3 border-r border-gray-300 px-1 text-left">
                                         <div class="font-bold text-orange-600 mb-1">① 盤堅盤</div>
-                                        <div class="text-[9px]">空頭抵抗強<br>回檔深<br>守軋空低</div>
+                                        <div class="text-[9px] leading-tight text-slate-600">
+                                            ● 空頭抵抗：強<br>
+                                            ● 回檔：較深 (N字)<br>
+                                            ● 策略：守軋空低，緩漲
+                                        </div>
                                     </div>
-                                    <div class="w-1/3 border-r border-gray-300 px-1">
+                                    <div class="w-1/3 border-r border-gray-300 px-1 text-left">
                                         <div class="font-bold text-blue-600 mb-1">② 軋空盤</div>
-                                        <div class="text-[9px]">空頭抵抗弱<br>高檔旗型<br>以盤代跌</div>
+                                        <div class="text-[9px] leading-tight text-slate-600">
+                                            ● 空頭抵抗：弱<br>
+                                            ● 回檔：淺/旗型<br>
+                                            ● 策略：以盤代跌
+                                        </div>
                                     </div>
-                                    <div class="w-1/3 px-1">
+                                    <div class="w-1/3 px-1 text-left">
                                         <div class="font-bold text-red-600 mb-1">③ 強軋空</div>
-                                        <div class="text-[9px]">抵抗失敗<br>不回頭<br>直接噴出</div>
+                                        <div class="text-[9px] leading-tight text-slate-600">
+                                            ● 空頭抵抗：失敗<br>
+                                            ● 回檔：無 (噴出)<br>
+                                            ● 策略：不回頭，死抱
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="mt-2 text-[10px] text-center text-indigo-600 font-bold bg-indigo-50 w-full rounded py-1">
+                                    💡 V19.7 系統會自動幫您判斷屬於哪一種！
                                 </div>
                             </div>
                         </div>
@@ -924,6 +939,10 @@
              const breakoutLow = parseFloat(document.getElementById('breakoutLow').value);
              const avgVol = parseFloat(document.getElementById('avgVol').value);
              
+             // V19.7: 取得進階參數以進行盤態診斷
+             const prevClose = parseFloat(document.getElementById('prevClose').value);
+             const todayLow = parseFloat(document.getElementById('todayLow').value);
+
              const gap = todayH - L;
              const target1 = todayH + gap;
              const target2 = todayH + (2 * gap);
@@ -940,14 +959,42 @@
              const fP = (num) => isNaN(num) ? "---" : formatPrice(num);
              const fN = (num) => isNaN(num) ? "---" : formatNumber(num);
 
-             // ★ 報告生成邏輯：V19.5 版 ★
-             // 1. 開頭統一修正為「嗨，我是傑克.史東」
-             // 2. 補完所有模組的 1-4 項目 (含劇本與Q&A)
+             // ★ 報告生成邏輯：V19.7 版 (盤態自動診斷) ★
 
              if (type === 'strong') {
-                rTitleText = "🔥 強軋空盤"; rActionText = "死抱不放 (限模擬極強模組)"; rBoxClass = "bg-red-100 border-red-600";
-                rTitleClass = "text-xl font-bold text-red-700"; rActionClass = "text-2xl font-black text-red-800 border-b border-red-300 pb-2 mb-2";
-                rIconText = "💎"; rTrendText = "🔥 強軋空盤 (主力鎖碼)"; rVolText = "極強攻擊量 (1.5 倍↑)";
+                // V19.7 新增：強勢股細分邏輯 (盤堅/軋空/強軋空)
+                let subType = "🛡️ 盤堅盤 (Solid Bull)"; // 預設
+                let subTypeDesc = "無回檔噴出";
+                
+                // 邏輯判斷：
+                // 1. 如果 今日低點 測試到 軋空低附近 (例如差距 < 1.5%) -> 盤堅 (有回測)
+                // 2. 如果 今日低點 遠高於 軋空低 (例如 > 1.5%) 且 收盤強勢 -> 強軋空
+                // 3. 介於中間 -> 軋空盤
+                
+                if (!isNaN(todayLow) && !isNaN(breakoutLow) && !isNaN(prevClose)) {
+                    const buffer = breakoutLow * 1.015; // 1.5% 緩衝區
+                    
+                    if (todayLow <= buffer) {
+                        subType = "🛡️ 盤堅盤 (Solid Bull)";
+                        subTypeDesc = "N字回測有守 (測試支撐)";
+                    } else if (todayLow > prevClose || close > prevClose * 1.04) {
+                        // 跳空開高不補缺口 OR 長紅大漲
+                        subType = "🔥 強軋空盤 (Super Squeeze)";
+                        subTypeDesc = "跳空噴出不回頭 (最強勢)";
+                    } else {
+                        subType = "🚩 軋空盤 (Short Squeeze)";
+                        subTypeDesc = "高檔強勢整理 (以盤代跌)";
+                    }
+                }
+
+                rTitleText = subType; 
+                rActionText = "死抱不放 (限模擬極強模組)"; 
+                rBoxClass = "bg-red-100 border-red-600";
+                rTitleClass = "text-xl font-bold text-red-700"; 
+                rActionClass = "text-2xl font-black text-red-800 border-b border-red-300 pb-2 mb-2";
+                rIconText = "💎"; 
+                rTrendText = subType; // 動態更新盤態標籤
+                rVolText = "極強攻擊量 (1.5 倍↑)";
                 
                 const washPrice7 = (close * 0.93).toFixed(2); 
                 const greyLow = (close * 0.97).toFixed(2);
@@ -957,7 +1004,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V19.5
+傑克.史東 N 字戰法指揮中心 V19.7
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -975,7 +1022,8 @@
 
 📉 7% 洗盤：跌到${washPrice7}$ (當日盤中最大容忍值)
 
-📈 盤勢型態： 🔥 強軋空盤 (主力鎖碼)
+📈 盤勢型態： ${subType}
+   ╰─ 特徵診斷： ${subTypeDesc}
 
 ✅ 波段目標： 5N (${fP(target5)})
 
@@ -1095,7 +1143,14 @@
 🎯 核心策略：
 結構不破 → 抱
 動能鈍化 → 降
-模組切換 → 全面重新評估`;
+模組切換 → 全面重新評估
+
+---
+【附錄：多頭趨勢的三大盤態診斷 (V19.7新增)】
+本系統已根據您輸入的價格結構，判定本檔個股目前屬於：${subType}
+1. 盤堅盤 (Solid Bull)：N字上漲、回檔深。空頭抵抗強，需透過回測洗盤，只要守住「軋空低」，緩步趨堅。
+2. 軋空盤 (Short Squeeze)：高檔旗型/楔型整理。空頭抵抗弱，「以盤代跌」，修正時間但不修正價格，隨後再往上攻。
+3. 強軋空盤 (Super Squeeze)：噴出不回頭，K線連紅。空頭抵抗完全失敗，主力不給上車機會，為最強勢盤態。`;
 
              } else if (type === 'break') {
                 rTitleText = "🚀 三盤突破 (翻紅)"; rActionText = "積極進場"; rBoxClass = "bg-red-50 border-red-500";
@@ -1108,7 +1163,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V19.5
+傑克.史東 N 字戰法指揮中心 V19.7
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1219,7 +1274,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V19.5
+傑克.史東 N 字戰法指揮中心 V19.7
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1323,7 +1378,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V19.5
+傑克.史東 N 字戰法指揮中心 V19.7
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1424,12 +1479,12 @@
              document.getElementById('trendTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"; 
              document.getElementById('volTag').innerText = rVolText;
              document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
-             document.getElementById('resultAdvice').innerText = "請參閱下方完整 傑克.史東 V19.5 戰略報告。";
+             document.getElementById('resultAdvice').innerText = "請參閱下方完整 傑克.史東 V19.7 戰略報告。";
              
              document.getElementById('targetBox').classList.add('hidden');
 
              document.getElementById('aiAnalysisBox').classList.remove('hidden');
-             document.getElementById('aiReportTitle').innerText = `🧠 傑克.史東(${stockName}) V19.5 分析報告`;
+             document.getElementById('aiReportTitle').innerText = `🧠 傑克.史東(${stockName}) V19.7 分析報告`;
              
              const htmlContent = marked.parse(v16AIReport);
              document.getElementById('aiContent').innerHTML = htmlContent;
