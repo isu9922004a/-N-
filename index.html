@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>傑克.史東：N字戰法指揮中心 (V20.6 軋空低教學版)</title>
+    <title>傑克.史東：N字戰法指揮中心 (V20.7 完整心法版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -83,7 +83,7 @@
         .ai-content p { margin-bottom: 0.5em; line-height: 1.6; }
         .ai-content strong { color: #b91c1c; }
         
-        /* V20.6 Badge Style */
+        /* V20.7 Badge Style */
         .v19-badge {
             background: linear-gradient(135deg, #0f172a 0%, #334155 100%); 
             color: #f8fafc; 
@@ -111,7 +111,7 @@
 
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">傑克.史東 N字戰法指揮中心 <span class="v19-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V20.6</span></h1>
+            <h1 class="text-2xl font-black tracking-wider">傑克.史東 N字戰法指揮中心 <span class="v19-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V20.7</span></h1>
             <p class="text-xs text-slate-400 mt-1">智能關鍵點位 x 盤態自動診斷 x 完整戰報</p>
         </div>
 
@@ -1023,7 +1023,7 @@
              const fP = (num) => isNaN(num) ? "---" : formatPrice(num);
              const fN = (num) => isNaN(num) ? "---" : formatNumber(num);
 
-             // ★ 報告生成邏輯：V20.5 版 (多空雙向診斷) ★
+             // ★ 報告生成邏輯：V20.7 版 (補完關鍵三問) ★
 
              if (type === 'strong') {
                 let subType = "🛡️ 盤堅盤 (Solid Bull)";
@@ -1058,7 +1058,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.6
+傑克.史東 N 字戰法指揮中心 V20.7
 
 股名：${stockName}
 
@@ -1090,7 +1090,24 @@
 
 🔴 劇本 A（極強鎖攻）： 預估量 > ${fN(v_strong)} 張，抱緊。
 🟢 劇本 B（續強推進）： 預估量 ${fN(v_break)}~${fN(v_strong)} 張，續抱。
-🟡 劇本 C（量縮整理）： 預估量 < ${fN(v_wash)} 張，續抱，防守${fP(breakoutLow)}。`;
+🟡 劇本 C（量縮整理）： 預估量 < ${fN(v_wash)} 張，續抱，防守${fP(breakoutLow)}。
+
+【三、📌 極強盤操作策略專屬・關鍵三問】
+
+❓ Q1：漲這麼多了，我很怕，能不能先賣一趟？
+
+邏輯說明： 在軋空主升段中，最容易犯的錯誤是「因為怕高而賣在主升段中途」。
+操作建議： 價格未跌破 ${fP(breakoutLow)} → 堅持抱（Hold）。
+
+❓ Q2：盤中如果急殺跳水，要不要跑？
+
+邏輯： 看收盤，不看盤中。強勢股常見「洗盤急殺」。只要收盤未破結構防守，視為換手。
+
+❓ Q3：什麼情況下，死抱會失效？
+
+否決條款：
+1. 爆量但無法創高。
+2. 收盤跌破 ${fP(breakoutLow)} (結構防守點) → 必須減碼/停損。`;
 
                 v16AIReport = `---
 【附錄：多頭趨勢的三大盤態診斷 (V19.7新增)】
@@ -1108,7 +1125,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.6
+傑克.史東 N 字戰法指揮中心 V20.7
 
 股名：${stockName}
 
@@ -1129,10 +1146,31 @@
 【二、明日開盤・量能作戰劇本】
 
 🔴 劇本 A (跳空開高)： 市價追 (Buy)，強勢缺口不補，行情噴出。
-🟢 劇本 B (平盤震盪)： 佈局 (Buy)，趁盤中拉回建立基本部位。`;
+🟢 劇本 B (平盤震盪)： 佈局 (Buy)，趁盤中拉回建立基本部位。
+
+【三、📌 突破操作策略明日實戰・關鍵三問】
+
+❓ Q1：昨天沒買到，明天開高可以直接追嗎？
+
+建議：
+開盤漲幅 ≤ 3% → 市價直接追買。
+開盤漲幅 > 5% → 等盤中回測均價線再接。
+
+❓ Q2：怎麼判斷突破是真的還是假？
+
+判斷標準： 三天原則 + 軋空低防守 (防守價位：${fP(breakoutLow)})
+
+❓ Q3：買進後開始盤跌怎麼辦？
+
+防守策略： 嚴守 ${fP(breakoutLow)} 關卡。
+停損點： 收盤跌破 ${fP(breakoutLow)} → 無條件停損出場。`;
 
                 v16AIReport = `(一) 主力心理透視： 主力剛花大錢吃掉頸線賣壓，${fP(breakoutLow)} 附近就是他的原始成本區。
-(二) 散戶心理陷阱： 猶豫不決，想等「拉回深一點再買」，結果股價一去不回頭。`;
+(二) 散戶心理陷阱： 猶豫不決，想等「拉回深一點再買」，結果股價一去不回頭。
+(三) 教練心法： 「第一根突破不買，後面你就買不下手了。以 ${fP(breakoutLow)} 為停損，勇敢試單。」
+(四) 傑克.史東戰略結論：
+● 盤勢定調： 趨勢反轉 (由盤轉多)
+🎯 核心策略： 建立部位，嚴守軋空低停損。`;
 
              } else if (type === 'flat') {
                 rTitleText = "💤 盤整延續"; rActionText = "觀望 / 空手"; rBoxClass = "bg-green-50 border-green-500";
@@ -1147,7 +1185,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.6
+傑克.史東 N 字戰法指揮中心 V20.7
 
 股名：${stockName}
 
@@ -1166,7 +1204,22 @@
 【二、明日開盤・量能作戰劇本】
 
 🔴 劇本 A (點火攻擊)： 預估量 > ${fN(v_break)} 張且過箱頂，進場。
-🟢 劇本 B (持續盤整)： 觀望。`;
+🟢 劇本 B (持續盤整)： 觀望。
+
+【三、📌 盤整操作策略專屬・關鍵三問】
+
+❓ Q1：現在價格好便宜，我能不能先買起來放？
+
+建議： ❌ 不建議現在買！資金有機會成本。
+
+❓ Q2：要看到什麼訊號，才代表盤整結束？
+
+🔥 點火訊號： 第一根帶量紅 K 棒。
+判斷條件： 成交量 ≥ ${fN(Math.round(avgVol * 1.5))} 且 收盤價強勢站上箱頂 ${fP(boxTop)} 元。
+
+❓ Q3：成交量越來越少，是不是沒人玩了？
+
+💡 解讀： 量縮其實是好事，代表籌碼沉澱。「極致量縮」往往是變盤的前兆。`;
 
                 v16AIReport = `(一) 主力心理透視： 主力正在吸納籌碼，透過長時間的磨盤，讓沒耐心的散戶離場。
 (二) 教練心法： 「看不懂就休息，現金為王。」`;
@@ -1208,7 +1261,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.6
+傑克.史東 N 字戰法指揮中心 V20.7
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1233,11 +1286,8 @@
 
 ⚠️ 壓力關卡： ${fP(breakoutLow)} (${keyPointLabel}) (V20.5自動判斷：Max{昨收, 今高})
 
-★ 量價推演 (均量指過去 5 日平均成交量 ${fN(avgVol)})：
-
+★ 量價推演：
 🔥 下殺攻擊量 (1.3x)：${fN(v_break)}（達標）✅
-
-📌 小結： 本檔「${stockName}」結構已壞，任何反彈皆是空點。
 
 【二、明日開盤・量能作戰劇本】
 
@@ -1258,22 +1308,6 @@
 🔹 條件： 量縮 (${fN(v_wash)}張，約 0.8x) 紅盤。
 
 👉 指令： 逃命 (Exit)，保留資金等待下一波下跌。
-
-🟡 劇本 C (量縮緩跌)
-
-🔹 防守壓力：${fP(breakoutLow)}
-
-🔹 條件： 預估量 < ${fN(v_wash)} 張 (0.8x↓)。
-
-👉 指令： 空單續抱 (Hold Short)。
-
-⚫ 劇本 D (V型反轉)
-
-🔹 防守壓力：${fP(breakoutLow)}
-
-🔹 條件： 收盤站回 ${fP(breakoutLow)}、量能達 ${fN(v_break)} (1.3x↑) 且 連續兩日量增
-
-👉 指令： 回補空單 (Cover)，可能為假跌破，先退場觀望。
 
 【三、📌 大跌盤操作策略專屬・關鍵三問】
 
@@ -1317,12 +1351,12 @@
              document.getElementById('trendTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"; 
              document.getElementById('volTag').innerText = rVolText;
              document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
-             document.getElementById('resultAdvice').innerText = "請參閱下方完整 傑克.史東 V20.6 戰略報告。";
+             document.getElementById('resultAdvice').innerText = "請參閱下方完整 傑克.史東 V20.7 戰略報告。";
              
              document.getElementById('targetBox').classList.add('hidden');
 
              document.getElementById('aiAnalysisBox').classList.remove('hidden');
-             document.getElementById('aiReportTitle').innerText = `🧠 傑克.史東(${stockName}) V20.6 分析報告`;
+             document.getElementById('aiReportTitle').innerText = `🧠 傑克.史東(${stockName}) V20.7 分析報告`;
              
              const htmlContent = marked.parse(v16AIReport);
              document.getElementById('aiContent').innerHTML = htmlContent;
