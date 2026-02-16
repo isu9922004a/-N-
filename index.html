@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>傑克.史東：N字戰法指揮中心 (V20.7 完整心法版)</title>
+    <title>傑克.史東：N字戰法指揮中心 (V21.0 盤態詳解版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -83,13 +83,13 @@
         .ai-content p { margin-bottom: 0.5em; line-height: 1.6; }
         .ai-content strong { color: #b91c1c; }
         
-        /* V20.7 Badge Style */
+        /* V21.0 Badge Style */
         .v19-badge {
-            background: linear-gradient(135deg, #0f172a 0%, #334155 100%); 
-            color: #f8fafc; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); /* Deep Blue theme */
+            color: #f0f9ff; 
             text-shadow: 0px 1px 0px rgba(0,0,0,0.5);
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            border: 1px solid #475569;
+            border: 1px solid #3b82f6;
         }
         
         .hidden { display: none !important; }
@@ -111,8 +111,8 @@
 
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-300 relative">
         <div class="bg-slate-900 p-5 text-white text-center relative z-20">
-            <h1 class="text-2xl font-black tracking-wider">傑克.史東 N字戰法指揮中心 <span class="v19-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V20.7</span></h1>
-            <p class="text-xs text-slate-400 mt-1">智能關鍵點位 x 盤態自動診斷 x 完整戰報</p>
+            <h1 class="text-2xl font-black tracking-wider">傑克.史東 N字戰法指揮中心 <span class="v19-badge px-2 py-0.5 rounded text-sm align-top ml-1 font-bold">V21.0</span></h1>
+            <p class="text-xs text-slate-400 mt-1">智能關鍵點位 x 盤態深度解析 x 完整戰報</p>
         </div>
 
         <div class="bg-slate-50 border-b border-slate-200">
@@ -397,7 +397,7 @@
                     </div>
                 </details>
                 
-                <!-- V20.6 新增：軋空低 SOP -->
+                <!-- 軋空低 SOP -->
                 <details class="group border border-red-200 rounded overflow-hidden bg-red-50">
                     <summary class="flex justify-between items-center font-bold text-red-800 bg-red-100 p-3">
                         <span>15. 關鍵點位篇：軋空低 (SSL) 判斷SOP (V20.6)</span>
@@ -430,6 +430,58 @@
                         </div>
                     </div>
                 </details>
+
+                <!-- V21.0 新增：趨勢盤態詳解 -->
+                <details class="group border border-blue-200 rounded overflow-hidden bg-blue-50">
+                    <summary class="flex justify-between items-center font-bold text-blue-900 bg-blue-100 p-3">
+                        <span>16. 趨勢盤態詳解：多空強度分級 (V21)</span>
+                        <span class="text-blue-600 transition-transform group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="p-4 text-xs text-slate-700 space-y-4 bg-white">
+                        
+                        <!-- 多方 -->
+                        <div class="border-l-4 border-red-500 pl-3">
+                            <h3 class="font-black text-red-800 mb-2 text-sm bg-red-50 inline-block px-2 py-1 rounded">📈 多方盤態 (Bullish)</h3>
+                            <ul class="space-y-3">
+                                <li>
+                                    <span class="font-bold text-red-600 block">1、⭐️ 盤堅盤</span>
+                                    <span class="text-slate-600">股價行進間伴隨 N 字回測以測試支撐，意味著空頭抵抗力道尚存，需透過反覆洗盤消化賣壓，屬穩健推升格局。</span>
+                                </li>
+                                <li>
+                                    <span class="font-bold text-red-700 block">2、⭐️⭐️ 軋空盤</span>
+                                    <span class="text-slate-600">股價於高檔進行強勢整理，以時間換取空間（以盤代跌），顯示籌碼鎖定良好，空頭抵抗力道轉弱，蓄勢待發。</span>
+                                </li>
+                                <li>
+                                    <span class="font-black text-red-800 block">3、⭐️⭐️⭐️ 強軋空盤</span>
+                                    <span class="text-slate-600">多頭動能極強，呈現噴出不回頭之勢，空頭抵抗完全失敗，主力控盤態度堅決，為最強勢之多頭型態。</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <hr class="border-slate-200">
+
+                        <!-- 空方 -->
+                        <div class="border-l-4 border-green-600 pl-3">
+                            <h3 class="font-black text-green-900 mb-2 text-sm bg-green-50 inline-block px-2 py-1 rounded">📉 空方盤態 (Bearish)</h3>
+                            <ul class="space-y-3">
+                                <li>
+                                    <span class="font-bold text-green-600 block">1、⚠️ 盤跌盤（多方嘗試抵抗）</span>
+                                    <span class="text-slate-600">雖有多頭抵抗試圖反彈，但高點逐步降低，整體趨勢仍受制於空方架構，呈現緩步盤跌。</span>
+                                </li>
+                                <li>
+                                    <span class="font-bold text-green-700 block">2、⚠️⚠️ 殺多盤（多方抵抗失敗）</span>
+                                    <span class="text-slate-600">多頭抵抗宣告失敗，反彈無力僅留上影線，籌碼面面臨停損賣壓，修正壓力加劇。</span>
+                                </li>
+                                <li>
+                                    <span class="font-black text-green-800 block">3、⚠️⚠️⚠️ 強殺多（多方完全放棄抵抗）</span>
+                                    <span class="text-slate-600">空方完全主導盤勢，多頭放棄抵抗（常見跳空缺口），股價呈現加速趕底之崩跌樣態。</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </details>
+
             </div>
         </div>
 
@@ -1058,7 +1110,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.7
+傑克.史東 N 字戰法指揮中心 V21.0
 
 股名：${stockName}
 
@@ -1125,7 +1177,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.7
+傑克.史東 N 字戰法指揮中心 V21.0
 
 股名：${stockName}
 
@@ -1185,7 +1237,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.7
+傑克.史東 N 字戰法指揮中心 V21.0
 
 股名：${stockName}
 
@@ -1261,7 +1313,7 @@
 
 嗨，我是傑克.史東，希望我的 N 字戰法分析系統能讓你大幅提升勝率📈💯
 
-傑克.史東 N 字戰法指揮中心 V20.7
+傑克.史東 N 字戰法指揮中心 V21.0
 
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
@@ -1351,12 +1403,12 @@
              document.getElementById('trendTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"; 
              document.getElementById('volTag').innerText = rVolText;
              document.getElementById('volTag').className = "text-xs font-bold px-2 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200";
-             document.getElementById('resultAdvice').innerText = "請參閱下方完整 傑克.史東 V20.7 戰略報告。";
+             document.getElementById('resultAdvice').innerText = "請參閱下方完整 傑克.史東 V21.0 戰略報告。";
              
              document.getElementById('targetBox').classList.add('hidden');
 
              document.getElementById('aiAnalysisBox').classList.remove('hidden');
-             document.getElementById('aiReportTitle').innerText = `🧠 傑克.史東(${stockName}) V20.7 分析報告`;
+             document.getElementById('aiReportTitle').innerText = `🧠 傑克.史東(${stockName}) V21.0 分析報告`;
              
              const htmlContent = marked.parse(v16AIReport);
              document.getElementById('aiContent').innerHTML = htmlContent;
