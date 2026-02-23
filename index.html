@@ -938,6 +938,17 @@
             }
         }
 
+        // 取得當前時間格式：YYYY/MM/DD HH:mm
+        function getCurrentFormattedTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `${year}/${month}/${day} ${hours}:${minutes}`;
+        }
+
         function calculateStrategy() {
             document.querySelectorAll('input').forEach(el => el.classList.remove('input-error'));
             document.getElementById('aiAnalysisBox').classList.add('hidden');
@@ -1028,6 +1039,9 @@
              const prevClose = parseFloat(document.getElementById('prevClose').value);
              const todayLow = parseFloat(document.getElementById('todayLow').value);
              const todayVol = parseFloat(document.getElementById('todayVol').value);
+             
+             // 取得當下時間
+             const reportTime = getCurrentFormattedTime();
              
              // V20.5: 智能判斷關鍵點位
              let userInputLow = parseFloat(document.getElementById('breakoutLow').value);
@@ -1126,6 +1140,7 @@
 傑克.史東 N 字戰法指揮中心 V21.1
 
 股名：${stockName}
+報告日期：${reportTime}
 
 【一、個股現況分析】
 
@@ -1211,6 +1226,7 @@ ${guideDesc}
 傑克.史東 N 字戰法指揮中心 V21.1
 
 股名：${stockName}
+報告日期：${reportTime}
 
 【一、個股現況分析】
 
@@ -1292,6 +1308,7 @@ ${guideDesc}
 傑克.史東 N 字戰法指揮中心 V21.1
 
 股名：${stockName}
+報告日期：${reportTime}
 
 【一、個股現況分析】
 
@@ -1385,6 +1402,7 @@ ${guideDesc}
 「本策略僅為個人分析參考，投資有風險，操作需自負盈虧」
 
 股名：${stockName}
+報告日期：${reportTime}
 
 【一、個股現況分析】
 
