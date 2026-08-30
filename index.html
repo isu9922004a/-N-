@@ -582,7 +582,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析</p>
 
-    <span class="version-pill">前端 V3.7.6.10｜TPEx完整性硬Gate＋DeepScan相容診斷＋TPEx完整性硬Gate＋主升硬Gate版｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
+    <span class="version-pill">前端 V3.7.6.11｜TPEx完整性硬Gate＋DeepScan相容診斷＋TPEx完整性硬Gate＋主升硬Gate版｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
 
   </div>
 
@@ -654,7 +654,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
           <div class="momentum-hero-title">🚀 主升動能掃描｜盤後候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">V3.7.6.10｜TPEx完整性硬Gate＋DeepScan代理＋主升硬Gate<br>V3.7.6.1 雙版本母版核心不變</div>
+        <div class="meta" style="text-align:right">V3.7.6.11｜TPEx完整性硬Gate＋DeepScan代理＋主升硬Gate<br>V3.7.6.1 雙版本母版核心不變</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -1038,7 +1038,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.6.10｜TPEx完整性硬Gate＋DeepScan相容診斷＋TPEx完整性硬Gate＋主升硬Gate版｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：回歸V3.6.7.9純粹架構；不做浪號計數，個股與大盤K線以趨勢通道箭頭呈現方向，並維持文字避讓與既有固定版型。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.6.11｜TPEx完整性硬Gate＋DeepScan相容診斷＋TPEx完整性硬Gate＋主升硬Gate版｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：回歸V3.6.7.9純粹架構；不做浪號計數，個股與大盤K線以趨勢通道箭頭呈現方向，並維持文字避讓與既有固定版型。</footer>
 
 <script>
 
@@ -21460,7 +21460,7 @@ function isFinancialStockV3763(code,name){
 
 function classifyMomentumFailureV3763(error){
   const msg=String(error?.message||error||"未知錯誤");
-  // V3.7.6.10：DeepScan 相容層／upstream HTTP 不得誤算成「個股資料不足」。
+  // V3.7.6.11：DeepScan 相容層／upstream HTTP 不得誤算成「個股資料不足」。
   if(/DEEP_COMPAT_FAIL|DEEP_UPSTREAM_HTTP|DEEP_UPSTREAM_FORMAT|DEEP_UPSTREAM_EMPTY/i.test(msg))return {key:"DEEP",label:"DeepScan個股Worker相容／上游異常",retryable:false,msg};
   if(/DEEP_UPSTREAM_DATA/i.test(msg))return {key:"DATA",label:"個股Worker明確回報資料不足",retryable:false,msg};
   if(/HTTP\s*(400|404)|找不到|無此股票|not found|invalid stock|資料不足|資料不存在|尚無資料|unsupported/i.test(msg))return {key:"DATA",label:"資料不足／不支援",retryable:false,msg};
@@ -21713,7 +21713,7 @@ function renderMomentumScanInfographicV3762(scan){
   ctx.fillStyle="#f4f7fb";ctx.fillRect(0,0,1152,2048);roundedRectScanV3762(ctx,8,8,1136,2032,22,"#ffffff","#0b5ed7",3);
   ctx.fillStyle="#0b2e63";ctx.fillRect(8,8,1136,176);
   scanTextV3762(ctx,"🚀 主升動能掃描｜盤後候選排行",42,72,34,950,"#ffffff");
-  scanTextV3762(ctx,`V3.7.6.10｜TPEx完整性硬Gate・DeepScan代理・月線/MA20/C/支撐硬Gate｜V3.7.6.1核心不變`,42,114,18,800,"#dbeafe");
+  scanTextV3762(ctx,`V3.7.6.11｜TPEx完整性硬Gate・DeepScan代理・月線/MA20/C/支撐硬Gate｜V3.7.6.1核心不變`,42,114,18,800,"#dbeafe");
   scanTextV3762(ctx,`產生時間 ${scan.createdAt}（台灣時間）`,42,150,17,750,"#dbeafe");
   roundedRectScanV3762(ctx,36,204,1080,76,14,"#fff8df","#f2d675",1.5);
   fitScanTextV3762(ctx,"⏰ 建議交易日下午15:00後執行｜盈虧比＝有效上下關卡動態價差比，不是勝率",58,250,1036,21,13,900,"#8a6700");
@@ -21774,7 +21774,7 @@ async function generateMomentumScanImageV3762(withWatermark=false){
    5) 第二階段預設只深度分析高優先 180 檔，Safari 穩定優先。
    ======================================================================== */
 const TWSE_COMPANY_DIRECTORY_URL_V3765="https://openapi.twse.com.tw/v1/opendata/t187ap03_L";
-const MOMENTUM_DEEP_LIMIT_V3765=180;
+const MOMENTUM_DEEP_LIMIT_V3765=70;
 const MOMENTUM_DEEP_CONCURRENCY_V3765=1;
 const MOMENTUM_DEEP_REQUEST_GAP_MS_V3765=650;
 const MOMENTUM_DEEP_BATCH_SIZE_V3765=18;
@@ -22039,11 +22039,11 @@ buildMomentumScanTextReportV3763=function(scan){
 
 
 /* ========================================================================
-   V3.7.6.10｜Market Worker 批次行情代理版
+   V3.7.6.11｜Market Worker 批次行情代理版
    第一階段只打一個自家 MARKET_API_BASE_URL：?market=ALL_STOCKS
    iPhone Safari 不再直接連 TWSE / TPEx OpenAPI。
    ======================================================================== */
-const MOMENTUM_MARKET_BUNDLE_PATH_V3766="?market=ALL_STOCKS";
+const MOMENTUM_MARKET_BUNDLE_PATH_V3766="?market=MOMENTUM_FAST&limit=70";
 const MOMENTUM_MARKET_BUNDLE_TIMEOUT_MS_V3766=20000;
 const MOMENTUM_MARKET_BUNDLE_RETRIES_V3766=3;
 
@@ -22063,7 +22063,7 @@ async function loadMarketBundleFromWorkerV3766(){
       if(!res.ok)throw new Error(`Market Worker HTTP ${res.status}｜${text.slice(0,160)}`);
       let data; try{data=JSON.parse(text);}catch{throw new Error("Market Worker 回傳非 JSON");}
       if(!data||data.type!=="MARKET_SCAN_SNAPSHOT"||!Array.isArray(data.rows)){
-        throw new Error(data?.error||data?.message||"Market Worker 尚未支援 market=ALL_STOCKS，請先部署 V2.5 批次行情補丁。");
+        throw new Error(data?.error||data?.message||"Market Worker 尚未支援 market=MOMENTUM_FAST，請先部署 Market Worker V2.6.8。");
       }
       const quoteMap=new Map(),sectorMap=new Map();
       for(const row of data.rows){
@@ -22087,7 +22087,7 @@ async function runMomentumScanV3766(){
   if(momentumScanRunningV3762)return;
   const btn=document.getElementById("momentumScanButton"),stopBtn=document.getElementById("momentumStopButton"),err=document.getElementById("momentumError"),result=document.getElementById("momentumResult");
   momentumScanAbortV3762=false;momentumScanRunningV3762=true;lastMomentumScanDataV3762=null;
-  btn.disabled=true;btn.textContent="🚀 第一階段 Worker 全市場快照...";stopBtn?.classList.add("show");err.style.display="none";result.style.display="none";set("momentumImageMessage","");
+  btn.disabled=true;btn.textContent="🚀 第一階段漏斗式快篩...";stopBtn?.classList.add("show");err.style.display="none";result.style.display="none";set("momentumImageMessage","");
   try{
     const universe=Object.keys(LOCAL_NAME_MAP).filter(c=>/^[1-9]\d{3}$/.test(c)).sort((a,b)=>a.localeCompare(b,"zh-TW",{numeric:true}));
     setMomentumProgressV3762(0,1,0,0,0,0,0);
@@ -22131,20 +22131,20 @@ async function runMomentumScanV3766(){
       biotechSkipped:p1.biotech.length,biotechSkippedList:p1.biotech,phase1QuoteCount:bundle.map.size,phase1Eligible:p1.ranked.length,phase1NoQuote:p1.noQuote.length,deepLimit:MOMENTUM_DEEP_LIMIT_V3765,
       waitingC,dataSkippedCount:dataSkipped.length,dataSkipped,failed:failures.length,failures,failureBreakdown,retryRecovered,candidates,sCount,aCount,bCount,
       marketBundleMeta:bundle.meta,marketBundleSource:bundle.source,phase1NonOrdinary:p1.nonOrdinary?.length||0,
-      source:"V3.7.6.10：Cloudflare Market Worker 批次清洗個股快照 → 產業代碼排除金融／生技 → Top 180 深度分析 → C確認硬Gate → S/A/B"
+      source:"V3.7.6.11：Cloudflare Market Worker 批次清洗個股快照 → 產業代碼排除金融／生技 → Top 180 深度分析 → C確認硬Gate → S/A/B"
     };
     renderMomentumScanResultV3765(lastMomentumScanDataV3762);result.style.display="block";result.scrollIntoView({behavior:"smooth",block:"start"});
     if(!qualityPass){err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`⚠️ 第二階段完整性未通過｜成功率 ${fmt(successRate*100,1)}%（${successCount}/${done}）。第一階段 Worker 快照已成功 ${bundle.map.size} 檔，但正式排行只代表成功完成深度分析的候選。`;}
-    else{err.style.display="block";err.style.background="var(--greenbg)";err.style.color="var(--green)";err.textContent=`✅ V3.7.6.10 完成：Market Worker 清洗後取得 ${bundle.map.size} 檔一般個股行情；金融排除 ${p1.financial.length}、生技醫療排除 ${p1.biotech.length}；深度分析 ${done} 檔成功率 ${fmt(successRate*100,1)}%；等待C ${waitingC} 檔不參與正式排行。`;}
+    else{err.style.display="block";err.style.background="var(--greenbg)";err.style.color="var(--green)";err.textContent=`✅ V3.7.6.11 完成：Market Worker 清洗後取得 ${bundle.map.size} 檔一般個股行情；金融排除 ${p1.financial.length}、生技醫療排除 ${p1.biotech.length}；深度分析 ${done} 檔成功率 ${fmt(successRate*100,1)}%；等待C ${waitingC} 檔不參與正式排行。`;}
   }catch(e){
     console.error(e);err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";
-    err.textContent=`❌ V3.7.6.10 掃描失敗：${e?.message||"未知錯誤"}`;
+    err.textContent=`❌ V3.7.6.11 掃描失敗：${e?.message||"未知錯誤"}`;
   }finally{momentumScanRunningV3762=false;btn.disabled=false;btn.textContent="🚀 主升動能掃描";stopBtn?.classList.remove("show");}
 }
 
 
 /* ========================================================================
-   V3.7.6.10｜DeepScan 代理＋TPEx 容錯＋正式主升硬 Gate
+   V3.7.6.11｜DeepScan 代理＋TPEx 容錯＋正式主升硬 Gate
    - Safari 不再逐檔呼叫個股 Worker；每批最多 20 檔交由 Market Worker server-to-server 代理。
    - 正式 S/A/B 硬 Gate：月線 PASS、日20MA多方、有效 C、正式支撐。
    - 上方空間不足不再靠其他分數補成 S/A：若波段有效空間 < 8%，最高 B。
@@ -22244,7 +22244,7 @@ async function runMomentumScanV3769(){
   if(momentumScanRunningV3762)return;
   const btn=document.getElementById("momentumScanButton"),stopBtn=document.getElementById("momentumStopButton"),err=document.getElementById("momentumError"),result=document.getElementById("momentumResult");
   momentumScanAbortV3762=false;momentumScanRunningV3762=true;lastMomentumScanDataV3762=null;
-  btn.disabled=true;btn.textContent="🚀 第一階段 Worker 全市場快照...";stopBtn?.classList.add("show");err.style.display="none";result.style.display="none";set("momentumImageMessage","");
+  btn.disabled=true;btn.textContent="🚀 第一階段漏斗式快篩...";stopBtn?.classList.add("show");err.style.display="none";result.style.display="none";set("momentumImageMessage","");
   try{
     const universe=Object.keys(LOCAL_NAME_MAP).filter(c=>/^[1-9]\d{3}$/.test(c)).sort((a,b)=>a.localeCompare(b,"zh-TW",{numeric:true}));
     setMomentumProgressV3762(0,1,0,0,0,0,0);
@@ -22260,12 +22260,14 @@ async function runMomentumScanV3769(){
     if(!industryCoverageReady){
       throw new Error(`產業資料完整性硬Gate未通過：industryCoverageRate ${bundle.meta?.industryCoverageRate==null?"-":fmt(Number(bundle.meta.industryCoverageRate)*100,1)+"%"}。金融／生技排除可能失真，本次停止。`);
     }
-    const p1=buildPhase1PoolV3765(universe,bundle.sectorMap,bundle.map);
-    if(!p1.deep.length)throw new Error("第一階段沒有取得可供深度分析的有效候選。");
+    const fastUniverse=[...bundle.map.keys()].sort((a,b)=>a.localeCompare(b,"zh-TW",{numeric:true}));
+    const p1=buildPhase1PoolV3765(fastUniverse,bundle.sectorMap,bundle.map);
+    if(!p1.deep.length)throw new Error("第一階段漏斗式快篩沒有留下可供深度分析的有效候選。");
+    const fastStats=bundle.meta?.fastFilter||{};
 
     const total=p1.deep.length,candidates=[],failures=[],dataSkipped=[];
     let done=0,retryRecovered=0,waitingC=0,hardGateSkipped=0,deepHealth=null;
-    btn.textContent=`🚀 DeepScan代理 0/${total}`;
+    btn.textContent=`🚀 快篩剩 ${total} 檔｜DeepScan 0/${total}`;
     setMomentumProgressV3762(0,total,0,0,0,p1.financial.length,0);
 
     for(let start=0;start<total&&!momentumScanAbortV3762;start+=MOMENTUM_DEEP_PROXY_BATCH_V3768){
@@ -22283,7 +22285,7 @@ async function runMomentumScanV3769(){
         try{const c=momentumCandidateV3768(x.data);if(c.waitingC)waitingC++;else if(c.hardGateFail)hardGateSkipped++;else if(c.eligible)candidates.push(c);}catch(e){const cls=classifyMomentumFailureV3763(e);failures.push({code:item.code,name:item.name,category:cls.key,label:cls.label,error:cls.msg});}
         done++;
       }
-      btn.textContent=`🚀 DeepScan代理 ${done}/${total}`;
+      btn.textContent=`🚀 DeepScan ${done}/${total}`;
       setMomentumProgressV3762(done,total,candidates.length,failures.length,dataSkipped.length,p1.financial.length,retryRecovered);
       if(start+batch.length<total)await sleepMomentumV3763(450);
     }
@@ -22295,16 +22297,17 @@ async function runMomentumScanV3769(){
     const failureBreakdown=failures.reduce((o,x)=>{o[x.label]=(o[x.label]||0)+1;return o;},{});
     lastMomentumScanDataV3762={
       createdAt:taipeiStampV3762(),completed:!momentumScanAbortV3762,qualityPass,successCount,successRate,breakerPauses:0,
-      universeTotal:universe.length,total,done,financialSkipped:p1.financial.length,financialSkippedList:p1.financial,
-      biotechSkipped:p1.biotech.length,biotechSkippedList:p1.biotech,phase1QuoteCount:bundle.map.size,phase1Eligible:p1.ranked.length,phase1NoQuote:p1.noQuote.length,deepLimit:MOMENTUM_DEEP_LIMIT_V3765,
+      universeTotal:universe.length,total,done,financialSkipped:Number(fastStats.excludedFinancial||0)+p1.financial.length,financialSkippedList:p1.financial,
+      biotechSkipped:Number(fastStats.excludedBiotech||0)+p1.biotech.length,biotechSkippedList:p1.biotech,phase1QuoteCount:Number(bundle.meta?.total||bundle.map.size),phase1Eligible:p1.ranked.length,phase1NoQuote:p1.noQuote.length,deepLimit:MOMENTUM_DEEP_LIMIT_V3765,
+      fastFilterStats:fastStats,fastReturned:bundle.map.size,
       waitingC,hardGateSkipped,deepHealth,dataSkippedCount:dataSkipped.length,dataSkipped,failed:failures.length,failures,failureBreakdown,retryRecovered,candidates,sCount,aCount,bCount,
       marketBundleMeta:bundle.meta,marketBundleSource:bundle.source,phase1NonOrdinary:p1.nonOrdinary?.length||0,
-      source:"V3.7.6.10：Market Worker V2.6.5 全市場快照（TPEx MIS備援）→ 金融/生技排除 → Top180 → DeepScan server-to-server代理 → 月線/MA20/C/支撐硬Gate → 波段空間分級上限 → S/A/B"
+      source:"V3.7.6.11：Market Worker V2.6.8 全市場快照 → 漏斗式快篩（產業/流動性/收盤位置/當日動能）→ Top70 → DeepScan → 月線/MA20/ABC-C/正式支撐/理論價差盈虧比 → S/A/B"
     };
     renderMomentumScanResultV3765(lastMomentumScanDataV3762);result.style.display="block";result.scrollIntoView({behavior:"smooth",block:"start"});
-    if(!qualityPass){err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`⚠️ V3.7.6.10 深度分析完整性未通過｜成功率 ${fmt(successRate*100,1)}%（${successCount}/${done}）。請先處理 DeepScan 代理失敗後再看排行；市場完整性已由硬Gate先行驗證。`;}
-    else{err.style.display="block";err.style.background="var(--greenbg)";err.style.color="var(--green)";err.textContent=`✅ V3.7.6.10 完成｜市場完整性 PASS｜TWSE ${bundle.meta?.twseQuotes||0}＋TPEx ${bundle.meta?.tpexQuotes||0}｜產業覆蓋 ${bundle.meta?.industryCoverageRate==null?"-":fmt(Number(bundle.meta.industryCoverageRate)*100,1)+"%"}｜DeepScan成功率 ${fmt(successRate*100,1)}%｜等待C ${waitingC}｜硬Gate排除 ${hardGateSkipped}｜正式候選 ${candidates.length}。`;}
-  }catch(e){console.error(e);err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`❌ V3.7.6.10 掃描失敗：${e?.message||"未知錯誤"}`;}
+    if(!qualityPass){err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`⚠️ V3.7.6.11 深度分析完整性未通過｜成功率 ${fmt(successRate*100,1)}%（${successCount}/${done}）。請先處理 DeepScan 代理失敗後再看排行；市場完整性已由硬Gate先行驗證。`;}
+    else{err.style.display="block";err.style.background="var(--greenbg)";err.style.color="var(--green)";err.textContent=`✅ V3.7.6.11 完成｜市場完整性 PASS｜TWSE ${bundle.meta?.twseQuotes||0}＋TPEx ${bundle.meta?.tpexQuotes||0}｜產業覆蓋 ${bundle.meta?.industryCoverageRate==null?"-":fmt(Number(bundle.meta.industryCoverageRate)*100,1)+"%"}｜DeepScan成功率 ${fmt(successRate*100,1)}%｜等待C ${waitingC}｜硬Gate排除 ${hardGateSkipped}｜正式候選 ${candidates.length}。`;}
+  }catch(e){console.error(e);err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`❌ V3.7.6.11 掃描失敗：${e?.message||"未知錯誤"}`;}
   finally{momentumScanRunningV3762=false;btn.disabled=false;btn.textContent="🚀 主升動能掃描";stopBtn?.classList.remove("show");}
 }
 
@@ -22317,6 +22320,9 @@ buildMomentumScanTextReportV3763=function(scan){
     `TPEx 行情筆數：${scan.marketBundleMeta?.tpexQuotes??"-"} 檔｜TWSE 行情筆數：${scan.marketBundleMeta?.twseQuotes??"-"} 檔`,
     `TPEx行情來源：${scan.marketBundleMeta?.tpexQuoteSource||"-"}｜TPEx產業來源：${scan.marketBundleMeta?.tpexCompanySource||"-"}`,
     `產業覆蓋：${scan.marketBundleMeta?.industryCoverageRate==null?"-":fmt(Number(scan.marketBundleMeta.industryCoverageRate)*100,1)+"%"}｜完整性：${scan.marketBundleMeta?.industryCoverageReady===true?"✅ PASS":"❌ FAIL"}`,
+    `第一階段漏斗式快篩：全市場 ${scan.phase1QuoteCount??"-"} 檔 → Worker回傳 ${scan.fastReturned??"-"} 檔 → DeepScan ${scan.total??"-"} 檔`,
+    `快篩條件：金融/生技排除＋流動性＋價格有效＋收盤位置＋當日動能；不冒充 MA20/RSI/ABC/盈虧比。`,
+    `理論價差盈虧比：僅在 DeepScan 建立正式支撐與目標後計算，作排序加分，不當作勝率。`,
     `第二階段架構：Market Worker DeepScan server-to-server 代理（前端不再逐檔呼叫個股 Worker）`,
     `正式主升硬Gate排除：${scan.hardGateSkipped??0} 檔`,
     `正式S/A/B硬Gate：月線PASS＋日20MA多方＋有效ABC/C＋正式支撐；任一未過不得以其他分數補回。`,
