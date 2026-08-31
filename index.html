@@ -583,7 +583,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.7.1｜主升掃描顯示語意最終收尾版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
+    <span class="version-pill">前端 V3.7.7.7.2｜雙價差比白話解讀版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
 
   </div>
 
@@ -651,7 +651,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
           <div class="momentum-hero-title">🚀 主動式主升掃描｜盤後候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.7.1｜掃描核心 V3.7.6.17<br>V3.7.6.1 雙版本母版核心不變</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.7.2｜掃描核心 V3.7.6.17<br>V3.7.6.1 雙版本母版核心不變</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -1035,9 +1035,19 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.1｜主升掃描顯示語意最終收尾版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：回歸V3.6.7.9純粹架構；不做浪號計數，個股與大盤K線以趨勢通道箭頭呈現方向，並維持文字避讓與既有固定版型。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.2｜雙價差比白話解讀版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：回歸V3.6.7.9純粹架構；不做浪號計數，個股與大盤K線以趨勢通道箭頭呈現方向，並維持文字避讓與既有固定版型。</footer>
 
 <script>
+// ========================================================================
+// V3.7.7.7.2｜雙價差比白話解讀版
+// 基底：V3.7.7.7.1。只新增顯示，不改任何分析公式、排序與Gate。
+// 網頁卡片與文字戰報採完整白話格式：
+// 🎯 波段理論價差比 → 每承擔1元波段結構風險，至1.618目標約有X元潛在價差。
+// 🧱 最近關卡價差比 → 每承擔1元近端風險，至下一關卡約有X元價差空間。
+// 並固定提醒：價差比是價格距離比較，不代表勝率，也不是保證獲利。
+// 圖片因版面限制採同義精簡白話，不增加卡片高度。
+// ========================================================================
+
 // ========================================================================
 // V3.7.7.7.1｜主升掃描顯示語意最終收尾版
 // 基底：V3.7.7.7.0。只改顯示，不改任何掃描計算。
@@ -22163,7 +22173,7 @@ function renderMomentumScanInfographicV3762(scan){
   scanTextV3762(ctx,phase.imageTitle,42,72,34,950,"#ffffff");
   fitScanTextV3762(
     ctx,
-    "V3.7.7.7.1｜掃描核心 V3.7.6.17・顯示語意最終收尾・1.618/0.764波段價差比",
+    "V3.7.7.7.2｜掃描核心 V3.7.6.17・雙價差比白話解讀・1.618/0.764波段價差比",
     42,114,1068,18,12,800,"#dbeafe"
   );
   scanTextV3762(ctx,`產生時間 ${scan.createdAt}（台灣時間）`,42,150,17,750,"#dbeafe");
@@ -22214,7 +22224,7 @@ function renderMomentumScanInfographicV3762(scan){
 
     scanTextV3762(
       ctx,
-      `收盤 ${fmt(c.close)}｜波段價差比 ${waveRR}｜剩餘 ${remaining}｜最近關卡比 ${nearestRR}`,
+      `收盤 ${fmt(c.close)}｜波段 ${waveRR}｜剩餘 ${remaining}｜近端 ${nearestRR}`,
       58,y+88,19,900,"#172033"
     );
 
@@ -22250,9 +22260,9 @@ function renderMomentumScanInfographicV3762(scan){
       58,y+153,1000,14,9,800,stabilityColor
     );
 
-    if(c.warnings?.length){
-      fitScanTextV3762(ctx,`⚠️ ${c.warnings.join("｜")}`,58,y+174,1000,13,9,850,"#b45309");
-    }
+    const imgPlain=momentumRatioPlainV37772(c.waveRRRatio,c.nearestRRRatio,c.waveRRFormal);
+    const compactPlain=`💰波段1元→${c.waveRRRatio==null?"待建立":fmt(c.waveRRRatio,2)+"元"}｜↗近端1元→${c.nearestRRRatio==null?"待建立":fmt(c.nearestRRRatio,2)+"元"}｜⚠️非勝率`;
+    fitScanTextV3762(ctx,compactPlain,58,y+174,1000,13,9,850,"#b45309");
 
     y+=cardH+gap;
   });
@@ -22417,6 +22427,23 @@ function buildPhase1PoolV3765(universe,sectorMap,quoteMap){
   }
   ranked.sort((a,b)=>b.priorityScore-a.priorityScore || (b.q.tradeValue||0)-(a.q.tradeValue||0));
   return {financial,biotech,noQuote,nonOrdinary,ranked,deep:ranked.slice(0,MOMENTUM_DEEP_LIMIT_V3765)};
+}
+
+function momentumRatioPlainV37772(waveRR,nearestRR,waveFormal=true){
+  const wave=waveRR===null||waveRR===undefined?null:Number(waveRR);
+  const near=nearestRR===null||nearestRR===undefined?null:Number(nearestRR);
+  return {
+    waveTitle:waveFormal?"🎯 波段理論價差比":"🟡 預估波段價差比",
+    waveRatio:wave===null||!Number.isFinite(wave)?"待建立":`1:${fmt(wave,2)}`,
+    wavePlain:wave===null||!Number.isFinite(wave)
+      ?"💰 白話：波段風控或1.618目標尚未完整建立，暫不解讀。"
+      :`💰 白話：每承擔1元波段結構風險，至1.618目標約有${fmt(wave,2)}元潛在價差`,
+    nearRatio:near===null||!Number.isFinite(near)?"待建立":`1:${fmt(near,2)}`,
+    nearPlain:near===null||!Number.isFinite(near)
+      ?"↗ 短線：最近有效關卡或近端防守尚未完整建立，暫不解讀。"
+      :`↗ 短線：每承擔1元近端風險，至下一關卡約有${fmt(near,2)}元價差空間`,
+    warning:"⚠️ 價差比是價格距離比較，不代表勝率，也不是保證獲利。"
+  };
 }
 
 function momentumReportPhaseV37771(createdAt){
@@ -23278,6 +23305,7 @@ function momentumCardV37613(c,i,mode){
   const target=c.strategicTarget
     ?`${fmt(c.strategicTarget.value)} 元｜${escapeHtmlV3762(c.strategicTarget.label)}`
     :(c.target?`${fmt(c.target.value)} 元｜${escapeHtmlV3762(c.target.label)}`:"-");
+  const ratioPlain=momentumRatioPlainV37772(c.waveRRRatio,c.nearestRRRatio,c.waveRRFormal);
   const remaining=c.strategicUpsidePct===null||c.strategicUpsidePct===undefined?"-":`+${fmt(c.strategicUpsidePct,1)}%`;
   const nearestSpace=c.upsidePct===null||c.upsidePct===undefined?"-":`+${fmt(c.upsidePct,1)}%`;
   const checks=(c.checks||[]).map(x=>`${x.ok?"✅":"▫️"}${x.label}`).join("｜");
@@ -23312,6 +23340,13 @@ function momentumCardV37613(c,i,mode){
       ${momentumMetricHtmlV3762("突破品質2.0",c.breakoutQualityScore===null?"尚未計分":`${fmt(c.breakoutQualityScore,1)}/10`)}
       ${momentumMetricHtmlV3762("量能證據",c.effectiveVol===null?"-":`${fmt(c.effectiveVol,2)}×｜${escapeHtmlV3762(c.volumeSource||"-")}`)}
       ${momentumMetricHtmlV3762("波段目標",target)}
+    </div>
+    <div class="rule" style="margin-top:10px;line-height:1.7">
+      <div><strong>${escapeHtmlV3762(ratioPlain.waveTitle)}：${escapeHtmlV3762(ratioPlain.waveRatio)}</strong></div>
+      <div>${escapeHtmlV3762(ratioPlain.wavePlain)}</div>
+      <div style="margin-top:4px"><strong>🧱 最近關卡價差比：${escapeHtmlV3762(ratioPlain.nearRatio)}</strong></div>
+      <div>${escapeHtmlV3762(ratioPlain.nearPlain)}</div>
+      <div style="margin-top:4px;color:#b45309">${escapeHtmlV3762(ratioPlain.warning)}</div>
     </div>
     <div class="momentum-checks">${checks}</div>
     ${c.stability?.detail?`<div class="rule" style="margin-top:8px">🛡️ ${escapeHtmlV3762(c.stability.detail)}</div>`:""}
@@ -23409,7 +23444,7 @@ buildMomentumScanTextReportV3763=function(scan){
   const phase=momentumReportPhaseV37771(scan.createdAt);
 
   lines.push(phase.textTitle);
-  lines.push("前端版本：V3.7.7.7.1｜母版 V3.7.7.6.5＋主動式掃描核心 V3.7.6.17");
+  lines.push("前端版本：V3.7.7.7.2｜母版 V3.7.7.6.5＋主動式掃描核心 V3.7.6.17");
   lines.push(`報告產生時間：${scan.createdAt}（台灣時間）`);
   lines.push(phase.timingNote);
   lines.push("📌 排名原則：先判斷主升位置；同位置機會分差距≥1.0時由機會分決勝，差距<1.0視為同級，再依突破品質→量能→MA20熱度→RSI決勝。");
@@ -23458,9 +23493,15 @@ buildMomentumScanTextReportV3763=function(scan){
       lines.push(`TOP ${i+1}｜${c.report?.name||"-"}（${codeOf(c)}）｜條件等級 ${c.grade}｜證據完整度 ${c.score}/${c.scoreMax||10}`);
       lines.push(`${c.stage?.icon||""}${c.stage?.label||"-"}｜${c.stability?.icon||""}${c.stability?.label||"-"}`);
       lines.push(`收盤：${fmt(c.close)} 元｜發動分：${fmt(c.launchScore,1)}｜機會分：${fmt(c.opportunityScore||0,1)}｜強度分：${fmt(c.strengthScore,1)}`);
-      lines.push(`波段剩餘價差：${remaining}｜${waveLabel}：${ratioText(c.waveRRRatio)}`);
+      const ratioPlain=momentumRatioPlainV37772(c.waveRRRatio,c.nearestRRRatio,c.waveRRFormal);
+      lines.push(`波段剩餘價差：${remaining}`);
+      lines.push(`${ratioPlain.waveTitle}：${ratioPlain.waveRatio}`);
+      lines.push(ratioPlain.wavePlain);
       lines.push(`波段風控：${waveRisk}`);
-      lines.push(`最近關卡空間：${nearest}｜最近關卡價差比：${ratioText(c.nearestRRRatio)}`);
+      lines.push(`最近關卡空間：${nearest}`);
+      lines.push(`🧱 最近關卡價差比：${ratioPlain.nearRatio}`);
+      lines.push(ratioPlain.nearPlain);
+      lines.push(ratioPlain.warning);
       lines.push(`最近防守：${recentSupport}`);
       lines.push(`波段目標：${strategic}`);
       lines.push(`日20MA：${c.ma==null?"-":fmt(c.ma)+" 元"}｜乖離：${c.gap==null?"-":fmtSignedPct(c.gap)}｜RSI5：${c.rsi==null?"-":fmt(c.rsi,1)}`);
