@@ -570,7 +570,14 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
 @media(max-width:600px){.momentum-action-row{flex-direction:column}.momentum-stop-btn{padding:13px}.momentum-metrics{grid-template-columns:repeat(2,1fr)}}
 
 /* ========================================================================
-   V3.7.7.7.9｜七層盤後文字戰報重構
+   V3.7.7.7.10｜DeepScan失敗原因直接顯示 Hotfix
+   - qualityPass 未通過時，直接顯示成功/失敗檔數、主要失敗原因、次要原因與補救成功數。
+   - 失敗原因由 failureBreakdown 動態統計，不寫死特定錯誤類型。
+   - 僅改錯誤提示 UI；DeepScan批次、重試、95%完整性Gate、三榜、排序與所有分析公式完全不變。
+   ======================================================================== */
+
+/* ========================================================================
+   V3.7.7.7.10｜七層盤後文字戰報重構
    只調整色彩、字級、留白、卡片層級與響應式版面；不改 DOM ID、事件、資料或分析邏輯。
    ======================================================================== */
 :root{
@@ -833,7 +840,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.7.9｜七層盤後文字戰報重構版｜三榜 Gate 與掃描核心完整保留｜母版 V3.7.7.7.8 safeReady 修正版｜個股／大盤／主升圖片閱讀舒適度同步提升｜雙價差比白話解讀完整保留｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
+    <span class="version-pill">前端 V3.7.7.7.10｜七層盤後文字戰報重構版｜三榜 Gate 與掃描核心完整保留｜母版 V3.7.7.7.8 safeReady 修正版｜個股／大盤／主升圖片閱讀舒適度同步提升｜雙價差比白話解讀完整保留｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
 
   </div>
 
@@ -901,7 +908,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
           <div class="momentum-hero-title">🚀 主動式主升掃描｜盤後候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.7.9｜七層文字戰報｜掃描核心 V3.7.6.17<br>V3.7.7.7.8 三榜 Gate 完整保留</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.7.10｜七層文字戰報｜掃描核心 V3.7.6.17<br>V3.7.7.7.8 三榜 Gate 完整保留</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -1286,11 +1293,11 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.9｜七層盤後文字戰報重構版｜母版 V3.7.7.7.8 三榜分流＋安全起漲榜 safeReady 修正版｜雙價差比白話解讀完整保留｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：盤後文字戰報改為七層閱讀架構；三榜 Gate、RR、ABC／Fib／N字、排序與 Worker URL 完全不變。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.10｜七層盤後文字戰報重構版｜母版 V3.7.7.7.8 三榜分流＋安全起漲榜 safeReady 修正版｜雙價差比白話解讀完整保留｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：盤後文字戰報改為七層閱讀架構；三榜 Gate、RR、ABC／Fib／N字、排序與 Worker URL 完全不變。</footer>
 
 <script>
 // ========================================================================
-// V3.7.7.7.9｜七層盤後完整文字戰報重構版
+// V3.7.7.7.10｜七層盤後完整文字戰報重構版
 // 只重構文字戰報閱讀層級，並讓主升圖片底部與文字戰報共用同一組三榜官方定義。
 // 不改掃描計算、三榜 Gate、RR、ABC/Fib/N字、排序或 Worker URL。
 // ========================================================================
@@ -21063,7 +21070,7 @@ function renderStockInfographicV3328(report){
   fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);
   fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);
   fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);
-  fontV3328(ctx,16,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.9｜七層戰報重構",1402,141);
+  fontV3328(ctx,16,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.10｜七層戰報重構",1402,141);
 
   // ===== 上半部：ABC + 結構示意圖 =====
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);
@@ -21370,7 +21377,7 @@ function renderMarketInfographicV3328(data){
   rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
   drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.9｜大盤圖片視覺舒適",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.10｜大盤圖片視覺舒適",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
@@ -22641,7 +22648,7 @@ function renderMomentumScanInfographicV3762(scan){
   scanTextV3762(ctx,phase.imageTitle,42,72,34,950,"#ffffff");
   fitScanTextV3762(
     ctx,
-    "V3.7.7.7.9｜掃描核心 V3.7.6.17・七層文字戰報重構",
+    "V3.7.7.7.10｜掃描核心 V3.7.6.17・七層文字戰報重構",
     42,114,1068,18,12,800,"#dbeafe"
   );
   scanTextV3762(ctx,`產生時間 ${scan.createdAt}（台灣時間）`,42,150,17,750,"#dbeafe");
@@ -23757,6 +23764,48 @@ async function fetchDeepBatchViaMarketWorkerV3768(items){
   throw lastErr||new Error("DeepScan Worker 批次分析失敗");
 }
 
+
+function momentumDeepFailureSummaryV377710(scanLike){
+  const breakdown=scanLike?.failureBreakdown&&typeof scanLike.failureBreakdown==="object"
+    ?Object.entries(scanLike.failureBreakdown)
+      .map(([label,count])=>({label:String(label||"其他錯誤"),count:Number(count)||0}))
+      .filter(x=>x.count>0)
+      .sort((a,b)=>b.count-a.count||a.label.localeCompare(b.label,"zh-TW"))
+    :[];
+
+  if(!breakdown.length&&Array.isArray(scanLike?.failures)){
+    const m=new Map();
+    scanLike.failures.forEach(x=>{
+      const label=String(x?.label||"其他錯誤");
+      m.set(label,(m.get(label)||0)+1);
+    });
+    [...m.entries()]
+      .map(([label,count])=>({label,count}))
+      .sort((a,b)=>b.count-a.count||a.label.localeCompare(b.label,"zh-TW"))
+      .forEach(x=>breakdown.push(x));
+  }
+
+  const normalizeLabel=(label)=>{
+    const s=String(label||"其他錯誤");
+    if(/Worker／伺服器暫時異常/i.test(s))return "Worker／伺服器暫時異常";
+    if(/網路／Safari連線／逾時|timeout|timed out|逾時/i.test(s))return "網路／連線／逾時";
+    if(/請求過密／限流|429|rate/i.test(s))return "請求過密／限流";
+    if(/DeepScan個股Worker相容／上游異常/i.test(s))return "DeepScan個股Worker／上游異常";
+    if(/API回傳格式異常|格式/i.test(s))return "API回傳格式異常";
+    if(/資料不足／不支援/i.test(s))return "資料不足／不支援";
+    return s;
+  };
+
+  const primary=breakdown[0]||null;
+  const secondary=breakdown[1]||null;
+
+  return {
+    primaryText:primary?`${normalizeLabel(primary.label)} ${primary.count}檔`:"無明確失敗分類",
+    secondaryText:secondary?`${normalizeLabel(secondary.label)} ${secondary.count}檔`:"無",
+    breakdown
+  };
+}
+
 async function runMomentumScanV3769(){
   if(momentumScanRunningV3762)return;
   const btn=document.getElementById("momentumScanButton"),stopBtn=document.getElementById("momentumStopButton"),err=document.getElementById("momentumError"),result=document.getElementById("momentumResult");
@@ -23915,8 +23964,22 @@ async function runMomentumScanV3769(){
       source:"V3.7.6.17掃描核心＋V3.7.7.7.8三榜分流：Top70 → DeepScan完整分析 → 發動榜／安全起漲榜／強度榜"
     };
     renderMomentumScanResultV3765(lastMomentumScanDataV3762);result.style.display="block";result.scrollIntoView({behavior:"smooth",block:"start"});
-    if(!qualityPass){err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`⚠️ V3.7.6.17 深度分析完整性未通過｜成功率 ${fmt(successRate*100,1)}%（${successCount}/${done}）。請先處理 DeepScan 代理失敗後再看排行；市場完整性已由硬Gate先行驗證。`;}
-    else{err.style.display="block";err.style.background="var(--greenbg)";err.style.color="var(--green)";err.textContent=`✅ V3.7.6.17 完成｜市場完整性 PASS｜行情覆蓋 TWSE ${momentumMarketDisplayCountV37617(bundle.meta,"TWSE")}＋TPEx ${momentumMarketDisplayCountV37617(bundle.meta,"TPEx")}｜有效掃描池 ${lastMomentumScanDataV3762.phase1QuoteCount}｜產業覆蓋 ${bundle.meta?.industryCoverageRate==null?"-":fmt(Number(bundle.meta.industryCoverageRate)*100,1)+"%"}｜DeepScan成功率 ${fmt(successRate*100,1)}%｜補救佇列 ${retryQueueCount}｜成功救回 ${retryRecovered}｜等待C ${waitingC}｜硬Gate排除 ${hardGateSkipped}｜正式候選 ${candidates.length}。`;}
+    if(!qualityPass){
+      const failureSummary=momentumDeepFailureSummaryV377710(lastMomentumScanDataV3762);
+      err.style.display="block";
+      err.style.background="var(--redbg)";
+      err.style.color="var(--red)";
+      err.style.whiteSpace="pre-line";
+      err.textContent=[
+        "⚠️ DeepScan完整性未通過",
+        `成功：${successCount}/${done}｜失敗：${failures.length}`,
+        `主要失敗原因：${failureSummary.primaryText}`,
+        `次要原因：${failureSummary.secondaryText}`,
+        `補救成功：${retryRecovered}檔`,
+        "📌 市場完整性硬Gate已先行驗證；本次排行僅代表成功完成DeepScan的股票，請先處理失敗原因後再看正式排行。"
+      ].join("\n");
+    }
+    else{err.style.display="block";err.style.background="var(--greenbg)";err.style.color="var(--green)";err.style.whiteSpace="normal";err.textContent=`✅ V3.7.6.17 完成｜市場完整性 PASS｜行情覆蓋 TWSE ${momentumMarketDisplayCountV37617(bundle.meta,"TWSE")}＋TPEx ${momentumMarketDisplayCountV37617(bundle.meta,"TPEx")}｜有效掃描池 ${lastMomentumScanDataV3762.phase1QuoteCount}｜產業覆蓋 ${bundle.meta?.industryCoverageRate==null?"-":fmt(Number(bundle.meta.industryCoverageRate)*100,1)+"%"}｜DeepScan成功率 ${fmt(successRate*100,1)}%｜補救佇列 ${retryQueueCount}｜成功救回 ${retryRecovered}｜等待C ${waitingC}｜硬Gate排除 ${hardGateSkipped}｜正式候選 ${candidates.length}。`;}
   }catch(e){console.error(e);err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`❌ V3.7.6.17 掃描失敗：${e?.message||"未知錯誤"}`;}
   finally{momentumScanRunningV3762=false;btn.disabled=false;btn.textContent="🚀 主升動能掃描";stopBtn?.classList.remove("show");}
 }
@@ -24256,7 +24319,7 @@ buildMomentumScanTextReportV3763=function(scan){
   return lines.join("\n");
 };
 // ========================================================================
-// V3.7.7.7.9｜最終七層盤後文字戰報覆寫
+// V3.7.7.7.10｜最終七層盤後文字戰報覆寫
 // 僅重構輸出格式；掃描計算、三榜 Gate、RR、ABC/Fib/N字、排序與 Worker URL 不變。
 // ========================================================================
 buildMomentumScanTextReportV3763=function(scan){
@@ -24289,7 +24352,7 @@ buildMomentumScanTextReportV3763=function(scan){
   lines.push(phase.textTitle);
 
   section("①","報告基本資料");
-  lines.push("前端版本：V3.7.7.7.9｜母版 V3.7.7.7.8 safeReady 修正版｜掃描核心 V3.7.6.17");
+  lines.push("前端版本：V3.7.7.7.10｜母版 V3.7.7.7.8 safeReady 修正版｜掃描核心 V3.7.6.17");
   lines.push("報告產生時間："+scan.createdAt+"（台灣時間）");
   lines.push("模式："+phase.timingNote.replace(/^📌\s*/,""));
 
