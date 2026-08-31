@@ -583,7 +583,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.6.8｜主升掃描圖片代號修正＋V3.7.6.17欄位同步版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
+    <span class="version-pill">前端 V3.7.7.6.9｜主升掃描RSI5回復＋階段判讀修正版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
 
   </div>
 
@@ -651,7 +651,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
           <div class="momentum-hero-title">🚀 主動式主升掃描｜盤後候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.6.6｜掃描核心 V3.7.6.17<br>V3.7.6.1 雙版本母版核心不變</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.6.9｜掃描核心 V3.7.6.17<br>V3.7.6.1 雙版本母版核心不變</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -1035,9 +1035,20 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.6.8｜主升掃描圖片代號修正＋V3.7.6.17欄位同步版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：回歸V3.6.7.9純粹架構；不做浪號計數，個股與大盤K線以趨勢通道箭頭呈現方向，並維持文字避讓與既有固定版型。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.6.9｜主升掃描RSI5回復＋階段判讀修正版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：回歸V3.6.7.9純粹架構；不做浪號計數，個股與大盤K線以趨勢通道箭頭呈現方向，並維持文字避讓與既有固定版型。</footer>
 
 <script>
+// ========================================================================
+// V3.7.7.6.9｜主升掃描 RSI5 回復＋階段判讀修正版
+// 基底：V3.7.7.6.8。
+// 修正整合 V3.7.7.6.5 母版後的 RSI 欄位回退問題：
+// stockInfographicStateV3328 原本只讀 report.dailyRsi，導致現行 Worker 的 dailyRsi5
+// 在主升掃描中全部顯示「-」，並使 RSI 過熱／延伸／初段判讀失真。
+// 本版恢復 dailyRsi5 優先：report.dailyRsi5 ?? report.dailyRsi。
+// 同時最終 momentumCandidateV3768 再做一次 dailyRsi5 fallback。
+// 其他個股／大盤格式、圖片美化、ABC/Fib/N字、突破品質、三叉戟、Worker 與 Gate 完全不變。
+// ========================================================================
+
 // ========================================================================
 // V3.7.7.6.8｜主升掃描圖片代號修正＋V3.7.6.17欄位同步版
 // 基底：V3.7.7.6.7。
@@ -19611,7 +19622,7 @@ function stockInfographicStateV3328(report){
   const entryMeta=entryQualityMetaV328(entryQuality);
   const cLife=cLifecycleV326(report,s,nStatus);
   const A=n(s.fib.A),B=n(s.fib.B),rawC=n(s.fib.C),C=cLife.invalidated?null:rawC;
-  const close=n(report.close),ma=n(s.maCtx.value),monthMa=n(report.latestMA),rsi=n(report.dailyRsi),vol=n(s.volume.latestRatio);
+  const close=n(report.close),ma=n(s.maCtx.value),monthMa=n(report.latestMA),rsi=n(report.dailyRsi5 ?? report.dailyRsi),vol=n(s.volume.latestRatio);
   const fixed=s.fixed?.next||null;
   const fixedZone=getFixedTargetZoneV328(report,fixed,monthlyStatus);
   const fixedReclaim=fixedReclaimContextV3312(report,fixed);
@@ -22131,7 +22142,7 @@ function renderMomentumScanInfographicV3762(scan){
   scanTextV3762(ctx,"🚀 主升動能掃描｜盤後候選排行",42,72,34,950,"#ffffff");
   fitScanTextV3762(
     ctx,
-    "V3.7.7.6.8｜掃描核心 V3.7.6.17・Top70→DeepScan・主升位置分類・1.618/0.764波段價差比",
+    "V3.7.7.6.9｜掃描核心 V3.7.6.17・RSI5恢復・主升位置分類・1.618/0.764波段價差比",
     42,114,1068,18,12,800,"#dbeafe"
   );
   scanTextV3762(ctx,`產生時間 ${scan.createdAt}（台灣時間）`,42,150,17,750,"#dbeafe");
@@ -22831,7 +22842,7 @@ function momentumCandidateV3768(report){
   let st;
   try{st=stockInfographicStateV3328(report);}catch(err){return {eligible:false,error:err?.message||String(err),report};}
 
-  const close=n(st.close),ma=n(st.ma),slope=n(st?.s?.maCtx?.slope),gap=n(st?.s?.maCtx?.gapPct),rsi=n(st.rsi),A=n(st.A),B=n(st.B),C=n(st.C),vol=n(st?.s?.volume?.latestRatio);
+  const close=n(st.close),ma=n(st.ma),slope=n(st?.s?.maCtx?.slope),gap=n(st?.s?.maCtx?.gapPct),rsi=n(report?.dailyRsi5 ?? st.rsi ?? report?.dailyRsi),A=n(st.A),B=n(st.B),C=n(st.C),vol=n(st?.s?.volume?.latestRatio);
   const fibBreakVol=n(st?.s?.volume?.fibBreakoutRatio),tacticalBreakVol=n(st?.s?.volume?.tacticalBreakoutRatio);
   const qScore=n(st?.breakoutQuality360?.score);
   const monthlyOk=st.monthlyStatus==="PASS";
@@ -23347,7 +23358,7 @@ buildMomentumScanTextReportV3763=function(scan){
   const ratioText=v=>v===null||v===undefined?"待建立":`1:${fmt(v,2)}`;
 
   lines.push("🚀 主動式主升掃描｜盤後完整文字戰報");
-  lines.push("前端版本：V3.7.7.6.6｜母版 V3.7.7.6.5＋主動式掃描核心 V3.7.6.17");
+  lines.push("前端版本：V3.7.7.6.9｜母版 V3.7.7.6.5＋主動式掃描核心 V3.7.6.17");
   lines.push(`報告產生時間：${scan.createdAt}（台灣時間）`);
   lines.push("📌 建議於台股交易日下午 15:00 後執行，盤後資料較完整。");
   lines.push("📌 排名原則：先判斷主升位置；同位置機會分差距≥1.0時由機會分決勝，差距<1.0視為同級，再依突破品質→量能→MA20熱度→RSI決勝。");
