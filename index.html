@@ -569,6 +569,256 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
 @media(max-width:860px){.momentum-list{grid-template-columns:1fr}.momentum-summary-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.momentum-action-row{flex-direction:column}.momentum-stop-btn{padding:13px}.momentum-metrics{grid-template-columns:repeat(2,1fr)}}
 
+/* ========================================================================
+   V3.7.7.7.5｜前端查詢介面視覺統一
+   只調整色彩、字級、留白、卡片層級與響應式版面；不改 DOM ID、事件、資料或分析邏輯。
+   ======================================================================== */
+:root{
+  --blue:#285f91;
+  --blue2:#173b60;
+  --bg:#eef3f8;
+  --card:#ffffff;
+  --text:#243047;
+  --muted:#667085;
+  --line:#dfe6ef;
+  --green:#2d6a4f;
+  --greenbg:#f1f8f4;
+  --red:#bf3f43;
+  --redbg:#fcf3f4;
+  --yellow:#876726;
+  --yellowbg:#fbf7ed;
+  --purple:#6f5aa8;
+  --purplebg:#f6f4fa;
+  --cyan:#397982;
+  --cyanbg:#f1f7f8;
+  --shadow-soft:0 12px 36px rgba(28,50,78,.075);
+  --shadow-card:0 7px 22px rgba(28,50,78,.055);
+}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  letter-spacing:.01em;
+  background:
+    radial-gradient(circle at 8% 2%,rgba(75,126,176,.12),transparent 29rem),
+    radial-gradient(circle at 94% 16%,rgba(61,129,124,.08),transparent 25rem),
+    linear-gradient(180deg,#f4f7fa 0,#edf2f7 100%);
+  background-attachment:fixed;
+}
+.container{width:min(calc(100% - 36px),1180px)}
+.header{
+  position:relative;
+  overflow:hidden;
+  padding:38px 0 34px;
+  background:linear-gradient(132deg,#132f50 0%,#1d4a73 55%,#276a76 118%);
+  box-shadow:0 12px 34px rgba(20,45,72,.18)
+}
+.header::before,.header::after{content:"";position:absolute;border-radius:999px;pointer-events:none}
+.header::before{width:420px;height:420px;right:-150px;top:-245px;background:rgba(255,255,255,.08)}
+.header::after{width:240px;height:240px;right:190px;bottom:-185px;border:1px solid rgba(255,255,255,.13)}
+.header .container{position:relative;z-index:1}
+.header h1{font-size:clamp(30px,4vw,38px);letter-spacing:-.02em;font-weight:850}
+.header p{max-width:820px;font-size:15px;color:rgba(255,255,255,.82);margin-top:10px}
+.version-pill{
+  display:block;
+  width:fit-content;
+  max-width:100%;
+  padding:8px 13px;
+  margin-top:14px;
+  border-radius:13px;
+  border-color:rgba(255,255,255,.16);
+  background:rgba(255,255,255,.09);
+  backdrop-filter:blur(9px);
+  line-height:1.55;
+  color:rgba(255,255,255,.88)
+}
+main.container{padding:6px 0 38px}
+.panel{
+  margin-top:22px;
+  padding:26px;
+  border:1px solid rgba(211,221,234,.95);
+  border-radius:24px;
+  background:rgba(255,255,255,.94);
+  box-shadow:var(--shadow-soft);
+  backdrop-filter:blur(10px)
+}
+.section-title{font-size:20px;font-weight:850;letter-spacing:-.01em;color:#1d3654}
+.section-subtitle,.hint{color:#6b7585}
+.search-row{gap:12px;align-items:stretch}
+.stock-input{
+  padding:16px 17px;
+  border:1px solid #cfd9e6;
+  border-radius:14px;
+  background:#fbfcfe;
+  box-shadow:inset 0 1px 2px rgba(21,42,68,.035);
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease
+}
+.stock-input:focus{border-color:#4e82b2;background:#fff;box-shadow:0 0 0 4px rgba(64,117,166,.12)}
+.btn{
+  min-height:52px;
+  padding:0 27px;
+  border-radius:14px;
+  font-weight:850;
+  background:linear-gradient(135deg,#326fa5,#245781);
+  box-shadow:0 8px 18px rgba(39,91,137,.18);
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 11px 24px rgba(39,91,137,.22)}
+.btn:active{transform:translateY(0)}
+.quick-actions{justify-content:flex-start;margin-top:11px}
+.mini-btn{
+  border-color:#d7e0eb;
+  border-radius:999px;
+  background:#f8fafc;
+  color:#596579;
+  padding:8px 13px;
+  font-weight:750
+}
+.market-shortcut,.momentum-shortcut{
+  position:relative;
+  overflow:hidden;
+  margin-top:17px;
+  padding:19px;
+  border:1px solid;
+  border-radius:19px
+}
+.market-shortcut{border-color:#cfe2dc;background:linear-gradient(135deg,#f4faf7,#f8fbfc)}
+.momentum-shortcut{border-color:#ddd5eb;background:linear-gradient(135deg,#f8f6fb,#f7f9fc)}
+.market-shortcut::after,.momentum-shortcut::after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;right:-78px;top:-84px;opacity:.45;pointer-events:none}
+.market-shortcut::after{background:#d5ebe3}
+.momentum-shortcut::after{background:#e7e0f2}
+.market-shortcut .section-title,.momentum-shortcut .section-title{font-size:18px!important;margin-bottom:9px!important}
+.market-btn{background:linear-gradient(135deg,#347a63,#27644f);box-shadow:0 8px 18px rgba(45,106,79,.17)}
+.momentum-btn{background:linear-gradient(135deg,#7560ac,#5e4a91);box-shadow:0 8px 18px rgba(100,79,149,.17)}
+.momentum-reminder{
+  border-color:#e8dbbd;
+  border-radius:13px;
+  background:#fbf8f0;
+  color:#765d25;
+  font-weight:750
+}
+.momentum-progress-track{height:10px;border:0;background:#e5eaf1}
+.momentum-progress-bar{background:linear-gradient(90deg,#745fa8,#397f94)}
+.loading,.error{border-radius:13px}
+.status{border-width:1px;border-radius:16px;font-weight:800}
+.grid{gap:14px}
+.card,.fib-point,.level,.market-level,.history-card,.market-history-card,.target,.breakbox{
+  border-color:#e0e6ee;
+  border-radius:15px;
+  background:#fff;
+  box-shadow:var(--shadow-card)
+}
+.card{position:relative;border-left:4px solid #dce4ee}
+.card.strong{border-color:#d9e4ef;border-left-color:#4e82b2;background:#f8fafc}
+.card.support{border-color:#d9e8e0;border-left-color:#4e8a6e;background:#f8fbf9}
+.card.risk{border-color:#eadfd5;border-left-color:#b9784d;background:#fdfaf7}
+.card.target-main{border-color:#e2dcea;border-left-color:#7a67ad;background:#faf9fc}
+.label,.fib-point .point-name{font-weight:750;letter-spacing:.02em}
+.value,.fib-point .point-price,.market-index-value{letter-spacing:-.02em}
+.rule{
+  border-left:4px solid #5b87ae;
+  border-radius:13px;
+  background:#f6f8fb;
+  color:#596579
+}
+.target-head{background:linear-gradient(135deg,#223850,#304e6b);border-radius:16px 16px 0 0}
+.target-body{background:#f4f7fa;border:1px solid #dde5ef;border-top:0;border-radius:0 0 16px 16px}
+.fib-status{font-weight:800}
+.copy-btn,.image-save-link,.image-share-btn{
+  border-radius:14px;
+  font-weight:850;
+  box-shadow:0 7px 18px rgba(28,50,78,.13)
+}
+.copy-btn{background:linear-gradient(135deg,#2a3f59,#1d3047)}
+.newbie-copy-btn,.image-share-btn{background:linear-gradient(135deg,#397a65,#28624f)}
+.image-btn,.image-save-link{background:linear-gradient(135deg,#3978ad,#285f91)}
+.watermark-image-btn{background:linear-gradient(135deg,#9a7431,#7d5c23)}
+.image-modal{background:rgba(19,31,47,.78);backdrop-filter:blur(6px)}
+.image-modal-card{border-radius:24px;border-color:#dbe3ed;box-shadow:0 30px 90px rgba(13,28,46,.32)}
+.image-preview-wrap{border:1px solid #dfe6ef;background:#eef3f8;border-radius:18px}
+.market-result>.panel:first-child{
+  border:0;
+  background:linear-gradient(135deg,#193752,#285e72);
+  color:#fff;
+  box-shadow:0 16px 38px rgba(23,60,82,.2)
+}
+.market-result>.panel:first-child .meta{color:rgba(255,255,255,.72)}
+.market-result>.panel:first-child .market-status-box{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;backdrop-filter:blur(6px)}
+.market-index-name{font-weight:850;color:rgba(255,255,255,.88)}
+.market-index-value{font-size:42px;font-weight:900}
+.momentum-result>.panel{border-top:5px solid #675598}
+.momentum-hero-title{font-size:28px;font-weight:850;color:#203a59}
+.momentum-summary-grid{grid-template-columns:repeat(5,1fr);gap:11px}
+.momentum-summary-card{
+  min-height:86px;
+  padding:14px;
+  border-color:#dfe6ef;
+  border-radius:15px;
+  background:linear-gradient(145deg,#fff,#f7f9fc);
+  box-shadow:var(--shadow-card)
+}
+.momentum-summary-card .k{font-weight:750}
+.momentum-summary-card .v{font-weight:850;color:#233d5b}
+.momentum-list{gap:14px}
+.momentum-card{
+  position:relative;
+  overflow:hidden;
+  padding:17px;
+  border-color:#e0e6ee;
+  border-left:5px solid #98a6b8;
+  border-radius:17px;
+  background:#fff;
+  box-shadow:var(--shadow-card)
+}
+.momentum-card.s{border-color:#dce9e1;border-left-color:#4d896d;background:linear-gradient(145deg,#fff,#f7fbf8)}
+.momentum-card.a{border-color:#dce5ef;border-left-color:#4c7da7;background:linear-gradient(145deg,#fff,#f6f9fc)}
+.momentum-card.b{border-color:#e8e1d1;border-left-color:#a48542;background:linear-gradient(145deg,#fff,#fcfaf5)}
+.momentum-name{font-weight:850;color:#233951}
+.momentum-rank{font-weight:800}
+.momentum-badge{padding:6px 9px;font-weight:800}
+.momentum-metric{border-color:#e2e7ee;background:rgba(255,255,255,.82);border-radius:12px}
+.momentum-metric .v{font-weight:850}
+.momentum-checks{font-weight:700;color:#596579}
+.footer{padding:34px 0 42px;color:#8490a0}
+body.dark-mode{
+  --bg:#0c1420;--card:#121d2b;--text:#e6ebf1;--muted:#9aa8ba;--line:#2d3c50;
+  background:radial-gradient(circle at 10% 0,rgba(52,91,131,.18),transparent 30rem),linear-gradient(180deg,#0b1320,#101a28)
+}
+body.dark-mode .panel{background:rgba(18,29,43,.96);border-color:#2a394d;box-shadow:0 14px 40px rgba(0,0,0,.18)}
+body.dark-mode .section-title,body.dark-mode .momentum-hero-title{color:#e3eaf2}
+body.dark-mode .stock-input{background:#0d1724;border-color:#34465d}
+body.dark-mode .mini-btn{background:#172334;border-color:#34465d;color:#c8d2df}
+body.dark-mode .market-shortcut{background:linear-gradient(135deg,#13261f,#14222c);border-color:#294b3f}
+body.dark-mode .momentum-shortcut{background:linear-gradient(135deg,#211c31,#162330);border-color:#43385b}
+body.dark-mode .momentum-reminder{background:#2a2518;border-color:#5c4d2c;color:#ead79e}
+body.dark-mode .card,body.dark-mode .fib-point,body.dark-mode .level,body.dark-mode .market-level,body.dark-mode .history-card,body.dark-mode .market-history-card,body.dark-mode .target,body.dark-mode .breakbox,body.dark-mode .momentum-summary-card,body.dark-mode .momentum-card,body.dark-mode .momentum-metric{background:#172334;border-color:#314157;box-shadow:none}
+body.dark-mode .momentum-card.s{background:#14261f;border-left-color:#5b9a7b}
+body.dark-mode .momentum-card.a{background:#152438;border-left-color:#6493bd}
+body.dark-mode .momentum-card.b{background:#292516;border-left-color:#b79a53}
+body.dark-mode .momentum-summary-card .v,body.dark-mode .momentum-name{color:#e5ebf3}
+body.dark-mode .rule{background:#162334;color:#c5cfdb}
+body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
+@media(max-width:980px){
+  .momentum-summary-grid{grid-template-columns:repeat(3,1fr)}
+  .container{width:min(calc(100% - 28px),1180px)}
+}
+@media(max-width:700px){
+  .header{padding:28px 0 26px}
+  .header h1{font-size:29px}
+  .panel{padding:20px;border-radius:20px}
+  .market-shortcut,.momentum-shortcut{padding:16px}
+  .momentum-summary-grid{grid-template-columns:repeat(2,1fr)}
+  .market-index-value{font-size:36px}
+}
+@media(max-width:520px){
+  .container{width:min(calc(100% - 20px),1180px)}
+  .header p{font-size:14px}
+  .version-pill{font-size:11px}
+  .panel{padding:17px}
+  .momentum-summary-grid{grid-template-columns:1fr 1fr}
+  .momentum-card-head{flex-direction:column}
+  .momentum-badges{justify-content:flex-start}
+}
+
 </style>
 
 </head>
@@ -583,7 +833,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.7.3｜雙價差比白話解讀版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
+    <span class="version-pill">前端 V3.7.7.7.5｜全介面與三圖視覺統一版｜個股／大盤／主升圖片閱讀舒適度同步提升｜母版 V3.7.7.6.5 個股首眼資訊補強版｜雙價差比白話解讀完整保留｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋量價發動｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
 
   </div>
 
@@ -651,7 +901,7 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
           <div class="momentum-hero-title">🚀 主動式主升掃描｜盤後候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.7.3｜掃描核心 V3.7.6.17<br>V3.7.6.1 雙版本母版核心不變</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.7.5｜掃描核心 V3.7.6.17<br>V3.7.6.1 雙版本母版核心不變</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -1035,11 +1285,14 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.3｜雙價差比白話解讀版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：回歸V3.6.7.9純粹架構；不做浪號計數，個股與大盤K線以趨勢通道箭頭呈現方向，並維持文字避讓與既有固定版型。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.5｜全介面與三圖視覺統一版｜母版 V3.7.7.6.5 個股首眼資訊補強版｜雙價差比白話解讀完整保留｜V3.7.6.1雙版本防盜浮水印母版｜V3.7.3.5 完整母版沿用｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：前端查詢、大盤與主升結果介面，以及個股／大盤／主升三種圖片，統一採柔和背景、低彩度框線、白色浮層卡片與清楚資訊層級；不改任何分析公式、資料或交易Gate。</footer>
 
 <script>
 // ========================================================================
-// V3.7.7.7.3｜雙價差比白話解讀版
+// V3.7.7.7.5｜全介面與三圖視覺統一版
+// 唯一基底：V3.7.7.7.4｜個股圖片視覺舒適版
+// 唯一基底：V3.7.7.7.3。只調整個股 Canvas 的背景、卡片、框線、色彩層級與留白；
+// Worker、DeepScan、Top70、RSI、ABC/Fib/N字、主升分類、排序、雙價差比與圖片文字內容完全不變。
 // 基底：V3.7.7.7.1。只新增顯示，不改任何分析公式、排序與Gate。
 // 網頁卡片與文字戰報採完整白話格式：
 // 🎯 波段理論價差比 → 每承擔1元波段結構風險，至1.618目標約有X元潛在價差。
@@ -18779,6 +19032,15 @@ function marketRsiCardMetaV3756(data){
 
 function drawMarketRsiCardV3756(ctx,x,y,w,h,data){
   const P=infoPaletteV3328(),m=marketRsiCardMetaV3756(data),value=n(data?.dailyRsi5);
+  if(ctx?._marketVisualThemeV37775){
+    rrV3328(ctx,x,y,w,h,16,P.white,"#d9e2ee",1.25);
+    rrV3328(ctx,x+17,y+18,6,h-36,3,P.orange,null);
+    drawFitSingleLineStrictV3661(ctx,"RSI 5T",x+38,y+32,w-58,{maxSize:20,minSize:16,weight:850,color:P.orange});
+    drawFitSingleLineStrictV3661(ctx,value===null?"-":fmt(value),x+38,y+77,w-58,{maxSize:31,minSize:24,weight:900,color:P.text});
+    drawFitSingleLineStrictV3661(ctx,m.stateLine,x+38,y+116,w-58,{maxSize:17,minSize:10,weight:800,color:P.text});
+    drawFitSingleLineStrictV3661(ctx,m.detailLine,x+38,y+h-15,w-58,{maxSize:13,minSize:8.5,weight:750,color:P.muted});
+    return;
+  }
   rrV3328(ctx,x,y,w,h,14,P.paleOrange,P.orange,2);
   // V3.7.7.6.4｜大盤 RSI 卡只做字級層級強化，不改 RSI Context。
   drawFitSingleLineStrictV3661(ctx,"RSI 5T",x+16,y+31,w-32,{maxSize:23,minSize:18,weight:950,color:P.orange});
@@ -19148,7 +19410,57 @@ function infoPaletteV3328(){
   };
 }
 
+// V3.7.7.7.4｜個股圖片專屬舒適化色階。
+// 只在 applyStockTextQualityV3662 掛上 _stockVisualThemeV37774 的 Canvas 生效，
+// 因此不會改到大盤圖片、主升掃描圖片、網頁本體或任何分析資料。
+function stockComfortFillColorV37774(color){
+  if(typeof color!=="string")return color;
+  const key=color.toLowerCase();
+  return ({
+    "#123a86":"#17365d","#0b5ed7":"#2f6fae","#1d4ed8":"#356aa6",
+    "#137333":"#2d6a4f","#0f7b42":"#2d6a4f","#ea580c":"#b8622e",
+    "#dc2626":"#c24145","#a16207":"#8a6728","#6d28d9":"#6f5aa8","#087f8c":"#397982",
+    "#f5f8fd":"#f7f9fc","#eef5ff":"#f3f7fb","#eefbf2":"#f4faf7",
+    "#fff7ed":"#fdf8f3","#fff1f2":"#fcf5f6","#f6f2ff":"#f7f5fb",
+    "#ecfeff":"#f3f8f9","#f8fbff":"#f7f9fc","#fffdf7":"#fdfaf4",
+    "#f3fff7":"#f4faf7","#f0fff5":"#f3faf6","#fffaf0":"#fdf8f2"
+  })[key]||color;
+}
+
+function stockComfortStrokeColorV37774(color){
+  if(typeof color!=="string")return color;
+  const key=color.toLowerCase();
+  return ({
+    "#0b5ed7":"#d4deeb","#123a86":"#d4deeb","#1d4ed8":"#cedbea",
+    "#137333":"#bfd5c8","#0f7b42":"#bfd5c8","#ea580c":"#e6c9b8",
+    "#dc2626":"#e4c1c3","#a16207":"#e2d3b5","#6d28d9":"#d8cee7",
+    "#087f8c":"#c5dadd","#22c55e":"#b9d9c5","#f59e0b":"#e6d2aa",
+    "#ef4444":"#e5bec0","#bfdbfe":"#d8e2ee","#c9d6ea":"#e2e8f0"
+  })[key]||color;
+}
+
+function stockComfortTextColorV37774(color){
+  if(typeof color!=="string")return color;
+  const key=color.toLowerCase();
+  return ({
+    "#123a86":"#18375f","#0b5ed7":"#2f6fae","#1d4ed8":"#356aa6",
+    "#137333":"#2d6a4f","#0f7b42":"#2d6a4f","#ea580c":"#b8622e",
+    "#dc2626":"#c24145","#a16207":"#876726","#6d28d9":"#6f5aa8",
+    "#087f8c":"#397982","#172033":"#243047","#5f6b7a":"#667085",
+    "#334155":"#445066","#475467":"#5b6575","#7c3aed":"#6f5aa8",
+    "#92400e":"#80552f","#fff176":"#f8fbff"
+  })[key]||color;
+}
+
+function comfortInfographicThemeV37775(ctx){
+  return !!(ctx?._stockVisualThemeV37774||ctx?._marketVisualThemeV37775);
+}
+
 function rrV3328(ctx,x,y,w,h,r,fill,stroke=null,lw=1){
+  const comfort=comfortInfographicThemeV37775(ctx);
+  const resolvedFill=comfort?stockComfortFillColorV37774(fill):fill;
+  const resolvedStroke=comfort?stockComfortStrokeColorV37774(stroke):stroke;
+  const resolvedLw=comfort&&stroke?Math.min(Number(lw)||1,1.5):lw;
   const rad=Math.min(r,w/2,h/2);
   ctx.beginPath();
   ctx.moveTo(x+rad,y);
@@ -19157,8 +19469,13 @@ function rrV3328(ctx,x,y,w,h,r,fill,stroke=null,lw=1){
   ctx.arcTo(x,y+h,x,y,rad);
   ctx.arcTo(x,y,x+w,y,rad);
   ctx.closePath();
-  if(fill){ctx.fillStyle=fill;ctx.fill();}
-  if(stroke){ctx.lineWidth=lw;ctx.strokeStyle=stroke;ctx.stroke();}
+  if(resolvedFill){
+    const raised=comfort&&typeof resolvedFill==="string"&&resolvedFill.toLowerCase()==="#ffffff"&&resolvedStroke&&w>=450&&h>=120&&w<=1560&&y>=160;
+    ctx.save();
+    if(raised){ctx.shadowColor="rgba(25,45,72,.085)";ctx.shadowBlur=18;ctx.shadowOffsetY=7;}
+    ctx.fillStyle=resolvedFill;ctx.fill();ctx.restore();
+  }
+  if(resolvedStroke){ctx.lineWidth=resolvedLw;ctx.strokeStyle=resolvedStroke;ctx.stroke();}
 }
 
 function fontV3328(ctx,size=24,weight=700,color="#172033",align="left"){
@@ -19177,7 +19494,15 @@ function fontV3328(ctx,size=24,weight=700,color="#172033",align="left"){
     if(c==="#667085"||c==="#98a2b3"||c==="#94a3b8")safeColor="#475467";
   }
 
-  ctx.font=`${weight} ${scaledSize}px ${fontFamily}`;
+  if(comfortInfographicThemeV37775(ctx))safeColor=stockComfortTextColorV37774(safeColor);
+  let safeWeight=weight;
+  if(comfortInfographicThemeV37775(ctx)){
+    if(safeWeight>=950)safeWeight=900;
+    else if(safeWeight>=900)safeWeight=850;
+    else if(safeWeight>=850)safeWeight=800;
+  }
+
+  ctx.font=`${safeWeight} ${scaledSize}px ${fontFamily}`;
   ctx.fillStyle=safeColor;
   ctx.textAlign=align;
   ctx.textBaseline="alphabetic";
@@ -19249,22 +19574,24 @@ function normalizeCanvasDashV365(dash){
 }
 
 function drawDividerV3328(ctx,x1,y,x2,color="#d7e1f0",dash=[]){
-  ctx.save();ctx.beginPath();ctx.setLineDash(normalizeCanvasDashV365(dash));ctx.strokeStyle=color;ctx.lineWidth=2;ctx.moveTo(x1,y);ctx.lineTo(x2,y);ctx.stroke();ctx.restore();
+  const comfort=comfortInfographicThemeV37775(ctx);
+  ctx.save();ctx.beginPath();ctx.setLineDash(normalizeCanvasDashV365(dash));ctx.strokeStyle=comfort?"#e4e9f0":color;ctx.lineWidth=comfort?1.15:2;ctx.moveTo(x1,y);ctx.lineTo(x2,y);ctx.stroke();ctx.restore();
 }
 
 function drawHeaderTitleV3328(ctx,prefix,suffix){
   const P=infoPaletteV3328();
+  const comfort=comfortInfographicThemeV37775(ctx);
   let x=48,y=62;
-  fontV3328(ctx,46,900,P.navy);
+  fontV3328(ctx,comfort?42:46,900,P.navy);
   ctx.fillText(prefix,x,y);x+=ctx.measureText(prefix).width+14;
-  fontV3328(ctx,52,950,P.green);ctx.fillText("A",x,y);x+=ctx.measureText("A").width+3;
-  fontV3328(ctx,52,950,P.orange);ctx.fillText("B",x,y);x+=ctx.measureText("B").width+3;
-  fontV3328(ctx,52,950,P.blue2);ctx.fillText("C",x,y);x+=ctx.measureText("C").width+16;
-  fontV3328(ctx,42,900,P.navy);ctx.fillText(`｜${suffix}`,x,y);
+  fontV3328(ctx,comfort?48:52,950,P.green);ctx.fillText("A",x,y);x+=ctx.measureText("A").width+3;
+  fontV3328(ctx,comfort?48:52,950,P.orange);ctx.fillText("B",x,y);x+=ctx.measureText("B").width+3;
+  fontV3328(ctx,comfort?48:52,950,P.blue2);ctx.fillText("C",x,y);x+=ctx.measureText("C").width+16;
+  fontV3328(ctx,comfort?38:42,900,P.navy);ctx.fillText(`｜${suffix}`,x,y);
 }
 
 function drawCardTitleV3328(ctx,x,y,title,accent="#123a86",size=28){
-  fontV3328(ctx,size,900,accent);ctx.fillText(title,x,y);
+  fontV3328(ctx,size,comfortInfographicThemeV37775(ctx)?850:900,accent);ctx.fillText(title,x,y);
 }
 
 function drawPillV3328(ctx,text,x,y,fill,color,maxWidth=null){
@@ -19291,6 +19618,14 @@ function drawMetricCardV3328(ctx,x,y,w,h,title,value,sub,kind="blue"){
     green:[P.paleGreen,P.green],blue:[P.paleBlue,P.navy],orange:[P.paleOrange,P.orange],
     red:[P.paleRed,P.red],purple:[P.palePurple,P.purple],cyan:["#ecfeff",P.cyan]
   }[kind]||[P.soft,P.navy];
+  if(comfortInfographicThemeV37775(ctx)){
+    rrV3328(ctx,x,y,w,h,16,P.white,"#d9e2ee",1.25);
+    rrV3328(ctx,x+17,y+18,6,h-36,3,style[1],null);
+    fontV3328(ctx,19,850,style[1]);ctx.fillText(title,x+38,y+32);
+    drawWrapV3328(ctx,value,x+38,y+76,w-58,33,2,{size:27,weight:850,color:P.text});
+    if(sub)drawWrapV3328(ctx,sub,x+38,y+h-40,w-58,25,2,{size:17.5,weight:700,color:P.muted});
+    return;
+  }
   rrV3328(ctx,x,y,w,h,14,style[0],style[1],2);
   fontV3328(ctx,21,900,style[1]);ctx.fillText(title,x+16,y+31);
   drawWrapV3328(ctx,value,x+16,y+74,w-32,34,2,{size:28,weight:900,color:P.text});
@@ -19343,22 +19678,35 @@ function drawCenteredStatusV3661(ctx,text,x,y,w,color){
 
 function drawStockMapRowV3661(ctx,it,my,rowH,isLast){
   const P=infoPaletteV3328();
+  const comfort=!!ctx?._stockVisualThemeV37774;
+  const baseline=comfort?my+Math.max(0,(rowH-47)*.45):my;
   const priceX=48,labelX=214,statusX=1360,statusW=184,contentRight=1340;
   const isCurrentClose37765=String(it?.label||"").trim()==="目前收盤";
-  fontV3328(ctx,21,900,isCurrentClose37765?P.red:it.color);ctx.fillText(`${fmt(it.value)} 元`,priceX,my);
+  if(comfort&&isCurrentClose37765)rrV3328(ctx,38,baseline-26,5,50,3,P.red,null);
+  fontV3328(ctx,21,900,isCurrentClose37765?P.red:it.color);ctx.fillText(`${fmt(it.value)} 元`,priceX,baseline);
   // V3.7.7.6.5｜只把「目前收盤」這四字同步改紅；右側偏強／偏弱狀態顏色完全不動。
   drawFitSingleLineStrictV3661(
-    ctx,it.label,labelX,my,contentRight-labelX-14,
+    ctx,it.label,labelX,baseline,contentRight-labelX-14,
     {maxSize:18,minSize:14,weight:isCurrentClose37765?950:800,color:isCurrentClose37765?P.red:P.text}
   );
-  drawCenteredStatusV3661(ctx,`${it.biasIcon||"🟡"} ${it.bias||"中性"}`,statusX,my,statusW,it.biasColor||P.muted);
+  drawCenteredStatusV3661(ctx,`${it.biasIcon||"🟡"} ${it.bias||"中性"}`,statusX,baseline,statusW,it.biasColor||P.muted);
   const action=`持有者：${it.holderAction}｜${it.holderNote}｜空手者：${it.nonHolderAction}｜${it.nonHolderNote}`;
-  drawFitSingleLineStrictV3661(ctx,action,labelX,my+24,contentRight-labelX-14,{maxSize:15,minSize:12,weight:750,color:P.muted});
-  if(!isLast)drawDividerV3328(ctx,46,my+34,1548,P.line);
+  drawFitSingleLineStrictV3661(ctx,action,labelX,baseline+24,contentRight-labelX-14,{maxSize:15,minSize:12,weight:750,color:P.muted});
+  if(!isLast)drawDividerV3328(ctx,46,comfort?my+rowH-12:my+34,1548,P.line);
 }
 
 function drawMarketMa20CardV3330(ctx,x,y,w,h,st){
   const P=infoPaletteV3328();
+  if(ctx?._marketVisualThemeV37775){
+    rrV3328(ctx,x,y,w,h,16,P.white,"#d9e2ee",1.25);
+    rrV3328(ctx,x+17,y+18,6,h-36,3,P.green,null);
+    fontV3328(ctx,19,850,P.green);ctx.fillText("日20MA",x+38,y+32);
+    drawWrapV3328(ctx,st.ma20===null?"-":`${fmt(st.ma20)} 點`,x+38,y+76,w-58,31,2,{size:27,weight:850,color:P.text});
+    const slopeText=st.slope===null?"斜率 -":`斜率 ${st.slope>=0?"+":""}${fmt(st.slope)}%`;
+    const gapText=st.gap===null?"乖離 -":`乖離 ${st.gap>=0?"+":""}${fmt(st.gap)}%`;
+    drawFitSingleLineV3330(ctx,`${slopeText}｜${gapText}`,x+38,y+h-22,w-58,{maxSize:15,minSize:10,weight:700,color:P.muted});
+    return;
+  }
   rrV3328(ctx,x,y,w,h,14,P.paleGreen,P.green,2);
   fontV3328(ctx,21,900,P.green);ctx.fillText("日20MA",x+16,y+31);
   drawWrapV3328(ctx,st.ma20===null?"-":`${fmt(st.ma20)} 點`,x+16,y+72,w-32,30,2,{size:28,weight:900,color:P.text});
@@ -20591,6 +20939,8 @@ function drawMarketTopChartV365(ctx,data,st){
 
 function applyStockTextQualityV3662(ctx){
   if(!ctx)return;
+  // V3.7.7.7.4｜只標記個股 Canvas；共用繪圖元件據此切換柔和色階與卡片質感。
+  ctx._stockVisualThemeV37774=true;
   // 只作用於「個股圖片」Canvas：優先使用繁中字型，並要求瀏覽器採可讀性優先的文字渲染。
   ctx._stockFontFamilyV3662='"PingFang TC","Noto Sans TC","Microsoft JhengHei",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif';
   // V3.7.7.6｜只對個股圖片啟用 1.23 極致安全放大；大盤圖不套用。
@@ -20602,6 +20952,66 @@ function applyStockTextQualityV3662(ctx){
   if("imageSmoothingQuality" in ctx)ctx.imageSmoothingQuality="high";
 }
 
+function drawStockComfortBackdropV37774(ctx,w,h){
+  const bg=ctx.createLinearGradient(0,0,0,h);
+  bg.addColorStop(0,"#f1f5fa");
+  bg.addColorStop(.42,"#f6f8fb");
+  bg.addColorStop(1,"#eef3f8");
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+
+  const glow=ctx.createRadialGradient(220,40,10,220,40,720);
+  glow.addColorStop(0,"rgba(102,151,206,.13)");
+  glow.addColorStop(1,"rgba(102,151,206,0)");
+  ctx.fillStyle=glow;ctx.fillRect(0,0,w,520);
+  rrV3328(ctx,3,3,w-6,h-6,20,null,"#cfd9e6",1.4);
+}
+
+function drawStockComfortHeaderRibbonV37774(ctx,x,y,w,h){
+  const ribbon=ctx.createLinearGradient(x,y,x+w,y+h);
+  ribbon.addColorStop(0,"#17365d");
+  ribbon.addColorStop(.55,"#234b73");
+  ribbon.addColorStop(1,"#2f5f89");
+  rrV3328(ctx,x,y,w,h,14,ribbon,null);
+  const sheen=ctx.createLinearGradient(x,y,x,y+h);
+  sheen.addColorStop(0,"rgba(255,255,255,.13)");
+  sheen.addColorStop(1,"rgba(255,255,255,0)");
+  rrV3328(ctx,x+2,y+2,w-4,Math.max(10,h*.48),12,sheen,null);
+}
+
+function applyMarketVisualQualityV37775(ctx){
+  if(!ctx)return;
+  ctx._marketVisualThemeV37775=true;
+  if("textRendering" in ctx)ctx.textRendering="optimizeLegibility";
+  if("fontKerning" in ctx)ctx.fontKerning="normal";
+  ctx.imageSmoothingEnabled=true;
+  if("imageSmoothingQuality" in ctx)ctx.imageSmoothingQuality="high";
+}
+
+function drawMarketComfortBackdropV37775(ctx,w,h){
+  const bg=ctx.createLinearGradient(0,0,0,h);
+  bg.addColorStop(0,"#eef4f7");
+  bg.addColorStop(.46,"#f5f7fa");
+  bg.addColorStop(1,"#edf2f6");
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+  const glow=ctx.createRadialGradient(1360,60,10,1360,60,660);
+  glow.addColorStop(0,"rgba(65,139,136,.12)");
+  glow.addColorStop(1,"rgba(65,139,136,0)");
+  ctx.fillStyle=glow;ctx.fillRect(800,0,800,560);
+  rrV3328(ctx,3,3,w-6,h-6,20,null,"#ccd8e3",1.4);
+}
+
+function drawMarketComfortHeaderRibbonV37775(ctx,x,y,w,h){
+  const ribbon=ctx.createLinearGradient(x,y,x+w,y+h);
+  ribbon.addColorStop(0,"#17384f");
+  ribbon.addColorStop(.56,"#245a67");
+  ribbon.addColorStop(1,"#347875");
+  rrV3328(ctx,x,y,w,h,14,ribbon,null);
+  const sheen=ctx.createLinearGradient(x,y,x,y+h);
+  sheen.addColorStop(0,"rgba(255,255,255,.13)");
+  sheen.addColorStop(1,"rgba(255,255,255,0)");
+  rrV3328(ctx,x+2,y+2,w-4,Math.max(10,h*.48),12,sheen,null);
+}
+
 function renderStockInfographicV3328(report){
   // V3.6.6.2｜沿用 V3.6.6.1 個股圖片固定模板：警語搬到最底部右側，並強化繁中文字體清晰度；1152×2048（9:16）
   // 新增市場階段／突破生命週期／突破品質2.0／價帶／動態防守；Canvas尺寸與ABC/Fib/N字公式完全不變。
@@ -20611,28 +21021,29 @@ function renderStockInfographicV3328(report){
   const ctx=canvas.getContext("2d");
   applyStockTextQualityV3662(ctx);
   ctx.setTransform(SCALE,0,0,SCALE,0,0);
-  ctx.fillStyle=P.white;ctx.fillRect(0,0,LOG_W,LOG_H);rrV3328(ctx,2,2,1596,2840,18,P.white,P.blue,3);
+  drawStockComfortBackdropV37774(ctx,LOG_W,LOG_H);
+  rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
 
   drawHeaderTitleV3328(ctx,"🧩 新手先懂","這檔現在走到哪一步？");
-  rrV3328(ctx,26,82,1190,72,10,P.navy,null);
+  drawStockComfortHeaderRibbonV37774(ctx,26,82,1190,72);
   const stock=formatStockNameWithCode(report.name,report.code);
   // V3.7.7.5｜股票名稱＋代號首眼強化：放大、提高亮度，並限制在左側藍底範圍內自動縮字，不越界。
   const stockNameX3775=48,stockNameW3775=500,stockMetaX3775=565;
   drawFitSingleLineStrictV3661(
     ctx,stock,
     stockNameX3775,130,stockNameW3775,
-    {maxSize:45,minSize:31,weight:950,color:"#fff176"}
+    {maxSize:45,minSize:31,weight:950,color:"#f8fbff"}
   );
   drawFitSingleLineStrictV3661(
     ctx,`｜${marketNameZh(report.market)}｜最新交易日 ${datefmt(report.closeDate)}｜資料來源：${sourceNameZh(report.source)}`,
     stockMetaX3775,128,1198-stockMetaX3775,
     {maxSize:23,minSize:16,weight:800,color:"#ffffff"}
   );
-  rrV3328(ctx,1232,18,340,136,12,P.navy,null);
+  drawStockComfortHeaderRibbonV37774(ctx,1232,18,340,136);
   fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);
   fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);
   fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);
-  fontV3328(ctx,16,700,"#dbeafe","center");ctx.fillText("V3.7.7.6.5｜個股首眼資訊補強",1402,141);
+  fontV3328(ctx,16,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.5｜三圖視覺統一",1402,141);
 
   // ===== 上半部：ABC + 結構示意圖 =====
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);
@@ -20693,7 +21104,10 @@ function renderStockInfographicV3328(report){
   drawFakeBreakoutReminderV3771(ctx,report,st,1038,mapY+12,510,116);
 
   const map=buildStockMapItemsV3328(report,st).slice(0,12);let my=mapY+144;
-  const mapRowH=47; // V3.7.7.5：為完整RSI卡騰出標題高度；仍保留12列價格地圖，不刪價位。
+  // V3.7.7.7.4｜筆數少時舒展垂直間距，避免價格地圖中段留下大塊空白；
+  // 12列時仍安全退回原本47px，所有價位與文字內容完整保留。
+  const mapRowsAvailableH37774=554;
+  const mapRowH=map.length?Math.max(47,Math.min(106,Math.floor(mapRowsAvailableH37774/map.length))):47;
   map.forEach((it,i)=>{drawStockMapRowV3661(ctx,it,my,mapRowH,i===map.length-1);my+=mapRowH;});
   drawFitSingleLineStrictV3661(ctx,"※ 固定句型是把既有技術條件翻成白話動作；看到「可分批進場」仍要等條件成立，不是看到價位就直接買。",48,mapY+mapH-22,1490,{maxSize:16,minSize:13,weight:700,color:P.muted});
 
@@ -20930,14 +21344,13 @@ function renderMarketInfographicV3328(data){
   const P=infoPaletteV3328(),st=marketInfographicStateV3328(data);
   const canvas=document.createElement("canvas");canvas.width=INFOGRAPHIC_W_V3328;canvas.height=INFOGRAPHIC_H_V3328;
   const ctx=canvas.getContext("2d");
-  ctx.imageSmoothingEnabled=true;
-  if("imageSmoothingQuality" in ctx)ctx.imageSmoothingQuality="high";
+  applyMarketVisualQualityV37775(ctx);
   ctx.setTransform(INFOGRAPHIC_SCALE_V3332,0,0,INFOGRAPHIC_SCALE_V3332,0,0);
-  ctx.fillStyle=P.white;ctx.fillRect(0,0,INFOGRAPHIC_LOGICAL_W_V3332,INFOGRAPHIC_LOGICAL_H_V3332);
-  rrV3328(ctx,2,2,1596,2396,18,P.white,P.blue,3);
+  drawMarketComfortBackdropV37775(ctx,INFOGRAPHIC_LOGICAL_W_V3332,INFOGRAPHIC_LOGICAL_H_V3332);
+  rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
-  rrV3328(ctx,26,82,1190,72,10,P.navy,null);fontV3328(ctx,31,900,"#facc15");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  rrV3328(ctx,1232,18,340,136,12,P.navy,null);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.6.5｜個股首眼資訊補強",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.5｜大盤圖片視覺舒適",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
@@ -22146,34 +22559,63 @@ async function copyMomentumScanReportV3763(){
 }
 
 function roundedRectScanV3762(ctx,x,y,w,h,r,fill,stroke="#dbe4ef",lw=1){
-  ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke();}
+  const comfort=!!ctx?._momentumVisualThemeV37775;
+  const resolvedFill=comfort?stockComfortFillColorV37774(fill):fill;
+  const resolvedStroke=comfort?stockComfortStrokeColorV37774(stroke):stroke;
+  ctx.beginPath();ctx.roundRect(x,y,w,h,r);
+  if(resolvedFill){
+    const raised=comfort&&typeof resolvedFill==="string"&&resolvedFill.toLowerCase()==="#ffffff"&&w>=500&&h>=70;
+    ctx.save();
+    if(raised){ctx.shadowColor="rgba(25,45,72,.08)";ctx.shadowBlur=15;ctx.shadowOffsetY=6;}
+    ctx.fillStyle=resolvedFill;ctx.fill();ctx.restore();
+  }
+  if(resolvedStroke){ctx.strokeStyle=resolvedStroke;ctx.lineWidth=comfort?Math.min(Number(lw)||1,1.4):lw;ctx.stroke();}
 }
 function scanTextV3762(ctx,text,x,y,size=20,weight=700,color="#172033",align="left"){
-  ctx.font=`${weight} ${size}px -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline="alphabetic";ctx.fillText(String(text??""),x,y);
+  let safeWeight=weight,safeColor=color;
+  if(ctx?._momentumVisualThemeV37775){
+    safeColor=stockComfortTextColorV37774(color);
+    if(safeWeight>=950)safeWeight=900;else if(safeWeight>=900)safeWeight=850;else if(safeWeight>=850)safeWeight=800;
+  }
+  ctx.font=`${safeWeight} ${size}px -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif`;ctx.fillStyle=safeColor;ctx.textAlign=align;ctx.textBaseline="alphabetic";ctx.fillText(String(text??""),x,y);
 }
 function fitScanTextV3762(ctx,text,x,y,maxW,maxSize=20,minSize=11,weight=800,color="#172033",align="left"){
   let size=maxSize;for(;size>minSize;size--){ctx.font=`${weight} ${size}px -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif`;if(ctx.measureText(String(text)).width<=maxW)break;}scanTextV3762(ctx,text,x,y,size,weight,color,align);
+}
+
+function drawScanMetricV37775(ctx,x,y,w,label,value,color="#243047"){
+  roundedRectScanV3762(ctx,x,y,w,42,10,"#f6f8fb",null);
+  scanTextV3762(ctx,label,x+11,y+14,10,750,"#748093");
+  fitScanTextV3762(ctx,value,x+11,y+34,w-22,16,11,900,color);
 }
 
 function renderMomentumScanInfographicV3762(scan){
   const canvas=document.createElement("canvas");
   canvas.width=1152;canvas.height=2048;
   const ctx=canvas.getContext("2d");
+  ctx._momentumVisualThemeV37775=true;
   ctx.imageSmoothingEnabled=true;
 
-  ctx.fillStyle="#f4f7fb";
+  const scanBg=ctx.createLinearGradient(0,0,0,2048);
+  scanBg.addColorStop(0,"#edf3f8");
+  scanBg.addColorStop(.52,"#f6f8fa");
+  scanBg.addColorStop(1,"#edf2f6");
+  ctx.fillStyle=scanBg;
   ctx.fillRect(0,0,1152,2048);
-  roundedRectScanV3762(ctx,8,8,1136,2032,22,"#ffffff","#0b5ed7",3);
+  roundedRectScanV3762(ctx,8,8,1136,2032,22,null,"#ccd8e3",1.5);
 
   const phase=momentumReportPhaseV37771(scan.createdAt);
 
   // Header
-  ctx.fillStyle="#0b2e63";
-  ctx.fillRect(8,8,1136,176);
+  const scanHeader=ctx.createLinearGradient(8,8,1144,184);
+  scanHeader.addColorStop(0,"#173653");
+  scanHeader.addColorStop(.62,"#294e72");
+  scanHeader.addColorStop(1,"#5d4e89");
+  roundedRectScanV3762(ctx,8,8,1136,176,22,scanHeader,null);
   scanTextV3762(ctx,phase.imageTitle,42,72,34,950,"#ffffff");
   fitScanTextV3762(
     ctx,
-    "V3.7.7.7.3｜掃描核心 V3.7.6.17・雙價差比白話解讀・1.618/0.764波段價差比",
+    "V3.7.7.7.5｜掃描核心 V3.7.6.17・四重點卡片・雙價差比完整保留",
     42,114,1068,18,12,800,"#dbeafe"
   );
   scanTextV3762(ctx,`產生時間 ${scan.createdAt}（台灣時間）`,42,150,17,750,"#dbeafe");
@@ -22187,25 +22629,39 @@ function renderMomentumScanInfographicV3762(scan){
     58,250,1036,21,12,900,"#8a6700"
   );
 
-  const qRate=scan.successRate??(scan.done?((scan.successCount??Math.max(0,scan.done-scan.failed-scan.dataSkippedCount))/scan.done):0);
-  const summary=`${scan.qualityPass?"完整性通過":"⚠完整性未通過"}｜成功率 ${fmt(qRate*100,1)}%｜實掃 ${scan.done}｜失敗 ${scan.failed}｜S ${scan.sCount}｜A ${scan.aCount}｜B ${scan.bCount}`;
-  scanTextV3762(ctx,summary,58,316,20,900,"#334155");
-
   // V3.7.6.17 正式發動榜
   const launch=scan.launchCandidates||scan.candidates||[];
+  const successCount=scan.successCount??Math.max(0,(scan.done||0)-(scan.failed||0)-(scan.dataSkippedCount||0));
+  const qRate=scan.successRate??(scan.done?successCount/scan.done:0);
+  const summaryItems=[
+    {label:"掃描完整性",value:scan.qualityPass?"PASS":"需檢查",color:scan.qualityPass?"#3f7a60":"#aa6f25"},
+    {label:"DeepScan",value:`${successCount}/${scan.done||0}・${fmt(qRate*100,0)}%`,color:"#315f89"},
+    {label:"正式候選",value:`${launch.length} 檔`,color:"#554781"},
+    {label:"等待 C",value:`${scan.waitingC||0} 檔`,color:"#8b6c2c"},
+    {label:"S / A / B",value:`${scan.sCount||0} / ${scan.aCount||0} / ${scan.bCount||0}`,color:"#394a60"}
+  ];
+  const summaryGap=8,summaryW=(1080-summaryGap*4)/5;
+  summaryItems.forEach((item,i)=>{
+    const x=36+i*(summaryW+summaryGap);
+    roundedRectScanV3762(ctx,x,294,summaryW,42,10,"#ffffff","#dfe6ed",1);
+    roundedRectScanV3762(ctx,x,294,4,42,4,item.color,null);
+    scanTextV3762(ctx,item.label,x+13,309,9,750,"#748093");
+    fitScanTextV3762(ctx,item.value,x+13,329,summaryW-24,14,10,900,item.color);
+  });
+
   const top=launch.slice(0,MOMENTUM_SCAN_IMAGE_TOP_V3762);
   let y=344;
   const cardH=178,gap=9;
 
   top.forEach((c,i)=>{
     const gradeColor=c.grade==="S"?"#137333":c.grade==="A"?"#0b5ed7":"#8a6700";
-    const fill=c.grade==="S"?"#f5fff8":c.grade==="A"?"#f4f8ff":"#fffdf3";
     const code=c.report?.stock||c.report?.code||"-";
     const name=c.report?.name||LOCAL_NAME_MAP?.[code]||"-";
     const stageText=`${c.stage?.icon||"🟡"} ${c.stage?.label||"-"}`;
     const stableText=`${c.stability?.short||c.stability?.label||"還要看"}`;
 
-    roundedRectScanV3762(ctx,36,y,1080,cardH,14,fill,gradeColor,1.5);
+    roundedRectScanV3762(ctx,36,y,1080,cardH,14,"#ffffff","#dbe3eb",1.2);
+    roundedRectScanV3762(ctx,36,y,6,cardH,6,gradeColor,null);
 
     roundedRectScanV3762(ctx,54,y+18,72,44,12,gradeColor,null);
     scanTextV3762(ctx,`#${i+1}`,90,y+49,22,950,"#ffffff","center");
@@ -22222,11 +22678,11 @@ function renderMomentumScanInfographicV3762(scan){
     const remaining=c.strategicUpsidePct==null?"-":`+${fmt(c.strategicUpsidePct,1)}%`;
     const nearestRR=c.nearestRRRatio!==null&&c.nearestRRRatio!==undefined?`1:${fmt(c.nearestRRRatio,2)}`:"待建立";
 
-    scanTextV3762(
-      ctx,
-      `收盤 ${fmt(c.close)}｜波段 ${waveRR}｜剩餘 ${remaining}｜近端 ${nearestRR}`,
-      58,y+88,19,900,"#172033"
-    );
+    const metricGap=8,metricW=(1032-metricGap*3)/4;
+    drawScanMetricV37775(ctx,58,y+70,metricW,"收盤",`${fmt(c.close)} 元`,"#243047");
+    drawScanMetricV37775(ctx,58+(metricW+metricGap),y+70,metricW,"波段價差比",waveRR,"#554781");
+    drawScanMetricV37775(ctx,58+(metricW+metricGap)*2,y+70,metricW,"波段剩餘空間",remaining,"#3f7a60");
+    drawScanMetricV37775(ctx,58+(metricW+metricGap)*3,y+70,metricW,"近端價差比",nearestRR,"#315f89");
 
     const waveRisk=c.waveRiskLevel!==null&&c.waveRiskLevel!==undefined
       ?`${fmt(c.waveRiskLevel)} Fib0.764波段風控`
@@ -22239,7 +22695,7 @@ function renderMomentumScanInfographicV3762(scan){
     fitScanTextV3762(
       ctx,
       `🛡️ 波段風控 ${waveRisk}　｜　近撐 ${support}　→　🎯 ${target}`,
-      58,y+122,1000,16,10,850,"#475467"
+      58,y+126,1000,15,10,850,"#475467"
     );
 
     const qualityText=c.breakoutQualityScore==null
@@ -22257,12 +22713,11 @@ function renderMomentumScanInfographicV3762(scan){
     fitScanTextV3762(
       ctx,
       `${stabilityIcon} ${stableText}｜${qualityText}｜量能 ${vol}｜20MA乖離 ${c.gap==null?"-":fmt(c.gap,1)+"%"}｜RSI ${c.rsi==null?"-":fmt(c.rsi,1)}`,
-      58,y+153,1000,14,9,800,stabilityColor
+      58,y+151,1000,13,9,800,stabilityColor
     );
 
-    const imgPlain=momentumRatioPlainV37772(c.waveRRRatio,c.nearestRRRatio,c.waveRRFormal);
     const compactPlain=`💰波段1元→${c.waveRRRatio==null?"待建立":fmt(c.waveRRRatio,2)+"元"}｜↗近端1元→${c.nearestRRRatio==null?"待建立":fmt(c.nearestRRRatio,2)+"元"}｜⚠️非勝率`;
-    fitScanTextV3762(ctx,compactPlain,58,y+174,1000,13,9,850,"#b45309");
+    fitScanTextV3762(ctx,compactPlain,58,y+172,1000,12,9,850,"#a86b28");
 
     y+=cardH+gap;
   });
@@ -22272,8 +22727,9 @@ function renderMomentumScanInfographicV3762(scan){
     scanTextV3762(ctx,"目前沒有正式主升候選",576,468,28,950,"#667085","center");
   }
 
-  roundedRectScanV3762(ctx,36,1860,1080,132,14,"#f8fbff","#0b5ed7",1.5);
-  scanTextV3762(ctx,"判讀順序：主升位置 → 波段剩餘價差＋波段價差比 → 突破品質 → 量能 → MA20熱度 → RSI",58,1904,16,850,"#0b2e63");
+  roundedRectScanV3762(ctx,36,1860,1080,132,14,"#ffffff","#d8e1ea",1.2);
+  roundedRectScanV3762(ctx,36,1860,6,132,6,"#5d4e89",null);
+  scanTextV3762(ctx,"判讀順序：主升位置 → 波段剩餘價差＋波段價差比 → 突破品質 → 量能 → MA20熱度 → RSI",58,1904,16,850,"#294b6d");
   scanTextV3762(ctx,"🟢初段優先新進；🟡預備等突破；🔥延伸持有優先；🚀過熱強但空手勿追。",58,1940,16,800,"#475467");
   scanTextV3762(ctx,"技術分析僅供研究與決策參考，不構成投資建議。",58,1976,14,750,"#94a3b8");
 
@@ -23444,7 +23900,7 @@ buildMomentumScanTextReportV3763=function(scan){
   const phase=momentumReportPhaseV37771(scan.createdAt);
 
   lines.push(phase.textTitle);
-  lines.push("前端版本：V3.7.7.7.3｜母版 V3.7.7.6.5＋主動式掃描核心 V3.7.6.17");
+  lines.push("前端版本：V3.7.7.7.5｜母版 V3.7.7.6.5＋主動式掃描核心 V3.7.6.17");
   lines.push(`報告產生時間：${scan.createdAt}（台灣時間）`);
   lines.push(phase.timingNote);
   lines.push("📌 排名原則：先判斷主升位置；同位置機會分差距≥1.0時由機會分決勝，差距<1.0視為同級，再依突破品質→量能→MA20熱度→RSI決勝。");
