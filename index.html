@@ -570,14 +570,14 @@ body.dark-mode .momentum-checks{color:#cbd5e1}
 @media(max-width:600px){.momentum-action-row{flex-direction:column}.momentum-stop-btn{padding:13px}.momentum-metrics{grid-template-columns:repeat(2,1fr)}}
 
 /* ========================================================================
-   V3.7.7.7.12｜DeepScan失敗原因直接顯示 Hotfix
+   V3.7.7.7.13｜DeepScan失敗原因直接顯示 Hotfix
    - qualityPass 未通過時，直接顯示成功/失敗檔數、主要失敗原因、次要原因與補救成功數。
    - 失敗原因由 failureBreakdown 動態統計，不寫死特定錯誤類型。
    - 僅改錯誤提示 UI；DeepScan批次、重試、95%完整性Gate、三榜、排序與所有分析公式完全不變。
    ======================================================================== */
 
 /* ========================================================================
-   V3.7.7.7.12｜七層盤後文字戰報重構
+   V3.7.7.7.13｜七層盤後文字戰報重構
    只調整色彩、字級、留白、卡片層級與響應式版面；不改 DOM ID、事件、資料或分析邏輯。
    ======================================================================== */
 :root{
@@ -840,7 +840,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.7.12｜七層盤後文字戰報重構版｜三榜 Gate 與掃描核心完整保留｜母版 V3.7.7.7.8 safeReady 修正版｜個股／大盤／主升圖片閱讀舒適度同步提升｜雙價差比白話解讀完整保留｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
+    <span class="version-pill">前端 V3.7.7.7.13｜七層盤後文字戰報重構版｜三榜 Gate 與掃描核心完整保留｜母版 V3.7.7.7.8 safeReady 修正版｜個股／大盤／主升圖片閱讀舒適度同步提升｜雙價差比白話解讀完整保留｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
 
   </div>
 
@@ -908,7 +908,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
           <div class="momentum-hero-title">🚀 主動式主升掃描｜盤後候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.7.12｜七層文字戰報｜掃描核心 V3.7.6.17<br>V3.7.7.7.8 三榜 Gate 完整保留</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.7.13｜七層文字戰報｜掃描核心 V3.7.6.17<br>V3.7.7.7.8 三榜 Gate 完整保留</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -926,7 +926,10 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
       </div>
       <div id="momentumList" class="momentum-list"></div>
       <div class="momentum-image-actions">
-        <button id="copyMomentumReportButton" class="copy-btn newbie-copy-btn" type="button" onclick="copyMomentumScanReportV3763()">📋 一鍵複製主升動能掃描報告</button>
+        <button id="copyMomentumReportButton" class="copy-btn newbie-copy-btn" type="button" onclick="copyMomentumScanReportV3763()">📋 一鍵複製精簡完整戰報</button>
+        <button id="downloadMomentumFullReportButton" class="copy-btn" type="button" onclick="downloadMomentumFullReportV377713()">📄 下載完整詳細 TXT</button>
+        <button id="copyMomentumFullPart1Button" class="copy-btn" type="button" onclick="copyMomentumFullReportPartV377713(1)">📋 完整版分段複製 1/2</button>
+        <button id="copyMomentumFullPart2Button" class="copy-btn" type="button" onclick="copyMomentumFullReportPartV377713(2)">📋 完整版分段複製 2/2</button>
         <button id="generateMomentumImageButton" class="copy-btn image-btn" type="button" onclick="generateMomentumScanImageV3762(false)">🖼️ 生成主升動能掃描圖</button>
         <button id="generateMomentumWatermarkImageButton" class="copy-btn watermark-image-btn" type="button" onclick="generateMomentumScanImageV3762(true)">🛡️ 生成主升動能掃描圖（防盜浮水印）</button>
       </div>
@@ -1293,12 +1296,12 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.12｜七層盤後文字戰報重構版｜母版 V3.7.7.7.8 三榜分流＋安全起漲榜 safeReady 修正版｜雙價差比白話解讀完整保留｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：盤後文字戰報改為七層閱讀架構；三榜 Gate、RR、ABC／Fib／N字、排序與 Worker URL 完全不變。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.13｜七層盤後文字戰報重構版｜母版 V3.7.7.7.8 三榜分流＋安全起漲榜 safeReady 修正版｜雙價差比白話解讀完整保留｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：盤後文字戰報改為七層閱讀架構；三榜 Gate、RR、ABC／Fib／N字、排序與 Worker URL 完全不變。</footer>
 
 <script>
 // ========================================================================
 // ========================================================================
-// V3.7.7.7.12｜DeepScan錯誤細分診斷版
+// V3.7.7.7.13｜DeepScan錯誤細分診斷版
 // ① 將「Worker／伺服器暫時異常」進一步解析成 CPU／執行時間、Service Binding／FIB_API、
 //    HTTP 429/500/502/503/504、網路逾時、上游異常、格式異常等。
 // ② 顯示 HTTP 狀態碼統計與最多 8 檔逐檔失敗樣本。
@@ -1307,7 +1310,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 // 三榜、排序、RR、ABC/Fib/N字、Worker URL 完全不變。
 // ========================================================================
 // ========================================================================
-// V3.7.7.7.12｜候選完整輸出＋股票名稱亂碼防呆版
+// V3.7.7.7.13｜候選完整輸出＋股票名稱亂碼防呆版
 // ① 候選畫面顯示上限由20提高到70，正式候選不再因 UI renderer 只顯示前20檔。
 // ② 七層文字戰報新增「候選數｜實際列出數」自我校驗與最終完整性標記。
 // ③ 複製前再驗證最後一檔 TOP N 是否真的存在；若組字不完整則拒絕複製並提示。
@@ -1316,7 +1319,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 // 只修前端顯示／文字輸出；V3.7.6.17 DeepScan、三榜 Gate、排序、RR、ABC/Fib/N字、
 // batch、95%完整性Gate與 Worker URL 完全不變。
 // ========================================================================
-// V3.7.7.7.12｜七層盤後完整文字戰報重構版
+// V3.7.7.7.13｜七層盤後完整文字戰報重構版
 // 只重構文字戰報閱讀層級，並讓主升圖片底部與文字戰報共用同一組三榜官方定義。
 // 不改掃描計算、三榜 Gate、RR、ABC/Fib/N字、排序或 Worker URL。
 // ========================================================================
@@ -3746,7 +3749,7 @@ function isValidStockDisplayName(name,code){
 
   if(!nm)return false;
 
-  // V3.7.7.7.12：上游若發生文字編碼破損，常會出現 Unicode replacement char「�」。
+  // V3.7.7.7.13：上游若發生文字編碼破損，常會出現 Unicode replacement char「�」。
   // 這種名稱即使夾帶英文字母，也不能視為有效股票名稱。
   if(/[\uFFFD\u0000-\u001F\u007F]/.test(nm))return false;
 
@@ -21101,7 +21104,7 @@ function renderStockInfographicV3328(report){
   fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);
   fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);
   fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);
-  fontV3328(ctx,16,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.12｜七層戰報重構",1402,141);
+  fontV3328(ctx,16,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.13｜七層戰報重構",1402,141);
 
   // ===== 上半部：ABC + 結構示意圖 =====
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);
@@ -21408,7 +21411,7 @@ function renderMarketInfographicV3328(data){
   rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
   drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.12｜大盤圖片視覺舒適",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.13｜大盤圖片視覺舒適",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
@@ -22611,7 +22614,7 @@ async function copyMomentumScanReportV3763(){
     :null;
   const outputAuditOk=(launchAudit.length===expectedCount)
     &&(!expectedLast||text.includes(expectedLast))
-    &&text.includes("END-OF-MOMENTUM-REPORT-V3.7.7.7.12");
+    &&text.includes("END-OF-MOMENTUM-REPORT-V3.7.7.7.13");
   if(!outputAuditOk){
     msg.style.color="var(--red)";
     msg.textContent=`❌ 文字戰報組字不完整：候選 ${expectedCount} 檔｜準備列出 ${launchAudit.length} 檔。已停止複製，避免把截斷報告當成完整版。`;
@@ -22692,7 +22695,7 @@ function renderMomentumScanInfographicV3762(scan){
   scanTextV3762(ctx,phase.imageTitle,42,72,34,950,"#ffffff");
   fitScanTextV3762(
     ctx,
-    "V3.7.7.7.12｜掃描核心 V3.7.6.17・七層文字戰報重構",
+    "V3.7.7.7.13｜掃描核心 V3.7.6.17・七層文字戰報重構",
     42,114,1068,18,12,800,"#dbeafe"
   );
   scanTextV3762(ctx,`產生時間 ${scan.createdAt}（台灣時間）`,42,150,17,750,"#dbeafe");
@@ -24489,7 +24492,7 @@ buildMomentumScanTextReportV3763=function(scan){
   return lines.join("\n");
 };
 // ========================================================================
-// V3.7.7.7.12｜最終七層盤後文字戰報覆寫
+// V3.7.7.7.13｜最終七層盤後文字戰報覆寫
 // 僅重構輸出格式；掃描計算、三榜 Gate、RR、ABC/Fib/N字、排序與 Worker URL 不變。
 // ========================================================================
 buildMomentumScanTextReportV3763=function(scan){
@@ -24522,7 +24525,7 @@ buildMomentumScanTextReportV3763=function(scan){
   lines.push(phase.textTitle);
 
   section("①","報告基本資料");
-  lines.push("前端版本：V3.7.7.7.12｜母版 V3.7.7.7.8 safeReady 修正版｜掃描核心 V3.7.6.17");
+  lines.push("前端版本：V3.7.7.7.13｜母版 V3.7.7.7.8 safeReady 修正版｜掃描核心 V3.7.6.17");
   lines.push("報告產生時間："+scan.createdAt+"（台灣時間）");
   lines.push("模式："+phase.timingNote.replace(/^📌\s*/,""));
 
@@ -24680,11 +24683,378 @@ buildMomentumScanTextReportV3763=function(scan){
   lines.push("━━━━━━━━━━━━━━━━━━");
   lines.push("正式候選 "+finalExpected+" 檔｜發動榜實際列出 "+finalListed+" 檔｜"+(finalExpected===finalListed?"✅ 數量一致":"⚠️ 報告輸出不完整"));
   lines.push("最後一檔："+finalLast);
-  lines.push("完整結尾標記：END-OF-MOMENTUM-REPORT-V3.7.7.7.12");
+  lines.push("完整結尾標記：END-OF-MOMENTUM-REPORT-V3.7.7.7.13");
   lines.push("");
   lines.push("技術分析僅供研究與決策參考，不構成投資建議。");
   return lines.join("\n");
 };
+
+// ========================================================================
+// V3.7.7.7.13｜三層文字輸出
+// A. 一鍵複製：精簡但完整列出全部正式候選，降低聊天貼上被截斷機率。
+// B. 下載 TXT：保留七層「完整詳細版」全部內容，作為無損母本。
+// C. 分段複製：完整詳細版拆成 1/2、2/2，供手機／聊天貼上備援。
+// 不改 DeepScan、三榜 Gate、排序、RR、ABC/Fib/N字、Worker API。
+// ========================================================================
+
+function momentumCompactVerdictV377713(c){
+  const out=[];
+  if(c?.waveRRFormal!==true){
+    out.push("尚未正式突破B，波段數值為預估");
+  }else if(c?.stability?.key==="GREEN"){
+    out.push("正式突破B且已站穩");
+  }else if(c?.stability?.key==="YELLOW"){
+    out.push("正式突破B，等待站穩確認");
+  }else{
+    out.push(c?.stability?.label||"突破狀態待確認");
+  }
+  (c?.warnings||[]).slice(0,3).forEach(x=>{
+    const s=String(x||"").trim();
+    if(s&&!out.includes(s))out.push(s);
+  });
+  return out.join("｜");
+}
+
+function buildMomentumScanCompactTextReportV377713(scan){
+  if(!scan)return "";
+  const lines=[];
+  const divider="━━━━━━━━━━━━━━━━━━";
+  const launch=scan.launchCandidates||scan.candidates||[];
+  const safe=scan.safeCandidates||[];
+  const strength=scan.strengthCandidates||[];
+  const safeReady=momentumSafeRankingReadyV37777(scan);
+  const phase=momentumReportPhaseV37771(scan.createdAt);
+  const success=scan.successCount ?? Math.max(0,(scan.done||0)-(scan.failed||0)-(scan.dataSkippedCount||0));
+  const successRate=scan.successRate ?? (scan.done?success/scan.done:0);
+  const marketReady=scan.marketBundleMeta?.marketCoverageReady===true;
+  const industryReady=scan.marketBundleMeta?.industryCoverageReady===true;
+  const allReady=marketReady&&industryReady&&scan.qualityPass===true;
+  const codeOf=c=>c?.report?.stock||c?.report?.code||"-";
+  const nameOf=c=>momentumSafeStockNameV377712(c);
+  const hasNumber=v=>v!==null&&v!==undefined&&Number.isFinite(Number(v));
+  const pct=v=>hasNumber(v)?((Number(v)>=0?"+":"")+fmt(Number(v),1)+"%"):"-";
+  const ratio=v=>hasNumber(v)?("1:"+fmt(Number(v),2)):"待建立";
+  const price=v=>hasNumber(v)?fmt(Number(v))+"元":"待建立";
+  const section=(n,title)=>{
+    if(lines.length)lines.push("");
+    lines.push(divider);
+    lines.push("【"+(n?n+" ":"")+title+"】");
+    lines.push(divider);
+  };
+
+  lines.push(phase.textTitle.replace("完整文字戰報","精簡完整文字戰報").replace("參考文字戰報","參考精簡完整戰報"));
+
+  section("①","報告基本資料");
+  lines.push("前端版本：V3.7.7.7.13｜精簡一鍵戰報＋完整TXT＋分段複製｜掃描核心 V3.7.6.17");
+  lines.push("報告產生時間："+scan.createdAt+"（台灣時間）");
+  lines.push("模式："+phase.timingNote.replace(/^📌\s*/,""));
+
+  section("②","三榜官方定義");
+  MOMENTUM_BOARD_DEFINITIONS_V37779.forEach(x=>lines.push(x));
+
+  section("③","今日一句話結論");
+  if(launch.length){
+    const c=launch[0];
+    lines.push("🚀 發動榜第一："+nameOf(c)+"（"+codeOf(c)+"）｜"+(c.stage?.label||"-")+"｜"+(c.waveRRFormal?"正式":"預估")+"波段剩餘 "+pct(c.strategicUpsidePct));
+  }else{
+    lines.push("🚀 發動榜第一：本次沒有正式候選。");
+  }
+  if(safeReady){
+    lines.push(safe.length
+      ?"🛡️ 安全榜："+safe.length+"檔｜第一名 "+nameOf(safe[0])+"（"+codeOf(safe[0])+"）"
+      :"🛡️ 安全榜：0檔｜寧可空榜，不硬湊");
+  }else{
+    lines.push("🛡️ 安全榜：完整性未全部PASS｜候補 "+safe.length+"檔");
+  }
+  if(strength.length){
+    lines.push("🔥 強度榜第一："+nameOf(strength[0])+"（"+codeOf(strength[0])+"）｜"+(strength[0].stage?.label||"-")+"｜強度 "+fmt(strength[0].strengthScore,1));
+  }
+
+  section("④","掃描完整性");
+  lines.push("整體："+(allReady?"✅ 市場、產業、DeepScan全部PASS":"⚠️ 尚有完整性項目未通過"));
+  lines.push("行情：TWSE "+momentumMarketDisplayCountV37617(scan.marketBundleMeta,"TWSE")+"｜TPEx "+momentumMarketDisplayCountV37617(scan.marketBundleMeta,"TPEx")+"｜產業 "+(scan.marketBundleMeta?.industryCoverageRate==null?"-":fmt(Number(scan.marketBundleMeta.industryCoverageRate)*100,1)+"%"));
+  lines.push("漏斗：有效股票池 "+(scan.phase1QuoteCount??"-")+" → Top "+(scan.fastReturned??"-")+" → DeepScan "+(scan.total??"-")+" → 正式候選 "+(scan.candidates?.length||0));
+  lines.push("DeepScan："+success+"/"+(scan.done||0)+"｜"+fmt(successRate*100,1)+"%｜失敗 "+(scan.failed||0)+"｜補救成功 "+(scan.retryRecovered||0));
+  lines.push("分流：等待C "+(scan.waitingC||0)+"｜硬Gate排除 "+(scan.hardGateSkipped||0)+"｜S/A/B "+(scan.sCount||0)+"/"+(scan.aCount||0)+"/"+(scan.bCount||0));
+
+  section("⑤","🚀 主升發動榜｜全部正式候選精簡列出");
+  lines.push("每檔只保留：位置、波段、近端防守、核心技術與判讀；完整逐項說明請用「下載完整詳細TXT」。");
+  if(!launch.length){
+    lines.push("目前沒有正式候選。");
+  }else{
+    launch.forEach((c,i)=>{
+      const waveState=c.waveRRFormal?"正式":"預估";
+      const strategic=c.strategicTarget?price(c.strategicTarget.value):"待建立";
+      const waveRisk=price(c.waveRiskLevel);
+      const support=c.support?price(c.support.value)+"（"+c.support.label+"）":"待建立";
+      const nearSpace=pct(c.upsidePct);
+      const bq=c.breakoutQualityScore==null?"尚未計分":fmt(c.breakoutQualityScore,1)+"/10";
+      const vol=c.effectiveVol==null?"-":fmt(c.effectiveVol,2)+"×";
+
+      lines.push("");
+      lines.push("TOP "+(i+1)+"｜"+nameOf(c)+"（"+codeOf(c)+"）｜"+c.grade+"｜證據 "+c.score+"/"+(c.scoreMax||10)+"｜"+(c.stage?.icon||"")+" "+(c.stage?.label||"-")+"｜"+(c.stability?.icon||"")+" "+(c.stability?.label||"-"));
+      lines.push("【波段】"+waveState+"剩餘 "+pct(c.strategicUpsidePct)+"｜RR "+ratio(c.waveRRRatio)+"｜目標 "+strategic+"｜風控 "+waveRisk);
+      lines.push("【近端】防守 "+support+"｜上方空間 "+nearSpace+"｜近端RR "+ratio(c.nearestRRRatio));
+      lines.push("【技術】收盤 "+price(c.close)+"｜MA20乖離 "+(c.gap==null?"-":fmtSignedPct(c.gap))+"｜RSI5 "+(c.rsi==null?"-":fmt(c.rsi,1))+"｜突破品質 "+bq+"｜量能 "+vol);
+      lines.push("【判讀】"+momentumCompactVerdictV377713(c));
+    });
+  }
+
+  const expected=Number(scan.candidates?.length||0);
+  const listed=launch.length;
+  lines.push("");
+  lines.push("候選 "+expected+"檔｜實際列出 "+listed+"檔｜"+(expected===listed?"✅ 數量一致":"⚠️ 報告輸出不完整"));
+
+  section("⑥","🛡️ 安全起漲榜");
+  if(safeReady){
+    if(!safe.length){
+      lines.push("正式榜 0檔｜今天沒有股票同時通過全部安全硬條件。");
+    }else{
+      safe.slice(0,10).forEach((c,i)=>{
+        const p=c.safeProfile||momentumSafeLaunchProfileV37777(c);
+        lines.push("SAFE TOP "+(i+1)+"｜"+nameOf(c)+"（"+codeOf(c)+"）｜安全分 "+fmt(p.safeScore,1)+"/100｜剩餘 "+pct(c.strategicUpsidePct)+"｜RR "+ratio(c.waveRRRatio));
+      });
+    }
+  }else{
+    lines.push("暫停正式排名｜安全候補 "+safe.length+"檔");
+    safe.slice(0,10).forEach((c,i)=>{
+      const p=c.safeProfile||momentumSafeLaunchProfileV37777(c);
+      lines.push("候補 "+(i+1)+"｜"+nameOf(c)+"（"+codeOf(c)+"）｜安全分 "+fmt(p.safeScore,1)+"/100");
+    });
+  }
+
+  section("⑦","🔥 主升強度榜");
+  if(!strength.length){
+    lines.push("目前沒有正式候選。");
+  }else{
+    strength.slice(0,10).forEach((c,i)=>{
+      lines.push("TOP "+(i+1)+"｜"+nameOf(c)+"（"+codeOf(c)+"）｜"+(c.stage?.label||"-")+"｜強度 "+fmt(c.strengthScore,1)+(c.stage?.key==="OVERHEAT"?"｜⚠️空手勿追":""));
+    });
+  }
+
+  section("","價差比與閱讀提醒");
+  lines.push("🎯 波段RR＝至1.618目標的潛在價差 ÷ 至Fib0.764波段失效位的風險。");
+  lines.push("🧱 近端RR＝至最近有效上方關卡的價差 ÷ 至最近有效防守的風險。");
+  lines.push("⚠️ 價差比不是勝率，也不是保證獲利；尚未突破B者均標示為預估。");
+  lines.push("完整逐項版請使用「📄 下載完整詳細 TXT」。");
+
+  section("","報告輸出完整性");
+  lines.push("正式候選 "+expected+"檔｜精簡發動榜實際列出 "+listed+"檔｜"+(expected===listed?"✅ 數量一致":"⚠️ 不一致"));
+  lines.push("最後一檔："+(launch.length?"TOP "+launch.length+" "+nameOf(launch[launch.length-1])+"（"+codeOf(launch[launch.length-1])+"）":"無"));
+  lines.push("完整結尾標記：END-OF-MOMENTUM-COMPACT-REPORT-V3.7.7.7.13");
+  lines.push("");
+  lines.push("技術分析僅供研究與決策參考，不構成投資建議。");
+
+  return lines.join("\n");
+}
+
+function momentumFullReportAuditV377713(scan,text){
+  const launch=scan?.launchCandidates||scan?.candidates||[];
+  const expected=Number(scan?.candidates?.length||0);
+  const last=launch.length
+    ?"TOP "+launch.length+"｜"+momentumSafeStockNameV377712(launch[launch.length-1])+"（"+(launch[launch.length-1]?.report?.stock||launch[launch.length-1]?.report?.code||"-")+"）"
+    :null;
+  return {
+    ok:launch.length===expected
+      &&(!last||String(text||"").includes(last))
+      &&String(text||"").includes("END-OF-MOMENTUM-REPORT-V3.7.7.7.13"),
+    expected,
+    listed:launch.length,
+    last
+  };
+}
+
+function momentumCompactReportAuditV377713(scan,text){
+  const launch=scan?.launchCandidates||scan?.candidates||[];
+  const expected=Number(scan?.candidates?.length||0);
+  const last=launch.length
+    ?"TOP "+launch.length+"｜"+momentumSafeStockNameV377712(launch[launch.length-1])+"（"+(launch[launch.length-1]?.report?.stock||launch[launch.length-1]?.report?.code||"-")+"）"
+    :null;
+  return {
+    ok:launch.length===expected
+      &&(!last||String(text||"").includes(last))
+      &&String(text||"").includes("END-OF-MOMENTUM-COMPACT-REPORT-V3.7.7.7.13"),
+    expected,
+    listed:launch.length,
+    last
+  };
+}
+
+async function momentumWriteClipboardV377713(text){
+  if(navigator.clipboard?.writeText){
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const ta=document.createElement("textarea");
+  ta.value=text;
+  ta.style.position="fixed";
+  ta.style.left="-99999px";
+  ta.style.top="0";
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  const ok=document.execCommand("copy");
+  ta.remove();
+  if(!ok)throw new Error("瀏覽器未允許剪貼簿操作");
+}
+
+function momentumFullReportPartsV377713(scan){
+  const full=buildMomentumScanTextReportV3763(scan);
+  const lines=String(full||"").split("\n");
+
+  // 優先在第⑤節的候選股「完整檔案邊界」切開，不在某一檔中間硬切。
+  const section5=lines.findIndex(x=>String(x).includes("【⑤ "));
+  const section6=lines.findIndex(x=>String(x).includes("【⑥ "));
+  const candidateStarts=[];
+
+  if(section5>=0){
+    const stop=section6>=0?section6:lines.length;
+    for(let i=section5+1;i<stop;i++){
+      if(/^TOP\s+\d+｜/.test(lines[i]))candidateStarts.push(i);
+    }
+  }
+
+  let splitIndex=Math.ceil(lines.length/2);
+  if(candidateStarts.length>=2){
+    const midCandidate=Math.ceil(candidateStarts.length/2);
+    if(candidateStarts[midCandidate])splitIndex=candidateStarts[midCandidate];
+  }else{
+    // 備援：找最接近中間的空白行。
+    for(let d=0;d<80;d++){
+      const a=splitIndex-d,b=splitIndex+d;
+      if(a>0&&lines[a]===""){splitIndex=a+1;break;}
+      if(b<lines.length&&lines[b]===""){splitIndex=b+1;break;}
+    }
+  }
+
+  const p1Lines=lines.slice(0,splitIndex);
+  const p2Lines=lines.slice(splitIndex);
+
+  const common="完整詳細戰報｜共2段｜正式候選 "+(scan?.candidates?.length||0)+"檔";
+  const part1=[
+    "📄 "+common+"｜第1/2段",
+    "📌 請與第2/2段合併閱讀；這是完整詳細版分段傳輸，不是精簡版。",
+    "",
+    ...p1Lines,
+    "",
+    "—— 第1/2段結束｜請接續第2/2段 ——"
+  ].join("\n");
+
+  const part2=[
+    "📄 "+common+"｜第2/2段",
+    "📌 接續第1/2段。",
+    "",
+    ...p2Lines,
+    "",
+    "—— 完整詳細戰報第2/2段結束 ——"
+  ].join("\n");
+
+  return [part1,part2];
+}
+
+async function copyMomentumScanReportV3763(){
+  const btn=document.getElementById("copyMomentumReportButton");
+  const msg=document.getElementById("momentumImageMessage");
+  if(!lastMomentumScanDataV3762){
+    msg.style.color="var(--red)";
+    msg.textContent="請先完成主升動能掃描，再複製文字戰報。";
+    return;
+  }
+
+  const text=buildMomentumScanCompactTextReportV377713(lastMomentumScanDataV3762);
+  const audit=momentumCompactReportAuditV377713(lastMomentumScanDataV3762,text);
+
+  if(!audit.ok){
+    msg.style.color="var(--red)";
+    msg.textContent="❌ 精簡戰報組字不完整：候選 "+audit.expected+"檔｜實際列出 "+audit.listed+"檔。已停止複製。";
+    return;
+  }
+
+  const original=btn?.textContent||"📋 一鍵複製精簡完整戰報";
+  if(btn){btn.disabled=true;btn.textContent="📋 複製中...";}
+  try{
+    await momentumWriteClipboardV377713(text);
+    const lineCount=text.split("\n").length;
+    msg.style.color="var(--green)";
+    msg.textContent="✅ 已複製精簡完整戰報｜候選 "+audit.expected+"檔全部列出｜"+lineCount+"行｜"+text.length.toLocaleString()+"字元。";
+  }catch(e){
+    console.error(e);
+    msg.style.color="var(--red)";
+    msg.textContent="❌ 複製失敗："+(e?.message||"瀏覽器未允許剪貼簿權限");
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=original;}
+  }
+}
+
+function downloadMomentumFullReportV377713(){
+  const msg=document.getElementById("momentumImageMessage");
+  if(!lastMomentumScanDataV3762){
+    msg.style.color="var(--red)";
+    msg.textContent="請先完成主升動能掃描，再下載完整文字戰報。";
+    return;
+  }
+
+  const text=buildMomentumScanTextReportV3763(lastMomentumScanDataV3762);
+  const audit=momentumFullReportAuditV377713(lastMomentumScanDataV3762,text);
+  if(!audit.ok){
+    msg.style.color="var(--red)";
+    msg.textContent="❌ 完整詳細戰報組字不完整，已停止下載。";
+    return;
+  }
+
+  const stamp=String(lastMomentumScanDataV3762.createdAt||"")
+    .replace(/[^\d]/g,"")
+    .slice(0,12) || Date.now();
+  const blob=new Blob(["\ufeff",text],{type:"text/plain;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="主動式主升掃描_完整詳細戰報_"+stamp+"_V3.7.7.7.13.txt";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+
+  msg.style.color="var(--green)";
+  msg.textContent="✅ 已下載完整詳細TXT｜正式候選 "+audit.expected+"檔｜"+text.split("\n").length+"行｜無損保留全部內容。";
+}
+
+async function copyMomentumFullReportPartV377713(partNo){
+  const msg=document.getElementById("momentumImageMessage");
+  const btn=document.getElementById(partNo===1?"copyMomentumFullPart1Button":"copyMomentumFullPart2Button");
+  if(!lastMomentumScanDataV3762){
+    msg.style.color="var(--red)";
+    msg.textContent="請先完成主升動能掃描，再使用分段複製。";
+    return;
+  }
+
+  const full=buildMomentumScanTextReportV3763(lastMomentumScanDataV3762);
+  const audit=momentumFullReportAuditV377713(lastMomentumScanDataV3762,full);
+  if(!audit.ok){
+    msg.style.color="var(--red)";
+    msg.textContent="❌ 完整詳細戰報組字不完整，已停止分段複製。";
+    return;
+  }
+
+  const parts=momentumFullReportPartsV377713(lastMomentumScanDataV3762);
+  const index=partNo===2?1:0;
+  const text=parts[index];
+  const original=btn?.textContent||("📋 完整版分段複製 "+partNo+"/2");
+
+  if(btn){btn.disabled=true;btn.textContent="📋 複製中...";}
+  try{
+    await momentumWriteClipboardV377713(text);
+    msg.style.color="var(--green)";
+    msg.textContent="✅ 已複製完整詳細戰報第 "+partNo+"/2 段｜"+text.split("\n").length+"行｜請依序貼上兩段。";
+  }catch(e){
+    console.error(e);
+    msg.style.color="var(--red)";
+    msg.textContent="❌ 分段複製失敗："+(e?.message||"瀏覽器未允許剪貼簿權限");
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=original;}
+  }
+}
+
 </script>
 
 </body>
