@@ -1302,7 +1302,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 
 <script>
 // ========================================================================
-// V3.7.7.7.22｜A區日RSI雙行防重疊安全版
+// V3.7.7.7.23｜大盤RSI比照個股舒適版
 // 唯一修改：日RSI卡把主要描述與 Footer 提醒分成兩個獨立安全區，
 // 並使用 Canvas clip 防止跨區蓋字。
 // 主描述維持 maxSize 18.5 / minSize 12.5 / weight 950。
@@ -19205,23 +19205,131 @@ function marketRsiCardMetaV3756(data){
   return {stateLine,detailLine,context:c,structureText};
 }
 
-function drawMarketRsiCardV3756(ctx,x,y,w,h,data){
-  const P=infoPaletteV3328(),m=marketRsiCardMetaV3756(data),value=n(data?.dailyRsi5);
-  if(ctx?._marketVisualThemeV37775){
-    rrV3328(ctx,x,y,w,h,16,P.white,"#d9e2ee",1.25);
-    rrV3328(ctx,x+17,y+18,6,h-36,3,P.orange,null);
-    drawFitSingleLineStrictV3661(ctx,"RSI 5T",x+38,y+32,w-58,{maxSize:20,minSize:16,weight:850,color:P.orange});
-    drawFitSingleLineStrictV3661(ctx,value===null?"-":fmt(value),x+38,y+77,w-58,{maxSize:31,minSize:24,weight:900,color:P.text});
-    drawFitSingleLineStrictV3661(ctx,m.stateLine,x+38,y+116,w-58,{maxSize:17,minSize:10,weight:800,color:P.text});
-    drawFitSingleLineStrictV3661(ctx,m.detailLine,x+38,y+h-15,w-58,{maxSize:13,minSize:8.5,weight:750,color:P.muted});
-    return;
+function marketRsiComfortDisplayV37723(data){
+  const c=rsiContextV3750(data,{market:true});
+  const base=getRsiReportInfo(data?.dailyRsi5);
+  const value=n(data?.dailyRsi5);
+  const structureText=marketRsiStructureTextV3756(data,c);
+
+  let fill="#fff7ed",border="#f59e0b",accent="#d97706",labelColor="#b45309",valueColor="#123a86";
+  if(value===null){
+    fill="#f8fafc";border="#cbd5e1";accent="#94a3b8";labelColor="#64748b";valueColor="#475569";
+  }else if(c.key==="TOP_DIV_CONFIRMED"){
+    fill="#fff1f2";border="#ef4444";accent="#dc2626";labelColor="#b91c1c";valueColor="#b91c1c";
+  }else if(c.key==="TOP_DIV_CANDIDATE"||c.key==="HIGH_WEAKENING"){
+    fill="#fff7ed";border="#f59e0b";accent="#d97706";labelColor="#b45309";valueColor="#b45309";
+  }else if(c.key==="BOTTOM_DIV_CONFIRMED"||c.key==="HIGH_STRONG_EXTENSION"||c.key==="LOW_RECOVERY"){
+    fill="#f0fdf4";border="#22c55e";accent="#16a34a";labelColor="#166534";valueColor="#166534";
+  }else if(value>=70){
+    fill="#fff7ed";border="#f59e0b";accent="#d97706";labelColor="#b45309";valueColor="#b45309";
+  }else if(value>=60){
+    fill="#f0fdf4";border="#22c55e";accent="#16a34a";labelColor="#166534";valueColor="#166534";
+  }else if(value>=40){
+    fill="#eff6ff";border="#60a5fa";accent="#2563eb";labelColor="#1d4ed8";valueColor="#1d4ed8";
   }
-  rrV3328(ctx,x,y,w,h,14,P.paleOrange,P.orange,2);
-  // V3.7.7.6.4｜大盤 RSI 卡只做字級層級強化，不改 RSI Context。
-  drawFitSingleLineStrictV3661(ctx,"RSI 5T",x+16,y+31,w-32,{maxSize:23,minSize:18,weight:950,color:P.orange});
-  drawFitSingleLineStrictV3661(ctx,value===null?"-":fmt(value),x+16,y+76,w-32,{maxSize:33,minSize:25,weight:950,color:P.text});
-  drawFitSingleLineStrictV3661(ctx,m.stateLine,x+16,y+116,w-32,{maxSize:18,minSize:11,weight:900,color:P.text});
-  drawFitSingleLineStrictV3661(ctx,m.detailLine,x+16,y+h-16,w-32,{maxSize:14,minSize:9,weight:800,color:"#475467"});
+
+  let headline=`${c.icon||base.icon} ${c.label||base.label}`;
+  if(c.key==="TOP_DIV_CANDIDATE")headline="🟠 這波指數漲得更高｜RSI沒跟上";
+  else if(c.key==="TOP_DIV_CONFIRMED")headline="🔴 指數已轉弱｜先前RSI沒跟上";
+  else if(c.key==="BOTTOM_DIV_CANDIDATE")headline="🟡 指數又跌低｜但下跌力道變弱";
+  else if(c.key==="BOTTOM_DIV_CONFIRMED")headline="🟢 下跌力道變弱｜指數已轉強";
+
+  let line1="",line2="",showFooter=true;
+  const div=c?.divergence||{};
+  if(div.type){
+    const age=c.rsiSignalAgeText||"近期訊號";
+    const days=Number.isFinite(c.rsiSignalMaxAge)?c.rsiSignalMaxAge:5;
+    line1=`${age}｜${days}日內留意`;
+    if(div.type==="top"){
+      line2=div.status==="confirmed"
+        ?"指數已跌破最近支撐，上漲力道也沒跟上；轉弱警訊升高。"
+        :"指數雖還在往上，但上漲力道沒有跟著變強；先留意，不代表一定會跌。";
+      showFooter=false;
+    }else{
+      line2=div.status==="confirmed"
+        ?"指數已站回確認關卡，下跌力道也變弱；轉強訊號較完整。"
+        :"指數雖又跌低，但下跌力道沒有跟著變強；先觀察，不代表一定會漲。";
+      showFooter=false;
+    }
+  }else if(c.key==="NO_CONTEXT"){
+    line1="歷史資料不足";
+    line2="目前只能先看RSI數字與價格位置。";
+  }else{
+    line1=c?.direction?.label||"短線力道待確認";
+    const hintParts=String(c.hint||"").split("｜").map(s=>s.trim()).filter(Boolean);
+    line2=hintParts.find(s=>/指數|價格|股價/.test(s))||structureText||c?.path?.label||hintParts[1]||"目前指數和RSI大致同方向";
+  }
+
+  return {value:value===null?"--":fmt(value,2),headline,line1,line2,showFooter,fill,border,accent,labelColor,valueColor};
+}
+
+function drawMarketRsiCardV3756(ctx,x,y,w,h,data){
+  const P=infoPaletteV3328(),d=marketRsiComfortDisplayV37723(data);
+  const radius=ctx?._marketVisualThemeV37775?16:14;
+  const outerBorder=ctx?._marketVisualThemeV37775?d.border:d.border;
+  rrV3328(ctx,x,y,w,h,radius,d.fill,outerBorder,ctx?._marketVisualThemeV37775?1.6:2);
+  rrV3328(ctx,x+14,y+16,6,h-32,3,d.accent,null);
+
+  const topLeftX=x+28;
+  const topLeftW=Math.max(86,Math.round(w*0.44));
+  const topRightX=x+Math.round(w*0.48);
+  const topRightW=Math.max(72,w-(topRightX-x)-14);
+  const bodyX=x+14;
+  const bodyW=w-28;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x+10,y+8,w-20,24);
+  ctx.clip();
+  drawFitSingleLineStrictV3661(
+    ctx,`📊 日RSI 5T  ${d.value}`,
+    topLeftX,y+28,topLeftW,
+    {maxSize:18,minSize:12.5,weight:950,color:'#123a86'}
+  );
+  drawFitSingleLineStrictV3661(
+    ctx,d.line1,
+    topRightX,y+28,topRightW,
+    {maxSize:14.5,minSize:9.6,weight:900,color:'#334155'}
+  );
+  ctx.restore();
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x+10,y+35,w-20,21);
+  ctx.clip();
+  drawFitSingleLineStrictV3661(
+    ctx,d.headline,
+    bodyX,y+53,bodyW,
+    {maxSize:16.5,minSize:11,weight:950,color:d.labelColor}
+  );
+  ctx.restore();
+
+  const descTopY=y+61;
+  const descHeight=d.showFooter?38:52;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x+10,descTopY,w-20,descHeight);
+  ctx.clip();
+  drawWrapV3328(
+    ctx,d.line2,
+    bodyX,y+75,bodyW,
+    13.4,2,
+    {size:11.4,weight:860,color:'#334155'}
+  );
+  ctx.restore();
+
+  if(d.showFooter){
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x+10,y+h-19,w-20,14);
+    ctx.clip();
+    drawFitSingleLineStrictV3661(
+      ctx,'RSI只看力道｜方向仍看價格結構',
+      bodyX,y+h-8,bodyW,
+      {maxSize:10.9,minSize:8.8,weight:820,color:'#475467'}
+    );
+    ctx.restore();
+  }
 }
 
 function marketRsiMetaV3310(value){
@@ -21571,7 +21679,7 @@ function renderMarketInfographicV3328(data){
   rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
   drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.22｜大盤圖片視覺舒適",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.23｜大盤RSI比照個股",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
