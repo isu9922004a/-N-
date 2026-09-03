@@ -840,7 +840,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.7.22｜價格創高與新ABC突破語意分離版｜三榜 Gate 與掃描核心完整保留｜母版 V3.7.7.7.8 safeReady 修正版｜個股／大盤／主升圖片閱讀舒適度同步提升｜雙價差比白話解讀完整保留｜ABC／N字／突破品質2.0／三叉戟／OHLCV Research Gate完整保留｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix</span>
+    <span class="version-pill">前端 V3.7.7.7.25｜大盤／個股 RSI 完全同模板版｜大盤 RSI 比照個股 A 區四層安全排版｜三榜 Gate 與掃描核心完整保留｜母版 V3.7.7.7.8 safeReady 修正版｜ABC／N字／突破品質2.0／三叉戟／RR／DeepScan／Worker 核心不變</span>
 
   </div>
 
@@ -908,7 +908,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
           <div id="momentumHeroTitle" class="momentum-hero-title">🚀 主動式主升掃描｜候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.7.22｜雙圖片報告補強｜掃描核心 V3.7.6.17<br>V3.7.7.7.8 三榜 Gate 完整保留</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.7.25｜大盤／個股 RSI 完全同模板｜掃描核心 V3.7.6.17<br>V3.7.7.7.8 三榜 Gate 完整保留</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -1298,10 +1298,12 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.22｜價格創高與新ABC突破語意分離版｜母版 V3.7.7.7.8 三榜分流＋安全起漲榜 safeReady 修正版｜雙價差比白話解讀完整保留｜V3.7.6.1雙版本防盜浮水印母版｜純粹趨勢通道＋短線轉向＋短線3日量比＋點火價格品質過濾＋高檔續強分流＋ABC生命週期語意Gate＋Fib突破日20日量比口徑分離＋B角色生命週期用語Gate＋MA20生命週期最終Gate＋量價方向配對＋動態滾動盈虧比｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker V2.9.12.1｜月K缺漏降級顯示Hotfix<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：盤後文字戰報改為七層閱讀架構；三榜 Gate、RR、ABC／Fib／N字、排序與 Worker URL 完全不變。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.25｜大盤／個股 RSI 完全同模板版｜母版 V3.7.7.7.8 三榜分流＋安全起漲榜 safeReady 修正版｜大盤 RSI 比照個股 A 區四層安全排版：上排數值與訊號／中排主判讀／下排白話敘述／底部提醒｜雙價差比白話解讀完整保留｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker、DeepScan、三榜 Gate、RR、排序完全不變<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：大盤與個股 RSI 圖片卡採同一套版面結構與防重疊規則；僅調整顯示層。</footer>
 
 <script>
 // ========================================================================
+// V3.7.7.7.25｜前端介面版本說明同步版
+// 只同步首頁 version-pill／整合版說明／Footer／大盤圖片右上角版本字樣；核心分析與掃描邏輯不變。
 // V3.7.7.7.24｜大盤個股RSI完全同模板版
 // 唯一修改：日RSI卡把主要描述與 Footer 提醒分成兩個獨立安全區，
 // 並使用 Canvas clip 防止跨區蓋字。
@@ -21682,7 +21684,7 @@ function renderMarketInfographicV3328(data){
   rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
   drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.24｜大盤/個股RSI同模板",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.25｜大盤/個股RSI同模板",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
