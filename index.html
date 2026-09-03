@@ -826,6 +826,31 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
   .momentum-badges{justify-content:flex-start}
 }
 
+
+/* ===== V3.7.7.7.26｜DayTrade V1.0 當沖高勝率獨立模組 ===== */
+.daytrade-shortcut{margin-top:16px;padding:18px;border:1px solid #b9ded7;border-radius:16px;background:linear-gradient(135deg,#f1faf7,#f7f9fc);position:relative;overflow:hidden}
+.daytrade-shortcut::after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;right:-78px;top:-84px;opacity:.38;pointer-events:none;background:#ccece3}
+.daytrade-shortcut .section-title{font-size:18px!important;margin-bottom:9px!important}
+.daytrade-action-row{display:flex;gap:10px;flex-wrap:wrap}
+.daytrade-btn{background:#0f766e;flex:1;min-height:52px}
+.daytrade-btn:hover{background:#115e59}
+.daytrade-result{display:none}
+.daytrade-hero{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px}
+.daytrade-hero-title{font-size:24px;font-weight:950;color:var(--navy,#172033)}
+.daytrade-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.daytrade-summary-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.daytrade-summary-card .k{font-size:12px;color:var(--muted);font-weight:800}
+.daytrade-summary-card .v{font-size:20px;font-weight:950;margin-top:5px;color:#0f766e}
+.daytrade-image-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+body.dark-mode .daytrade-shortcut{background:linear-gradient(135deg,#15302b,#162330);border-color:#28594f}
+body.dark-mode .daytrade-summary-card{background:#17212d;border-color:#334155}
+body.dark-mode .daytrade-hero-title{color:#eef6ff}
+@media(max-width:760px){
+  .daytrade-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .daytrade-hero{display:block}
+  .daytrade-shortcut{padding:16px}
+}
+
 </style>
 
 </head>
@@ -840,7 +865,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.7.25｜大盤／個股 RSI 完全同模板版｜大盤 RSI 比照個股 A 區四層安全排版｜三榜 Gate 與掃描核心完整保留｜母版 V3.7.7.7.8 safeReady 修正版｜ABC／N字／突破品質2.0／三叉戟／RR／DeepScan／Worker 核心不變</span>
+    <span class="version-pill">前端 V3.7.7.7.26｜新增高勝率當沖掃描＋假突破硬Gate＋雙圖片報告版｜母版 V3.7.7.7.25 大盤／個股 RSI 同模板版｜原主升三榜 Gate／ABC／N字／突破品質2.0／三叉戟／RR／DeepScan／Worker 核心完整保留</span>
 
   </div>
 
@@ -895,6 +920,27 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
       <div id="momentumError" class="error"></div>
     </div>
 
+    <div class="daytrade-shortcut">
+      <div class="section-title" style="font-size:16px;margin-bottom:8px">⚡ 當沖高勝率（已過濾假突破）</div>
+      <div class="section-subtitle" style="margin-bottom:10px">
+        盤後先找下一交易日高優先觀察股：低位轉強優先，其次突破確認，再來強勢延續。
+        先用流動性＋20MA＋量價篩選，再用完整日K檢查 CMF／OBV、突破品質、長上影、爆量滯漲與過熱風險。
+        允許 0 檔，不為了湊名次降低假突破硬 Gate。
+      </div>
+      <div class="daytrade-action-row">
+        <button id="dayTradeScanButton" class="btn daytrade-btn" type="button" onclick="runDayTradeScanV1()">⚡ 當沖高勝率（已過濾假突破）</button>
+        <button id="dayTradeStopButton" class="momentum-stop-btn" type="button" onclick="stopDayTradeScanV1()">■ 停止掃描</button>
+      </div>
+      <div class="momentum-reminder">
+        📌 「高勝率」是策略定位名稱；畫面中的當沖分數是排序分，不是統計勝率。盤中仍要確認量能、站穩與失效條件。
+      </div>
+      <div class="momentum-progress">
+        <div class="momentum-progress-track"><div id="dayTradeProgressBar" class="momentum-progress-bar"></div></div>
+        <div id="dayTradeProgressText" class="momentum-progress-text">等待開始...</div>
+      </div>
+      <div id="dayTradeError" class="error"></div>
+    </div>
+
     <div id="loading" class="loading">⏳ 正在取得股票資料並分析...</div>
 
     <div id="error" class="error"></div>
@@ -908,7 +954,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
           <div id="momentumHeroTitle" class="momentum-hero-title">🚀 主動式主升掃描｜候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.7.25｜大盤／個股 RSI 完全同模板｜掃描核心 V3.7.6.17<br>V3.7.7.7.8 三榜 Gate 完整保留</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.7.26｜新增獨立當沖高勝率模組｜主升掃描核心 V3.7.6.17<br>V3.7.7.7.25 母版＋V3.7.7.7.8 三榜 Gate 完整保留</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -936,6 +982,52 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
         <button id="downloadMomentumAllCandidatesImageWatermarkButton" class="copy-btn watermark-image-btn" type="button" onclick="downloadMomentumAllCandidatesImageWatermarkV377716()">🛡️ 匯出全部選股圖片報告（防盜浮水印版）</button>
       </div>
       <div id="momentumImageMessage" class="copy-message"></div>
+    </section>
+  </section>
+
+
+
+  <section id="dayTradeResult" class="momentum-result daytrade-result">
+    <section class="panel">
+      <div class="daytrade-hero">
+        <div>
+          <div class="daytrade-hero-title">⚡ 當沖高勝率｜已過濾假突破</div>
+          <div id="dayTradeMeta" class="meta">-</div>
+        </div>
+        <div class="meta" style="text-align:right">
+          DayTrade V1.0<br>
+          前端 V3.7.7.7.26｜母版 V3.7.7.7.25｜共用 Market Worker DeepScan 傳輸
+        </div>
+      </div>
+
+      <div class="momentum-reminder">
+        📌 排序：低位轉強 ＞ 突破確認 ＞ 強勢延續。同型內比較當沖分、假突破扣分、突破品質與成交金額。
+        爆量滯漲、嚴重長上影、跌回突破關卡與極端過熱會直接淘汰。
+      </div>
+
+      <div class="daytrade-summary-grid">
+        <div class="daytrade-summary-card"><div class="k">正式候選</div><div id="dayTradeCandidateCount" class="v">-</div></div>
+        <div class="daytrade-summary-card"><div class="k">S級</div><div id="dayTradeSCount" class="v">-</div></div>
+        <div class="daytrade-summary-card"><div class="k">A級</div><div id="dayTradeACount" class="v">-</div></div>
+        <div class="daytrade-summary-card"><div class="k">B級</div><div id="dayTradeBCount" class="v">-</div></div>
+        <div class="daytrade-summary-card"><div class="k">低位轉強</div><div id="dayTradeLowTurnCount" class="v">-</div></div>
+        <div class="daytrade-summary-card"><div class="k">突破確認</div><div id="dayTradeBreakoutCount" class="v">-</div></div>
+        <div class="daytrade-summary-card"><div class="k">強勢延續</div><div id="dayTradeContinuationCount" class="v">-</div></div>
+      </div>
+
+      <div id="dayTradeList" class="momentum-list"></div>
+
+      <div class="daytrade-image-actions">
+        <button id="copyDayTradeReportButton" class="copy-btn newbie-copy-btn" type="button" onclick="copyDayTradeReportV1()">📋 一鍵複製完整戰報</button>
+        <button id="downloadDayTradeFullReportButton" class="copy-btn" type="button" onclick="downloadDayTradeFullReportV1()">📄 下載完整詳細 TXT</button>
+        <button class="copy-btn" type="button" onclick="copyDayTradeReportPartV1(1)">📋 完整版分段複製 1/2</button>
+        <button class="copy-btn" type="button" onclick="copyDayTradeReportPartV1(2)">📋 完整版分段複製 2/2</button>
+        <button id="generateDayTradeImageButton" class="copy-btn image-btn" type="button" onclick="generateDayTradeImageV1(false)">🖼️ 前8名圖片報告</button>
+        <button id="generateDayTradeWatermarkImageButton" class="copy-btn watermark-image-btn" type="button" onclick="generateDayTradeImageV1(true)">🛡️ 前8名圖片報告（防盜浮水印版）</button>
+        <button id="downloadDayTradeAllCandidatesImageButton" class="copy-btn image-btn" type="button" onclick="downloadDayTradeAllCandidatesImageV1(false)">🖼️ 匯出全部選股圖片報告</button>
+        <button id="downloadDayTradeAllCandidatesImageWatermarkButton" class="copy-btn watermark-image-btn" type="button" onclick="downloadDayTradeAllCandidatesImageV1(true)">🛡️ 匯出全部選股圖片報告（防盜浮水印版）</button>
+      </div>
+      <div id="dayTradeImageMessage" class="copy-message"></div>
     </section>
   </section>
 
@@ -1298,11 +1390,11 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.25｜大盤／個股 RSI 完全同模板版｜母版 V3.7.7.7.8 三榜分流＋安全起漲榜 safeReady 修正版｜大盤 RSI 比照個股 A 區四層安全排版：上排數值與訊號／中排主判讀／下排白話敘述／底部提醒｜雙價差比白話解讀完整保留｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate核心不變｜Worker、DeepScan、三榜 Gate、RR、排序完全不變<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：大盤與個股 RSI 圖片卡採同一套版面結構與防重疊規則；僅調整顯示層。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.26｜新增高勝率當沖掃描＋假突破硬Gate＋雙圖片報告版｜母版 V3.7.7.7.25 大盤／個股 RSI 完全同模板版｜原 V3.7.7.7.8 主升三榜分流＋安全起漲榜 safeReady 修正版完整保留｜當沖模組新增低位轉強／突破確認／強勢延續三型、CMF／OBV資金流、量價、過熱與假突破過濾｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate／Worker／主升DeepScan／主升三榜Gate／RR／排序核心不變<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：新增獨立「⚡ 當沖高勝率（已過濾假突破）」按鈕、完整TXT、前8名圖片、全部候選長圖與浮水印輸出；當沖分數為排序分，不是統計勝率。</footer>
 
 <script>
 // ========================================================================
-// V3.7.7.7.25｜前端介面版本說明同步版
+// V3.7.7.7.26｜新增高勝率當沖掃描完整整合版｜母版 V3.7.7.7.25
 // 只同步首頁 version-pill／整合版說明／Footer／大盤圖片右上角版本字樣；核心分析與掃描邏輯不變。
 // V3.7.7.7.24｜大盤個股RSI完全同模板版
 // 唯一修改：日RSI卡把主要描述與 Footer 提醒分成兩個獨立安全區，
@@ -21684,7 +21776,7 @@ function renderMarketInfographicV3328(data){
   rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
   drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.25｜大盤/個股RSI同模板",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.26｜RSI同模板＋當沖模組",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
@@ -25726,6 +25818,901 @@ async function copyMomentumFullReportPartV377713(partNo){
   }finally{
     if(btn){btn.disabled=false;btn.textContent=original;}
   }
+}
+
+
+
+// ========================================================================
+// V3.7.7.7.26｜新增高勝率當沖掃描完整整合版
+// 以下為 DayTrade V1.0 獨立模組；原主升掃描核心不改。
+// ========================================================================
+/* ========================================================================
+   當沖高勝率（已過濾假突破）V1.0
+   適用母版：V3.7.7.7.25
+   原則：新增獨立模組；不修改既有主升掃描、ABC/Fib/N字、突破品質2.0、三叉戟、RSI、Worker URL。
+   依賴母版既有函式：n, fmt, datefmt, fmtSignedPct, set,
+   taipeiStampV3762, taipeiTimePartsV3762, sleepMomentumV3763,
+   loadMarketBundleFromWorkerV3766, fetchDeepBatchViaMarketWorkerV3768,
+   normalizeDailyBarsV361, stockInfographicStateV3328, breakoutQualityV360,
+   breakoutStabilityV37613, supportResistanceBandsV360, dynamicDefenseV360,
+   momentumSafeStockNameV377712, escapeHtmlV3762,
+   roundedRectScanV3762, scanTextV3762, fitScanTextV3762, drawScanMetricV37775,
+   drawMomentumImageWatermarkV377716, showInfographicPreviewV3328, sanitizeFilenameV3328,
+   classifyMomentumFailureV3763, isFinancialIndustryV3767, isFinancialStockV3763,
+   isBiotechStockV3765.
+   ======================================================================== */
+
+let lastDayTradeScanDataV1 = null;
+let dayTradeScanRunningV1 = false;
+let dayTradeScanAbortV1 = false;
+
+const DAYTRADE_DEEP_LIMIT_V1 = 70;
+const DAYTRADE_DEEP_BATCH_V1 = 5;
+const DAYTRADE_DEEP_QUALITY_MIN_V1 = 0.95;
+const DAYTRADE_MIN_AVG5_LOTS_V1 = 1000;
+const DAYTRADE_MIN_TRADE_VALUE_V1 = 50000000; // 5,000萬
+const DAYTRADE_MIN_VOL_RATIO_V1 = 1.25;
+const DAYTRADE_IDEAL_VOL_RATIO_MIN_V1 = 1.30;
+const DAYTRADE_IDEAL_VOL_RATIO_MAX_V1 = 2.50;
+const DAYTRADE_MAX_MA20_GAP_V1 = 15;
+const DAYTRADE_EXTREME_RSI_V1 = 90;
+const DAYTRADE_EXCLUDE_FINANCIAL_V1 = true;
+const DAYTRADE_EXCLUDE_BIOTECH_V1 = true;
+const DAYTRADE_TOP_RENDER_V1 = 12;
+const DAYTRADE_IMAGE_TOP_V1 = 8;
+
+const DAYTRADE_SETUP_DEF_V1 = Object.freeze({
+  LOW_TURN: { rank: 0, icon: "🟢", label: "低位轉強型", note: "接近20MA、量價轉強，優先找尚未過熱的第一腳" },
+  BREAKOUT: { rank: 1, icon: "🔵", label: "突破確認型", note: "突破20日高／B點且收盤守住，重視突破真實性" },
+  CONTINUATION: { rank: 2, icon: "🟠", label: "強勢延續型", note: "趨勢仍強，但位置較高，只在不過熱時保留" }
+});
+
+function dayTradeNumV1(v){
+  const x = Number(v);
+  return Number.isFinite(x) ? x : null;
+}
+
+function dayTradeMeanV1(arr){
+  const a=(Array.isArray(arr)?arr:[]).map(Number).filter(Number.isFinite);
+  return a.length ? a.reduce((s,v)=>s+v,0)/a.length : null;
+}
+
+function dayTradeSmaAtV1(bars, period, endIndex){
+  if(!Array.isArray(bars)||period<=0)return null;
+  const end = endIndex==null ? bars.length-1 : endIndex;
+  const start = end-period+1;
+  if(start<0)return null;
+  const vals=[];
+  for(let i=start;i<=end;i++){
+    const v=dayTradeNumV1(bars[i]?.close);
+    if(v===null)return null;
+    vals.push(v);
+  }
+  return dayTradeMeanV1(vals);
+}
+
+function dayTradeVolumeUnitV1(bars){
+  const raw=(Array.isArray(bars)?bars.slice(-5):[]).map(x=>dayTradeNumV1(x?.volume)).filter(v=>v!==null&&v>=0).sort((a,b)=>a-b);
+  if(!raw.length)return "unknown";
+  const med=raw[Math.floor(raw.length/2)];
+  // Yahoo/TWSE常見逐日量為「股」，部分資料源已換算為「張」。以中位數做保守判斷。
+  return med>=100000 ? "shares" : "lots";
+}
+
+function dayTradeVolumeLotsV1(v, unit){
+  const x=dayTradeNumV1(v);
+  if(x===null)return null;
+  return unit==="shares" ? x/1000 : x;
+}
+
+function dayTradeRsiV1(report,bars){
+  const direct=dayTradeNumV1(report?.dailyRsi5 ?? report?.dailyRsi);
+  if(direct!==null)return direct;
+  if(typeof wilderRsiSeriesV3750==="function"){
+    const s=wilderRsiSeriesV3750(bars,5);
+    for(let i=s.length-1;i>=0;i--)if(Number.isFinite(s[i]))return s[i];
+  }
+  return null;
+}
+
+function dayTradeCmfSeriesV1(bars,period=20){
+  const a=Array.isArray(bars)?bars:[];
+  const out=new Array(a.length).fill(null);
+  if(a.length<period)return out;
+  for(let i=period-1;i<a.length;i++){
+    let mfv=0,vol=0,ok=true;
+    for(let j=i-period+1;j<=i;j++){
+      const b=a[j];
+      const h=dayTradeNumV1(b?.high),l=dayTradeNumV1(b?.low),c=dayTradeNumV1(b?.close),v=dayTradeNumV1(b?.volume);
+      if(h===null||l===null||c===null||v===null){ok=false;break;}
+      const range=h-l;
+      const mfm=range===0?0:((c-l)-(h-c))/range;
+      mfv+=mfm*v;vol+=v;
+    }
+    if(ok&&vol>0)out[i]=mfv/vol;
+  }
+  return out;
+}
+
+function dayTradeMoneyFlowV1(bars){
+  const cmfSeries=dayTradeCmfSeriesV1(bars,20);
+  const i=bars.length-1;
+  const cmf20=dayTradeNumV1(cmfSeries[i]);
+  const cmf1=dayTradeNumV1(cmfSeries[i-1]);
+  const cmf3=dayTradeNumV1(cmfSeries[Math.max(0,i-3)]);
+  const cmfRising=cmf20!==null&&cmf1!==null&&cmf20>cmf1&&cmf3!==null&&cmf20>cmf3;
+  let crossedPositiveWithin3=false;
+  for(let k=Math.max(1,i-2);k<=i;k++){
+    const p=dayTradeNumV1(cmfSeries[k-1]),c=dayTradeNumV1(cmfSeries[k]);
+    if(p!==null&&c!==null&&p<=0&&c>0){crossedPositiveWithin3=true;break;}
+  }
+
+  let obv=0;
+  const obvSeries=new Array(bars.length).fill(0);
+  for(let k=1;k<bars.length;k++){
+    const c=bars[k].close,p=bars[k-1].close,v=bars[k].volume;
+    if(c>p)obv+=v;else if(c<p)obv-=v;
+    obvSeries[k]=obv;
+  }
+  const obvNow=obvSeries[i];
+  const priorObv=obvSeries.slice(Math.max(0,i-20),i);
+  const obv20High=priorObv.length?obvNow>Math.max(...priorObv):false;
+
+  let score=0;
+  const evidence=[];
+  if(cmf20!==null&&cmf20>0){score+=7;evidence.push("CMF20>0");}
+  if(cmfRising){score+=5;evidence.push("CMF近3日走升");}
+  if(crossedPositiveWithin3){score+=4;evidence.push("CMF近3日翻正");}
+  if(obv20High){score+=4;evidence.push("OBV創20日新高");}
+  score=Math.min(20,score);
+  return {score,cmf20,cmfRising,crossedPositiveWithin3,obv20High,obvNow,evidence};
+}
+
+function dayTradeKdV1(bars,period=9){
+  if(!Array.isArray(bars)||bars.length<period+3)return {available:false,k:null,d:null,golden:false};
+  let K=50,D=50,prevK=null,prevD=null;
+  for(let i=period-1;i<bars.length;i++){
+    const win=bars.slice(i-period+1,i+1);
+    const hh=Math.max(...win.map(x=>x.high)),ll=Math.min(...win.map(x=>x.low));
+    const rsv=hh===ll?50:((bars[i].close-ll)/(hh-ll))*100;
+    prevK=K;prevD=D;
+    K=(2/3)*K+(1/3)*rsv;
+    D=(2/3)*D+(1/3)*K;
+  }
+  return {available:true,k:K,d:D,golden:prevK!==null&&prevD!==null&&prevK<=prevD&&K>D};
+}
+
+function dayTradeSarV1(bars){
+  const a=Array.isArray(bars)?bars:[];
+  if(a.length<8)return {available:false,rising4:false,sar:null};
+  let up=a[1].close>=a[0].close;
+  let sar=up?a[0].low:a[0].high;
+  let ep=up?Math.max(a[0].high,a[1].high):Math.min(a[0].low,a[1].low);
+  let af=0.02;
+  const series=[sar,sar];
+  for(let i=2;i<a.length;i++){
+    sar=sar+af*(ep-sar);
+    if(up){
+      sar=Math.min(sar,a[i-1].low,a[i-2].low);
+      if(a[i].low<sar){up=false;sar=ep;ep=a[i].low;af=0.02;}
+      else if(a[i].high>ep){ep=a[i].high;af=Math.min(0.2,af+0.02);}
+    }else{
+      sar=Math.max(sar,a[i-1].high,a[i-2].high);
+      if(a[i].high>sar){up=true;sar=ep;ep=a[i].high;af=0.02;}
+      else if(a[i].low<ep){ep=a[i].low;af=Math.min(0.2,af+0.02);}
+    }
+    series.push(sar);
+  }
+  const last=series.slice(-4);
+  const rising4=up&&last.length===4&&last.every((v,i)=>i===0||v>=last[i-1])&&a[a.length-1].close>sar;
+  return {available:true,rising4,sar,up};
+}
+
+function dayTradeOptionalChipV1(report){
+  // V1正式資料契約：只有 Worker 真正回傳 report.dayTradeChips 才加分；沒有就明確標示未接入，不補猜。
+  const c=report?.dayTradeChips;
+  if(!c||typeof c!=="object")return {available:false,score:0,evidence:[],note:"籌碼資料未接入｜本次不加分也不扣分，不假裝有資料"};
+  const concentration=dayTradeNumV1(c.chipConcentration5dPct);
+  const mainRatio=dayTradeNumV1(c.mainBuyRatioPct);
+  const foreign=dayTradeNumV1(c.foreignNetBuyLots);
+  const trust=dayTradeNumV1(c.investmentTrustNetBuyLots);
+  const dealer=dayTradeNumV1(c.dealerNetBuyLots);
+  const houseDiff=dayTradeNumV1(c.brokerHouseCountDiff);
+  const shortRatio=dayTradeNumV1(c.financingShortRatioPct);
+  const turnover=dayTradeNumV1(c.turnover30dPct);
+  let score=0;const evidence=[];
+  if(concentration!==null&&concentration>=10){score+=3;evidence.push(`5日籌碼集中 ${concentration.toFixed(1)}%`);}
+  if(mainRatio!==null&&mainRatio>=10){score+=3;evidence.push(`主力買超占量 ${mainRatio.toFixed(1)}%`);}
+  if((foreign!==null&&foreign>0)||(trust!==null&&trust>0)||(dealer!==null&&dealer>0)){score+=2;evidence.push("法人淨買超");}
+  if(houseDiff!==null&&houseDiff<0){score+=1;evidence.push("買賣家數差偏集中");}
+  if(shortRatio!==null&&shortRatio<20){score+=1;evidence.push(`券資比 ${shortRatio.toFixed(1)}%`);}
+  if(turnover!==null&&turnover>=10){score+=1;evidence.push(`30日周轉率 ${turnover.toFixed(1)}%`);}
+  return {available:true,score:Math.min(8,score),evidence,note:evidence.length?evidence.join("、"):"有籌碼欄位，但尚無加分條件"};
+}
+
+function dayTradePriceLevelsV1(report,st,bars,metrics){
+  const close=metrics.close;
+  const levels=[];
+  const addSupport=(label,value)=>{
+    const v=dayTradeNumV1(value);
+    if(v!==null&&close!==null&&v<close)levels.push({label,value:v});
+  };
+  addSupport("MA5",metrics.ma5);addSupport("MA10",metrics.ma10);addSupport("MA20",metrics.ma20);
+  const B=dayTradeNumV1(st?.B);
+  if(B!==null)addSupport("B點",B);
+  try{
+    const defense=dynamicDefenseV360(report);
+    (defense?.layers||[]).forEach(x=>{if(!x?.candidate)addSupport(x.label||"結構支撐",x.level);});
+  }catch(_){/* ignore */}
+  levels.sort((a,b)=>b.value-a.value);
+  const support=levels[0]||null;
+
+  const res=[];
+  const addRes=(label,value)=>{
+    const v=dayTradeNumV1(value);
+    if(v!==null&&close!==null&&v>close)res.push({label,value:v});
+  };
+  try{
+    const bands=supportResistanceBandsV360(report);
+    if(bands?.resistance)addRes((bands.resistance.labels||[]).slice(0,2).join("＋")||"最近壓力",bands.resistance.low??bands.resistance.high);
+  }catch(_){/* ignore */}
+  const rr=(()=>{try{return afterHoursRiskRewardV3742(st);}catch(_){return null;}})();
+  if(rr?.available)addRes(rr.target?.label||"最近關卡",rr.target?.value);
+  if(B!==null)addRes("B點",B);
+  res.sort((a,b)=>a.value-b.value);
+  const resistance=res[0]||null;
+
+  const latest=bars[bars.length-1];
+  const trigger=Math.max(latest?.high||close,metrics.priorHigh20||0);
+  const risk= support&&close>support.value ? close-support.value : null;
+  const reward= resistance&&resistance.value>close ? resistance.value-close : null;
+  const rrRatio=risk!==null&&risk>0&&reward!==null&&reward>0?reward/risk:null;
+  return {support,resistance,trigger,rrRatio};
+}
+
+function dayTradeBuildMetricsV1(report,quote=null){
+  const bars=normalizeDailyBarsV361(report);
+  if(!bars||bars.length<65)return {ok:false,reason:"日K不足65筆",bars:bars||[]};
+  const i=bars.length-1,latest=bars[i],prev=bars[i-1];
+  const close=dayTradeNumV1(latest.close),open=dayTradeNumV1(latest.open),high=dayTradeNumV1(latest.high),low=dayTradeNumV1(latest.low);
+  if([close,open,high,low].some(v=>v===null))return {ok:false,reason:"最新OHLC不足",bars};
+
+  const ma5=dayTradeSmaAtV1(bars,5,i),ma10=dayTradeSmaAtV1(bars,10,i),ma20=dayTradeSmaAtV1(bars,20,i),ma60=dayTradeSmaAtV1(bars,60,i);
+  const ma20Prev5=dayTradeSmaAtV1(bars,20,i-5),ma60Prev5=dayTradeSmaAtV1(bars,60,i-5);
+  const ma20SlopePct=ma20!==null&&ma20Prev5!==null&&ma20Prev5!==0?((ma20-ma20Prev5)/ma20Prev5)*100:null;
+  const ma60SlopePct=ma60!==null&&ma60Prev5!==null&&ma60Prev5!==0?((ma60-ma60Prev5)/ma60Prev5)*100:null;
+  const ma20GapPct=ma20!==null&&ma20!==0?((close-ma20)/ma20)*100:null;
+  const rsi=dayTradeRsiV1(report,bars);
+
+  const unit=dayTradeVolumeUnitV1(bars);
+  const volLots=dayTradeVolumeLotsV1(latest.volume,unit);
+  const prev5Raw=bars.slice(i-5,i).map(x=>x.volume);
+  const avg5Lots=dayTradeMeanV1(prev5Raw.map(v=>dayTradeVolumeLotsV1(v,unit)));
+  const volRatio=avg5Lots!==null&&avg5Lots>0&&volLots!==null?volLots/avg5Lots:null;
+  const tradeValue=dayTradeNumV1(quote?.tradeValue) ?? (volLots!==null?volLots*1000*close:null);
+  const dayPct=prev?.close?((close-prev.close)/prev.close)*100:null;
+  const range=Math.max(0,high-low);
+  const closePos=range>0?(close-low)/range:0.5;
+  const body=Math.abs(close-open);
+  const upperWick=Math.max(0,high-Math.max(open,close));
+  const upperRangeRatio=range>0?upperWick/range:0;
+  const upperBodyRatio=body>0?upperWick/body:(upperWick>0?99:0);
+
+  const prior20=bars.slice(Math.max(0,i-20),i);
+  const priorHigh20=prior20.length?Math.max(...prior20.map(x=>x.high)):null;
+  const priorCloseHigh20=prior20.length?Math.max(...prior20.map(x=>x.close)):null;
+  const breakout20=priorHigh20!==null&&close>priorHigh20;
+  const intradayBreak20=priorHigh20!==null&&high>priorHigh20;
+  const failedBreak20=intradayBreak20&&!breakout20;
+  const fiveDayBase=bars[Math.max(0,i-5)]?.close;
+  const fiveDayRunPct=fiveDayBase?((close-fiveDayBase)/fiveDayBase)*100:null;
+  const high240=bars.length>=241?Math.max(...bars.slice(i-240,i).map(x=>x.high)):null;
+  const newHigh240=high240!==null&&close>high240;
+
+  const money=dayTradeMoneyFlowV1(bars);
+  const kd=dayTradeKdV1(bars,9);
+  const sar=dayTradeSarV1(bars);
+  const chips=dayTradeOptionalChipV1(report);
+  let st=null;
+  try{st=stockInfographicStateV3328(report);}catch(_){st=null;}
+  const qScore=(()=>{try{return dayTradeNumV1(st?.breakoutQuality360?.score ?? breakoutQualityV360(report)?.score);}catch(_){return null;}})();
+  const stability=(()=>{try{return st?breakoutStabilityV37613(st):null;}catch(_){return null;}})();
+  const B=dayTradeNumV1(st?.B);
+  const bBreak=B!==null&&close>B;
+  const priceBreakout=breakout20||bBreak;
+
+  return {ok:true,bars,latest,prev,close,open,high,low,ma5,ma10,ma20,ma60,ma20SlopePct,ma60SlopePct,ma20GapPct,rsi,
+    unit,volLots,avg5Lots,volRatio,tradeValue,dayPct,closePos,body,upperWick,upperRangeRatio,upperBodyRatio,
+    priorHigh20,priorCloseHigh20,breakout20,intradayBreak20,failedBreak20,fiveDayRunPct,newHigh240,money,kd,sar,chips,st,qScore,stability,B,bBreak,priceBreakout};
+}
+
+function dayTradeFalseBreakoutV1(m){
+  const reasons=[],hard=[];let penalty=0;
+  const longUpper=m.upperRangeRatio>=0.35&&m.closePos<0.65;
+  const severeUpper=m.upperRangeRatio>=0.45&&m.closePos<0.55;
+  const volumeStall=m.volRatio!==null&&m.volRatio>=3&&((m.dayPct!==null&&m.dayPct<2)||m.closePos<0.60);
+  const failedBreak=m.failedBreak20===true || (m.stability?.key==="RED");
+  const overGap=m.ma20GapPct!==null&&m.ma20GapPct>12;
+  const overRsi=m.rsi!==null&&m.rsi>=85;
+  const extremeGap=m.ma20GapPct!==null&&m.ma20GapPct>DAYTRADE_MAX_MA20_GAP_V1;
+  const extremeRsi=m.rsi!==null&&m.rsi>=DAYTRADE_EXTREME_RSI_V1;
+
+  if(failedBreak){penalty+=18;reasons.push("突破後站不住／收回壓力下");hard.push("假突破硬Gate");}
+  if(longUpper){penalty+=10;reasons.push("長上影＋收盤位置偏弱");}
+  if(severeUpper)hard.push("嚴重長上影");
+  if(volumeStall){penalty+=12;reasons.push("爆量但價格推不動");hard.push("爆量滯漲");}
+  if(m.volRatio!==null&&m.volRatio>4&&!volumeStall){penalty+=4;reasons.push("量比>4倍，需防情緒過熱");}
+  if(overGap){penalty+=8;reasons.push(`MA20乖離 ${m.ma20GapPct.toFixed(1)}% 偏熱`);}
+  if(overRsi){penalty+=6;reasons.push(`RSI5 ${m.rsi.toFixed(1)} 偏熱`);}
+  if(m.fiveDayRunPct!==null&&m.fiveDayRunPct>15){penalty+=6;reasons.push(`近5日已漲 ${m.fiveDayRunPct.toFixed(1)}%`);}
+  if(extremeGap)hard.push(`MA20乖離>${DAYTRADE_MAX_MA20_GAP_V1}%`);
+  if(extremeRsi)hard.push(`RSI5≥${DAYTRADE_EXTREME_RSI_V1}`);
+  if(m.rsi!==null&&m.rsi>=85&&m.ma20GapPct!==null&&m.ma20GapPct>12)hard.push("RSI＋乖離雙過熱");
+  if(m.closePos<0.35){penalty+=8;reasons.push("收盤靠近日低");}
+
+  penalty=Math.min(30,penalty);
+  const level=hard.length?"HIGH":penalty>=16?"HIGH":penalty>=8?"MEDIUM":"LOW";
+  return {penalty,level,reasons,hardReject:hard.length>0,hardReasons:hard,longUpper,severeUpper,volumeStall,failedBreak};
+}
+
+function dayTradeSetupV1(m){
+  const lowTurn= m.ma20GapPct!==null&&m.ma20GapPct>=0&&m.ma20GapPct<=8 &&
+    m.volRatio!==null&&m.volRatio>=DAYTRADE_MIN_VOL_RATIO_V1 &&
+    m.rsi!==null&&m.rsi>=50&&m.rsi<=78 &&
+    (m.money.cmfRising||m.money.crossedPositiveWithin3||m.money.cmf20>0) &&
+    !m.breakout20;
+  if(lowTurn)return {key:"LOW_TURN",...DAYTRADE_SETUP_DEF_V1.LOW_TURN};
+
+  const breakout=(m.breakout20||m.bBreak) && m.closePos>=0.65 && m.stability?.key!=="RED";
+  if(breakout)return {key:"BREAKOUT",...DAYTRADE_SETUP_DEF_V1.BREAKOUT};
+
+  const continuation=m.ma5!==null&&m.ma10!==null&&m.ma20!==null&&m.ma5>m.ma10&&m.ma10>m.ma20&&
+    m.ma20GapPct!==null&&m.ma20GapPct<=12&&(m.rsi===null||m.rsi<=82);
+  if(continuation)return {key:"CONTINUATION",...DAYTRADE_SETUP_DEF_V1.CONTINUATION};
+  return null;
+}
+
+function dayTradeScoreV1(m,fake){
+  let trend=0,position=0,volume=0,breakout=0,money=m.money.score||0;
+  const evidence=[];
+
+  if(m.close>m.ma20){trend+=6;evidence.push("收盤站上20MA");}
+  if(m.ma20SlopePct!==null&&m.ma20SlopePct>0){trend+=5;evidence.push("20MA上彎");}
+  if(m.ma5!==null&&m.ma10!==null&&m.ma20!==null&&m.ma5>m.ma10&&m.ma10>m.ma20){trend+=5;evidence.push("5>10>20多頭排列");}
+  if(m.ma60!==null&&m.close>m.ma60){trend+=2;}
+  if(m.ma60SlopePct!==null&&m.ma60SlopePct>=0){trend+=2;}
+  trend=Math.min(20,trend);
+
+  const g=m.ma20GapPct;
+  if(g!==null&&g>=0&&g<=5)position+=10;
+  else if(g!==null&&g>5&&g<=8)position+=8;
+  else if(g!==null&&g>8&&g<=12)position+=4;
+  const r=m.rsi;
+  if(r!==null&&r>=55&&r<=72)position+=6;
+  else if(r!==null&&r>72&&r<=80)position+=3;
+  else if(r!==null&&r>=50&&r<55)position+=2;
+  const dist5=m.ma5&&m.ma5>0?Math.abs((m.close-m.ma5)/m.ma5*100):null;
+  if(dist5!==null&&dist5<=3)position+=4;
+  else if(dist5!==null&&dist5<=5)position+=2;
+  position=Math.min(20,position);
+
+  if(m.avg5Lots!==null&&m.avg5Lots>=DAYTRADE_MIN_AVG5_LOTS_V1)volume+=4;
+  if(m.tradeValue!==null&&m.tradeValue>=DAYTRADE_MIN_TRADE_VALUE_V1)volume+=4;
+  if(m.volRatio!==null&&m.volRatio>=DAYTRADE_IDEAL_VOL_RATIO_MIN_V1&&m.volRatio<=DAYTRADE_IDEAL_VOL_RATIO_MAX_V1)volume+=8;
+  else if(m.volRatio!==null&&m.volRatio>=DAYTRADE_MIN_VOL_RATIO_V1&&m.volRatio<3)volume+=5;
+  else if(m.volRatio!==null&&m.volRatio>=3)volume+=2;
+  if(m.closePos>=0.75)volume+=3;else if(m.closePos>=0.60)volume+=1;
+  if(m.dayPct!==null&&m.dayPct>=1.5&&m.dayPct<=7)volume+=1;
+  volume=Math.min(20,volume);
+
+  if(m.priceBreakout){breakout+=6;evidence.push("價格突破20日高/B點");}
+  else if(m.close>m.ma5&&m.close>m.ma10){breakout+=3;}
+  if(m.qScore!==null&&m.qScore>=8)breakout+=6;
+  else if(m.qScore!==null&&m.qScore>=7)breakout+=5;
+  else if(m.qScore!==null&&m.qScore>=6)breakout+=3;
+  if(m.stability?.key==="GREEN")breakout+=5;
+  else if(m.stability?.key==="YELLOW")breakout+=2;
+  if(!fake.longUpper&&m.closePos>=0.65)breakout+=3;
+  breakout=Math.min(20,breakout);
+
+  let signalBonus=0;const signalEvidence=[];
+  if(m.kd?.golden){signalBonus+=1.5;signalEvidence.push("KD黃金交叉");}
+  if(m.sar?.rising4){signalBonus+=1.5;signalEvidence.push("SAR連續上升");}
+  if(m.newHigh240&&g!==null&&g<=10&&r!==null&&r<=82){signalBonus+=1;signalEvidence.push("240日新高但未過熱");}
+  const chipBonus=m.chips?.available?Math.min(8,m.chips.score||0):0;
+
+  const base=trend+position+volume+breakout+money;
+  const final=Math.max(0,Math.min(100,base+signalBonus+chipBonus-fake.penalty));
+  return {final,base,trend,position,volume,breakout,money,signalBonus,chipBonus,evidence,signalEvidence};
+}
+
+function dayTradeCandidateV1(report,quote=null){
+  const m=dayTradeBuildMetricsV1(report,quote);
+  if(!m.ok)return {eligible:false,reason:m.reason,report,metrics:m};
+
+  const hard=[];
+  if(!(m.avg5Lots>=DAYTRADE_MIN_AVG5_LOTS_V1))hard.push(`近5日均量<${DAYTRADE_MIN_AVG5_LOTS_V1}張`);
+  if(!(m.tradeValue>=DAYTRADE_MIN_TRADE_VALUE_V1))hard.push("成交金額<5,000萬");
+  if(!(m.close>m.ma20))hard.push("收盤未站上20MA");
+  if(!(m.ma20SlopePct!==null&&m.ma20SlopePct>0))hard.push("20MA未上彎");
+  if(!(m.volRatio!==null&&m.volRatio>=DAYTRADE_MIN_VOL_RATIO_V1))hard.push(`量比<${DAYTRADE_MIN_VOL_RATIO_V1}`);
+  if(m.closePos<0.45)hard.push("收盤位置過弱");
+
+  const fake=dayTradeFalseBreakoutV1(m);
+  if(fake.hardReject)hard.push(...fake.hardReasons);
+  const setup=dayTradeSetupV1(m);
+  if(!setup)hard.push("不屬於低位轉強／突破確認／強勢延續三型");
+  if(hard.length)return {eligible:false,hardGateFail:true,reason:"HARD_GATE",hardFails:[...new Set(hard)],report,metrics:m,fake,setup};
+
+  const score=dayTradeScoreV1(m,fake);
+  const grade=score.final>=85&&fake.level==="LOW"?"S":score.final>=75&&fake.level!=="HIGH"?"A":score.final>=65?"B":"C";
+  if(grade==="C")return {eligible:false,hardGateFail:false,reason:"SCORE_LOW",report,metrics:m,fake,setup,score,grade};
+
+  const levels=dayTradePriceLevelsV1(report,m.st,m.bars,m);
+  const riskPct=levels.support&&m.close>levels.support.value?(m.close-levels.support.value)/m.close*100:null;
+  const triggerPct=levels.trigger&&m.close?((levels.trigger-m.close)/m.close)*100:null;
+  const action=setup.key==="LOW_TURN"
+    ?`優先等回踩近撐不破或帶量站上 ${fmt(levels.trigger)}，不要直接追開高。`
+    :setup.key==="BREAKOUT"
+      ?`只做突破後站穩／回踩不破；若跌回突破關卡下方，視為失敗。`
+      :`只做順勢續強，不追長紅急拉；若量大價不動立即降級。`;
+  const noTrade=[...fake.reasons];
+  if(levels.support)noTrade.push(`有效跌破 ${fmt(levels.support.value)}（${levels.support.label}）`);
+  noTrade.push("開盤後爆量卻無法推高");
+
+  return {
+    eligible:true,grade,setup,score,fake,report,metrics:m,levels,
+    close:m.close,ma5:m.ma5,ma10:m.ma10,ma20:m.ma20,ma60:m.ma60,gap:m.ma20GapPct,rsi:m.rsi,
+    avg5Lots:m.avg5Lots,volRatio:m.volRatio,tradeValue:m.tradeValue,dayPct:m.dayPct,closePos:m.closePos,
+    qScore:m.qScore,stability:m.stability,money:m.money,chips:m.chips,kd:m.kd,sar:m.sar,
+    riskPct,triggerPct,action,noTrade:[...new Set(noTrade)]
+  };
+}
+
+function dayTradeCompareV1(a,b){
+  const ar=a?.setup?.rank??99,br=b?.setup?.rank??99;
+  if(ar!==br)return ar-br;
+  const sd=(b?.score?.final||0)-(a?.score?.final||0);
+  if(Math.abs(sd)>=1)return sd;
+  const fp=(a?.fake?.penalty||0)-(b?.fake?.penalty||0);
+  if(fp!==0)return fp;
+  const qa=dayTradeNumV1(a?.qScore)||0,qb=dayTradeNumV1(b?.qScore)||0;
+  if(qa!==qb)return qb-qa;
+  return (b?.tradeValue||0)-(a?.tradeValue||0);
+}
+
+function dayTradePhase1ScoreV1(q){
+  if(!q||!(q.close>0)||!(q.volume>0))return -Infinity;
+  const lots=q.volume>=100000?q.volume/1000:q.volume;
+  if(lots<DAYTRADE_MIN_AVG5_LOTS_V1*0.6)return -Infinity;
+  if(!(q.tradeValue>=DAYTRADE_MIN_TRADE_VALUE_V1))return -Infinity;
+  let s=0;
+  if(q.tradeValue>0)s+=Math.max(0,Math.min(35,(Math.log10(q.tradeValue)-7)*16));
+  if(q.closePos!==null&&q.closePos!==undefined){if(q.closePos>=0.8)s+=18;else if(q.closePos>=0.65)s+=12;else if(q.closePos<0.35)s-=15;}
+  if(q.pct!==null&&q.pct!==undefined){
+    if(q.pct>=1&&q.pct<=6)s+=20;
+    else if(q.pct>6&&q.pct<=8)s+=10;
+    else if(q.pct>8)s-=8;
+    else if(q.pct>=-1)s+=8;
+    else if(q.pct<-3)s-=12;
+  }
+  return s;
+}
+
+function buildDayTradePhase1PoolV1(bundle){
+  const ranked=[],financial=[],biotech=[],noQuote=[];
+  for(const [code,q] of bundle.map.entries()){
+    if(!q||!(q.close>0)||!(q.open>0)||!(q.high>0)||!(q.low>0)||!(q.volume>0)){noQuote.push(code);continue;}
+    const sector=bundle.sectorMap?.get(String(code));
+    if(DAYTRADE_EXCLUDE_FINANCIAL_V1&&(isFinancialIndustryV3767(sector)||isFinancialStockV3763(code,LOCAL_NAME_MAP[code]||""))){financial.push(code);continue;}
+    if(DAYTRADE_EXCLUDE_BIOTECH_V1&&isBiotechStockV3765(code,LOCAL_NAME_MAP[code]||"",bundle.sectorMap)){biotech.push(code);continue;}
+    const priorityScore=dayTradePhase1ScoreV1(q);
+    if(!Number.isFinite(priorityScore))continue;
+    ranked.push({code,name:LOCAL_NAME_MAP[code]||code,q,priorityScore});
+  }
+  ranked.sort((a,b)=>b.priorityScore-a.priorityScore||(b.q.tradeValue||0)-(a.q.tradeValue||0));
+  return {ranked,deep:ranked.slice(0,DAYTRADE_DEEP_LIMIT_V1),financial,biotech,noQuote};
+}
+
+function stopDayTradeScanV1(){
+  dayTradeScanAbortV1=true;
+  const b=document.getElementById("dayTradeStopButton");
+  if(b)b.textContent="■ 停止中...";
+}
+
+function setDayTradeProgressV1(done,total,candidates,hardFail,failed){
+  const pct=total?Math.min(100,done/total*100):0;
+  const bar=document.getElementById("dayTradeProgressBar");
+  const txt=document.getElementById("dayTradeProgressText");
+  if(bar)bar.style.width=pct.toFixed(1)+"%";
+  if(txt)txt.textContent=`${done}/${total}｜正式候選 ${candidates}｜硬Gate排除 ${hardFail}｜失敗 ${failed}`;
+}
+
+async function runDayTradeScanV1(){
+  if(dayTradeScanRunningV1||momentumScanRunningV3762)return;
+  const btn=document.getElementById("dayTradeScanButton"),stopBtn=document.getElementById("dayTradeStopButton"),err=document.getElementById("dayTradeError"),result=document.getElementById("dayTradeResult");
+  dayTradeScanRunningV1=true;dayTradeScanAbortV1=false;lastDayTradeScanDataV1=null;
+  if(btn){btn.disabled=true;btn.textContent="⚡ 全市場當沖快篩...";}
+  if(stopBtn){stopBtn.classList.add("show");stopBtn.textContent="■ 停止掃描";}
+  if(err){err.style.display="none";err.textContent="";}
+  if(result)result.style.display="none";
+  set("dayTradeImageMessage","");
+  try{
+    const bundle=await loadMarketBundleFromWorkerV3766();
+    const marketReady=bundle.meta?.marketCoverageReady===true;
+    const industryReady=bundle.meta?.industryCoverageReady===true;
+    if(!marketReady)throw new Error("市場完整性硬Gate未通過；停止產生當沖正式榜。請先確認TWSE/TPEx行情完整。");
+    if(!industryReady&&(DAYTRADE_EXCLUDE_FINANCIAL_V1||DAYTRADE_EXCLUDE_BIOTECH_V1))throw new Error("產業覆蓋未通過；金融/生技排除可能失真，本次停止。");
+
+    const p1=buildDayTradePhase1PoolV1(bundle);
+    if(!p1.deep.length)throw new Error("第一階段沒有留下足夠流動性候選。");
+    const total=p1.deep.length,candidates=[],failures=[],dataSkipped=[];
+    let done=0,hardGateSkipped=0,retryRecovered=0;
+    setDayTradeProgressV1(0,total,0,0,0);
+
+    for(let start=0;start<total&&!dayTradeScanAbortV1;start+=DAYTRADE_DEEP_BATCH_V1){
+      const batch=p1.deep.slice(start,start+DAYTRADE_DEEP_BATCH_V1);
+      if(btn)btn.textContent=`⚡ DeepScan ${done}/${total}`;
+      try{
+        const payload=await fetchDeepBatchViaMarketWorkerV3768(batch);
+        const byCode=new Map((payload?.results||[]).map(x=>[String(x.code),x]));
+        for(const item of batch){
+          const x=byCode.get(String(item.code));
+          if(!x||!x.ok){
+            const cls=classifyMomentumFailureV3763(new Error(x?.error||"DeepScan未回傳結果"));
+            const row={code:item.code,name:item.name,label:cls.label,error:cls.msg};
+            if(cls.key==="DATA")dataSkipped.push(row);else failures.push(row);
+            done++;continue;
+          }
+          if(x.recovered)retryRecovered++;
+          const c=dayTradeCandidateV1(x.data,item.q);
+          if(c.eligible)candidates.push(c);else if(c.hardGateFail)hardGateSkipped++;
+          done++;
+        }
+      }catch(e){
+        // 批次失敗：逐檔補救，避免一批 timeout 把好股票全漏掉。
+        for(const item of batch){
+          if(dayTradeScanAbortV1)break;
+          try{
+            const payload=await fetchDeepBatchViaMarketWorkerV3768([item]);
+            const x=(payload?.results||[]).find(v=>String(v.code)===String(item.code));
+            if(x?.ok){
+              if(x.recovered)retryRecovered++;
+              const c=dayTradeCandidateV1(x.data,item.q);
+              if(c.eligible)candidates.push(c);else if(c.hardGateFail)hardGateSkipped++;
+            }else{
+              const cls=classifyMomentumFailureV3763(new Error(x?.error||"單檔補救失敗"));
+              failures.push({code:item.code,name:item.name,label:cls.label,error:cls.msg});
+            }
+          }catch(err2){
+            const cls=classifyMomentumFailureV3763(err2);
+            failures.push({code:item.code,name:item.name,label:cls.label,error:cls.msg});
+          }
+          done++;
+          await sleepMomentumV3763(500);
+        }
+      }
+      setDayTradeProgressV1(done,total,candidates.length,hardGateSkipped,failures.length);
+      if(start+batch.length<total)await sleepMomentumV3763(800);
+    }
+
+    candidates.sort(dayTradeCompareV1);
+    const sCount=candidates.filter(x=>x.grade==="S").length;
+    const aCount=candidates.filter(x=>x.grade==="A").length;
+    const bCount=candidates.filter(x=>x.grade==="B").length;
+    const lowTurnCount=candidates.filter(x=>x.setup.key==="LOW_TURN").length;
+    const breakoutCount=candidates.filter(x=>x.setup.key==="BREAKOUT").length;
+    const continuationCount=candidates.filter(x=>x.setup.key==="CONTINUATION").length;
+    const success=Math.max(0,done-failures.length-dataSkipped.length);
+    const successRate=done?success/done:0;
+    const qualityPass=!dayTradeScanAbortV1&&successRate>=DAYTRADE_DEEP_QUALITY_MIN_V1;
+    const failureBreakdown=failures.reduce((o,x)=>{o[x.label]=(o[x.label]||0)+1;return o;},{});
+
+    lastDayTradeScanDataV1={
+      createdAt:taipeiStampV3762(),completed:!dayTradeScanAbortV1,qualityPass,success,successRate,
+      phase1Total:bundle.map.size,phase1Ranked:p1.ranked.length,total,done,financialSkipped:p1.financial.length,biotechSkipped:p1.biotech.length,
+      hardGateSkipped,dataSkippedCount:dataSkipped.length,dataSkipped,failed:failures.length,failures,failureBreakdown,retryRecovered,
+      candidates,sCount,aCount,bCount,lowTurnCount,breakoutCount,continuationCount,
+      marketBundleMeta:bundle.meta,source:"V3.7.7.7.25母版資料＋Market Worker DeepScan傳輸＋DayTrade V1獨立評分/假突破Gate",
+      chipContract:"report.dayTradeChips（可選；缺資料時不補猜、不扣分）"
+    };
+    renderDayTradeScanResultV1(lastDayTradeScanDataV1);
+    if(result){result.style.display="block";result.scrollIntoView({behavior:"smooth",block:"start"});}
+    if(err){
+      err.style.display="block";
+      if(qualityPass){err.style.background="var(--greenbg)";err.style.color="var(--green)";err.textContent=`✅ 當沖高勝率掃描完成｜DeepScan成功率 ${fmt(successRate*100,1)}%｜正式候選 ${candidates.length}｜低位轉強 ${lowTurnCount}｜突破確認 ${breakoutCount}｜強勢延續 ${continuationCount}。`;}
+      else{err.style.background="var(--yellowbg)";err.style.color="var(--yellow)";err.textContent=`⚠️ 掃描完成但完整性未達 ${DAYTRADE_DEEP_QUALITY_MIN_V1*100}%｜本次排行只代表成功取得資料的候選。`;}
+    }
+  }catch(e){
+    console.error(e);
+    if(err){err.style.display="block";err.style.background="var(--redbg)";err.style.color="var(--red)";err.textContent=`❌ 當沖高勝率掃描失敗：${e?.message||"未知錯誤"}`;}
+  }finally{
+    dayTradeScanRunningV1=false;
+    if(btn){btn.disabled=false;btn.textContent="⚡ 當沖高勝率（已過濾假突破）";}
+    if(stopBtn)stopBtn.classList.remove("show");
+  }
+}
+
+function dayTradeRiskLabelV1(c){
+  const level=c?.fake?.level||"MEDIUM";
+  if(level==="LOW")return {icon:"🟢",text:"低",cls:"s"};
+  if(level==="HIGH")return {icon:"🔴",text:"高",cls:"b"};
+  return {icon:"🟡",text:"中",cls:"a"};
+}
+
+function dayTradeMoneyTextV1(c){
+  const m=c?.money;
+  if(!m)return "-";
+  const parts=[];
+  if(m.cmf20!==null)parts.push(`CMF ${fmt(m.cmf20,2)}`);
+  if(m.obv20High)parts.push("OBV20新高");
+  if(m.cmfRising)parts.push("CMF走升");
+  return parts.join("｜")||"中性";
+}
+
+function renderDayTradeScanResultV1(scan){
+  const root=document.getElementById("dayTradeList");if(!root)return;
+  set("dayTradeMeta",`${scan.qualityPass?"✅完整性PASS":"⚠️完整性未通過"}｜DeepScan ${scan.success}/${scan.done}・${fmt(scan.successRate*100,1)}%｜候選 ${scan.candidates.length}｜${scan.createdAt}`);
+  set("dayTradeCandidateCount",`${scan.candidates.length} 檔`);
+  set("dayTradeSCount",`${scan.sCount} 檔`);set("dayTradeACount",`${scan.aCount} 檔`);set("dayTradeBCount",`${scan.bCount} 檔`);
+  set("dayTradeLowTurnCount",`${scan.lowTurnCount} 檔`);set("dayTradeBreakoutCount",`${scan.breakoutCount} 檔`);set("dayTradeContinuationCount",`${scan.continuationCount} 檔`);
+  root.innerHTML="";
+  const shown=scan.candidates.slice(0,DAYTRADE_TOP_RENDER_V1);
+  if(!shown.length){root.innerHTML='<div class="rule">目前沒有股票同時通過流動性、20MA多方、量能啟動、位置不過熱與假突破硬Gate。允許0檔，不硬湊。</div>';return;}
+  shown.forEach((c,i)=>{
+    const risk=dayTradeRiskLabelV1(c);
+    const code=c.report?.stock||c.report?.code||"-";
+    const name=momentumSafeStockNameV377712(c);
+    const support=c.levels?.support?`${fmt(c.levels.support.value)} ${c.levels.support.label}`:"待建立";
+    const trigger=c.levels?.trigger?`${fmt(c.levels.trigger)}`:"-";
+    const div=document.createElement("div");div.className=`momentum-card ${c.grade.toLowerCase()}`;
+    div.innerHTML=`
+      <div class="momentum-card-head">
+        <div><div class="momentum-rank">TOP ${i+1}</div><div class="momentum-name">${escapeHtmlV3762(name)}（${escapeHtmlV3762(code)}）</div><div class="meta">${escapeHtmlV3762(c.report?.market||"")}｜收盤 ${fmt(c.close)}｜${datefmt(c.report?.closeDate)}</div></div>
+        <div class="momentum-badges"><span class="momentum-badge ${c.grade.toLowerCase()}">${c.grade}級｜當沖分 ${fmt(c.score.final,1)}</span><span class="momentum-badge">${c.setup.icon} ${c.setup.label}</span><span class="momentum-badge ${risk.cls}">${risk.icon} 假突破風險${risk.text}</span></div>
+      </div>
+      <div class="momentum-metrics">
+        ${momentumMetricHtmlV3762("量比1日/5日",c.volRatio==null?"-":fmt(c.volRatio,2)+"×")}
+        ${momentumMetricHtmlV3762("MA20乖離",c.gap==null?"-":fmtSignedPct(c.gap))}
+        ${momentumMetricHtmlV3762("RSI5",c.rsi==null?"-":fmt(c.rsi,1))}
+        ${momentumMetricHtmlV3762("CMF/OBV",escapeHtmlV3762(dayTradeMoneyTextV1(c)))}
+        ${momentumMetricHtmlV3762("盤中觸發",trigger+" 元")}
+        ${momentumMetricHtmlV3762("最近防守",escapeHtmlV3762(support))}
+      </div>
+      <div class="momentum-checks">趨勢 ${c.score.trend}/20｜位置 ${c.score.position}/20｜量價 ${c.score.volume}/20｜突破 ${c.score.breakout}/20｜金流 ${c.score.money}/20｜假突破扣 ${c.fake.penalty}</div>
+      <div class="rule" style="margin-top:8px">${escapeHtmlV3762(c.action)}</div>
+      ${c.fake.reasons.length?`<div class="momentum-warning">⚠️ ${c.fake.reasons.map(escapeHtmlV3762).join("｜")}</div>`:""}
+    `;
+    root.appendChild(div);
+  });
+}
+
+function buildDayTradeTextReportV1(scan){
+  if(!scan)return "";
+  const lines=[],D="━━━━━━━━━━━━━━━━━━";
+  const section=(n,title)=>{if(lines.length)lines.push("");lines.push(D,`【${n} ${title}】`,D);};
+  const top=scan.candidates||[];
+  lines.push("⚡ 當沖高勝率（已過濾假突破）｜完整文字戰報");
+
+  section("①","報告基本資料");
+  lines.push("前端母版：V3.7.7.7.25｜新增模組：DayTrade V1.0");
+  lines.push(`報告產生時間：${scan.createdAt}（台灣時間）`);
+  lines.push("定位：盤後先選出下一交易日高優先觀察股；盤中仍須確認量能與站穩，不把盤後分數當成必買訊號。");
+  lines.push("重要：『當沖綜合分』是排序分數，不是統計勝率或保證報酬。");
+
+  section("②","本模式官方定義");
+  lines.push("🟢 低位轉強型＝20MA附近、尚未過熱、量價與資金流開始轉強；優先順位最高。");
+  lines.push("🔵 突破確認型＝突破20日高／B點且收盤站穩；必須通過假突破檢查。");
+  lines.push("🟠 強勢延續型＝5>10>20多頭、趨勢仍強；但位置較高，追價風險高於前兩型。");
+  lines.push("假突破硬Gate＝跌回壓力、嚴重長上影、爆量滯漲、RSI/MA20雙過熱等直接排除。");
+
+  section("③","今日一句話結論");
+  if(top.length){
+    const c=top[0];
+    lines.push(`⚡ 第一順位：${momentumSafeStockNameV377712(c)}（${c.report?.stock||c.report?.code||"-"}）｜${c.setup.label}｜當沖分 ${fmt(c.score.final,1)}｜假突破風險 ${dayTradeRiskLabelV1(c).text}`);
+  }else lines.push("本次0檔通過正式條件｜寧可空榜，不降低假突破硬Gate。");
+  lines.push(`分流：低位轉強 ${scan.lowTurnCount||0}｜突破確認 ${scan.breakoutCount||0}｜強勢延續 ${scan.continuationCount||0}`);
+
+  section("④","掃描完整性精簡摘要");
+  lines.push(`全市場快照：${scan.phase1Total||0} 檔｜快篩有效 ${scan.phase1Ranked||0}｜DeepScan ${scan.total||0}`);
+  lines.push(`DeepScan：成功 ${scan.success||0}/${scan.done||0}｜成功率 ${fmt((scan.successRate||0)*100,1)}%｜${scan.qualityPass?"✅ PASS":"⚠️ 未通過"}`);
+  lines.push(`金融排除 ${scan.financialSkipped||0}｜生技醫療排除 ${scan.biotechSkipped||0}｜硬Gate排除 ${scan.hardGateSkipped||0}｜正式候選 ${top.length}`);
+  lines.push(`籌碼欄位：${top.some(c=>c.chips?.available)?"部分/全部候選已接入 report.dayTradeChips":"目前未接入；本版不補猜、不扣分"}`);
+
+  section("⑤","⚡ 當沖高勝率榜｜逐檔完整作戰分析");
+  if(!top.length){lines.push("目前沒有正式候選。");}
+  top.forEach((c,i)=>{
+    const code=c.report?.stock||c.report?.code||"-",name=momentumSafeStockNameV377712(c),risk=dayTradeRiskLabelV1(c);
+    const support=c.levels?.support?`${fmt(c.levels.support.value)} 元（${c.levels.support.label}）`:"待建立";
+    const resistance=c.levels?.resistance?`${fmt(c.levels.resistance.value)} 元（${c.levels.resistance.label}）`:"待建立";
+    const trigger=c.levels?.trigger?`${fmt(c.levels.trigger)} 元`:"待建立";
+    lines.push("");
+    lines.push(`TOP ${i+1}｜${name}（${code}）｜${c.grade}級｜當沖綜合分 ${fmt(c.score.final,1)}/100`);
+    lines.push(`【定位】${c.setup.icon} ${c.setup.label}｜${c.setup.note}`);
+    lines.push(`【價格】收盤 ${fmt(c.close)}｜MA5 ${fmt(c.ma5)}｜MA10 ${fmt(c.ma10)}｜MA20 ${fmt(c.ma20)}｜MA60 ${fmt(c.ma60)}`);
+    lines.push(`【熱度】MA20乖離 ${c.gap==null?"-":fmtSignedPct(c.gap)}｜RSI5 ${c.rsi==null?"-":fmt(c.rsi,1)}｜近5日漲幅 ${c.metrics.fiveDayRunPct==null?"-":fmtSignedPct(c.metrics.fiveDayRunPct)}`);
+    lines.push(`【量價】5日均量 ${c.avg5Lots==null?"-":fmt(c.avg5Lots,0)+"張"}｜1日/5日量比 ${c.volRatio==null?"-":fmt(c.volRatio,2)+"×"}｜成交金額 ${c.tradeValue==null?"-":fmt(c.tradeValue/100000000,2)+"億"}｜收盤位置 ${fmt(c.closePos*100,0)}%`);
+    lines.push(`【金流】CMF20 ${c.money.cmf20==null?"-":fmt(c.money.cmf20,3)}｜${c.money.cmfRising?"CMF走升":"CMF未明顯走升"}｜${c.money.obv20High?"OBV創20日新高":"OBV未創20日新高"}`);
+    lines.push(`【突破】20日高 ${c.metrics.priorHigh20==null?"-":fmt(c.metrics.priorHigh20)}｜${c.metrics.breakout20?"✅收盤突破":"尚未收盤突破"}｜B點 ${c.metrics.B==null?"-":fmt(c.metrics.B)}｜突破品質 ${c.qScore==null?"尚未計分":fmt(c.qScore,1)+"/10"}｜站穩 ${c.stability?.label||"待確認"}`);
+    lines.push(`【假突破】${risk.icon} 風險${risk.text}｜扣分 ${c.fake.penalty}${c.fake.reasons.length?"｜"+c.fake.reasons.join("、"):"｜未見主要假突破警訊"}`);
+    lines.push(`【籌碼】${c.chips?.available?c.chips.note:"資料未接入｜不補猜"}`);
+    lines.push(`【分數】趨勢 ${c.score.trend}/20｜位置 ${c.score.position}/20｜量價 ${c.score.volume}/20｜突破 ${c.score.breakout}/20｜金流 ${c.score.money}/20｜訊號加分 ${fmt(c.score.signalBonus,1)}｜籌碼加分 ${fmt(c.score.chipBonus,1)}｜假突破扣 ${c.fake.penalty}`);
+    lines.push(`【盤中觸發】帶量站穩 ${trigger}；若開高先等回測，不直接追。`);
+    lines.push(`【最近防守】${support}｜有效跌破＝本次交易理由失效。`);
+    lines.push(`【最近壓力】${resistance}｜近端價差比 ${c.levels.rrRatio==null?"待建立":"1:"+fmt(c.levels.rrRatio,2)}`);
+    lines.push(`【操作】${c.action}`);
+    lines.push(`【不做】${c.noTrade.join("｜")}`);
+  });
+
+  section("⑥","假突破與過熱淘汰規則");
+  lines.push("1. 盤中突破20日高但收盤跌回壓力下：硬淘汰。");
+  lines.push("2. 嚴重長上影且收盤位置弱：硬淘汰；一般長上影大扣分。");
+  lines.push("3. 量比≥3倍但漲幅不足或收盤不強：視為爆量滯漲，硬淘汰。");
+  lines.push("4. MA20乖離>15%、RSI5≥90，或RSI≥85且乖離>12%：視為過熱，硬淘汰。");
+  lines.push("5. 240日新高、KD黃金交叉、SAR上升都只能加分，不能蓋過假突破Gate。");
+
+  section("⑦","盤中執行原則");
+  lines.push("盤後榜單只決定『先看誰』。真正下單前至少確認：量先出來、站上觸發價、突破後站得住、沒有爆量滯漲、停損距離仍合理。");
+  lines.push("若原始交易理由消失，就算盤前排名第一也應取消交易，不因分數高而硬撐。");
+  lines.push("技術分析僅供研究與決策參考，不構成投資建議。");
+  lines.push("END-OF-DAYTRADE-REPORT-V1.0");
+  return lines.join("\n");
+}
+
+async function dayTradeWriteClipboardV1(text){
+  if(navigator.clipboard?.writeText)return navigator.clipboard.writeText(text);
+  const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();
+}
+
+async function copyDayTradeReportV1(){
+  const msg=document.getElementById("dayTradeImageMessage"),btn=document.getElementById("copyDayTradeReportButton");
+  if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描。";}return;}
+  const text=buildDayTradeTextReportV1(lastDayTradeScanDataV1);
+  if(!text.includes("END-OF-DAYTRADE-REPORT-V1.0")){if(msg){msg.style.color="var(--red)";msg.textContent="❌ 文字戰報組字不完整，已停止複製。";}return;}
+  const original=btn?.textContent||"📋 一鍵複製完整戰報";if(btn){btn.disabled=true;btn.textContent="📋 複製中...";}
+  try{await dayTradeWriteClipboardV1(text);if(msg){msg.style.color="var(--green)";msg.textContent=`✅ 已複製當沖完整戰報｜${lastDayTradeScanDataV1.candidates.length}檔｜${text.length.toLocaleString()}字元。`;}}
+  catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ 複製失敗：${e?.message||"剪貼簿權限"}`;}}
+  finally{if(btn){btn.disabled=false;btn.textContent=original;}}
+}
+
+function downloadDayTradeFullReportV1(){
+  const msg=document.getElementById("dayTradeImageMessage");
+  if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描。";}return;}
+  const text=buildDayTradeTextReportV1(lastDayTradeScanDataV1);
+  const blob=new Blob(["\uFEFF"+text],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  const stamp=String(lastDayTradeScanDataV1.createdAt||"").replace(/\D/g,"").slice(0,12)||"latest";
+  a.download=`當沖高勝率_已過濾假突破_完整文字戰報_${stamp}_V1.0.txt`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  if(msg){msg.style.color="var(--green)";msg.textContent="✅ 已下載當沖完整詳細TXT。";}
+}
+
+function splitDayTradeReportV1(){
+  const text=buildDayTradeTextReportV1(lastDayTradeScanDataV1);
+  const lines=text.split("\n"),mid=Math.ceil(lines.length/2);
+  return [lines.slice(0,mid).join("\n")+"\n\n—— 第1/2段結束 ——",`📄 當沖高勝率完整戰報｜第2/2段\n\n`+lines.slice(mid).join("\n")];
+}
+
+async function copyDayTradeReportPartV1(part){
+  const msg=document.getElementById("dayTradeImageMessage");
+  if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描。";}return;}
+  const parts=splitDayTradeReportV1(),text=parts[part-1];
+  if(!text)return;
+  try{await dayTradeWriteClipboardV1(text);if(msg){msg.style.color="var(--green)";msg.textContent=`✅ 已複製完整戰報第${part}/2段。`;}}
+  catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ 複製失敗：${e?.message||"剪貼簿權限"}`;}}
+}
+
+function renderDayTradeInfographicV1(scan){
+  const canvas=document.createElement("canvas");canvas.width=1152;canvas.height=2048;
+  const ctx=canvas.getContext("2d");ctx._momentumVisualThemeV37775=true;ctx.imageSmoothingEnabled=true;
+  const bg=ctx.createLinearGradient(0,0,0,2048);bg.addColorStop(0,"#edf6f2");bg.addColorStop(.55,"#f7faf9");bg.addColorStop(1,"#edf2f6");ctx.fillStyle=bg;ctx.fillRect(0,0,1152,2048);
+  roundedRectScanV3762(ctx,8,8,1136,2032,22,null,"#ccd8e3",1.5);
+  const head=ctx.createLinearGradient(8,8,1144,184);head.addColorStop(0,"#123d37");head.addColorStop(.62,"#1f5b50");head.addColorStop(1,"#315f89");roundedRectScanV3762(ctx,8,8,1136,176,22,head,null);
+  scanTextV3762(ctx,"石頭少爺的ABC飆股",42,38,22,950,"#ffffff");
+  scanTextV3762(ctx,"⚡ 當沖高勝率｜已過濾假突破",42,78,29,950,"#ffffff");
+  scanTextV3762(ctx,"前8名圖片戰報｜盤後找下一交易日高優先觀察",42,108,17,900,"#d8f3e8");
+  fitScanTextV3762(ctx,"母版 V3.7.7.7.25｜DayTrade V1.0｜分數是排序分，不是統計勝率",42,136,1068,15,11,800,"#d8f3e8");
+  scanTextV3762(ctx,`產生時間 ${scan.createdAt}（台灣時間）`,42,160,14,750,"#d8f3e8");
+
+  roundedRectScanV3762(ctx,36,204,1080,72,14,"#fff8df","#f2d675",1.5);
+  fitScanTextV3762(ctx,"核心：低位轉強 ＞ 突破確認 ＞ 強勢延續｜爆量滯漲、長上影、跌回壓力、雙過熱直接淘汰",58,247,1036,19,11,900,"#8a6700");
+
+  const items=[
+    ["完整性",scan.qualityPass?"PASS":"需檢查",scan.qualityPass?"#3f7a60":"#aa6f25"],
+    ["正式候選",`${scan.candidates.length}檔`,"#315f89"],
+    ["低位轉強",`${scan.lowTurnCount||0}檔`,"#2d6a4f"],
+    ["突破確認",`${scan.breakoutCount||0}檔`,"#315f89"],
+    ["強勢延續",`${scan.continuationCount||0}檔`,"#a86b28"],
+    ["S/A/B",`${scan.sCount}/${scan.aCount}/${scan.bCount}`,"#554781"]
+  ];
+  const gap=7,w=(1080-gap*5)/6;items.forEach((it,i)=>{const x=36+i*(w+gap);roundedRectScanV3762(ctx,x,292,w,42,10,"#fff","#dfe6ed",1);roundedRectScanV3762(ctx,x,292,4,42,4,it[2],null);scanTextV3762(ctx,it[0],x+13,307,9,750,"#748093");fitScanTextV3762(ctx,it[1],x+13,327,w-24,14,10,900,it[2]);});
+
+  const top=(scan.candidates||[]).slice(0,DAYTRADE_IMAGE_TOP_V1);let y=344;const cardH=178,cardGap=9;
+  top.forEach((c,i)=>{
+    const gradeColor=c.grade==="S"?"#137333":c.grade==="A"?"#0b5ed7":"#8a6700";
+    const code=c.report?.stock||c.report?.code||"-",name=momentumSafeStockNameV377712(c),risk=dayTradeRiskLabelV1(c);
+    roundedRectScanV3762(ctx,36,y,1080,cardH,14,"#fff","#dbe3eb",1.2);roundedRectScanV3762(ctx,36,y,6,cardH,6,gradeColor,null);
+    roundedRectScanV3762(ctx,54,y+18,72,44,12,gradeColor,null);scanTextV3762(ctx,`#${i+1}`,90,y+49,22,950,"#fff","center");
+    fitScanTextV3762(ctx,`${name}（${code}）`,146,y+50,440,27,18,950,"#172033");
+    roundedRectScanV3762(ctx,600,y+18,196,42,999,"#fff",gradeColor,1.3);scanTextV3762(ctx,`${c.grade}級｜${fmt(c.score.final,1)}分`,698,y+47,16,950,gradeColor,"center");
+    roundedRectScanV3762(ctx,810,y+18,280,42,999,"#fff","#cbd5e1",1);fitScanTextV3762(ctx,`${c.setup.icon} ${c.setup.label}｜${risk.icon}風險${risk.text}`,950,y+47,260,16,10,900,"#334155","center");
+    const mg=8,mw=(1032-mg*3)/4;
+    drawScanMetricV37775(ctx,58,y+70,mw,"最新收盤",`${fmt(c.close)}元`);
+    drawScanMetricV37775(ctx,58+(mw+mg),y+70,mw,"量比1/5",c.volRatio==null?"-":`${fmt(c.volRatio,2)}×`,"#315f89");
+    drawScanMetricV37775(ctx,58+(mw+mg)*2,y+70,mw,"MA20乖離",c.gap==null?"-":fmtSignedPct(c.gap),"#554781");
+    drawScanMetricV37775(ctx,58+(mw+mg)*3,y+70,mw,"RSI5",c.rsi==null?"-":fmt(c.rsi,1),"#a86b28");
+    const support=c.levels?.support?`${fmt(c.levels.support.value)} ${c.levels.support.label}`:"待建立";
+    fitScanTextV3762(ctx,`🎯 盤中觸發 ${c.levels?.trigger?fmt(c.levels.trigger):"-"}　｜　🛡️ 最近防守 ${support}　｜　CMF ${c.money?.cmf20==null?"-":fmt(c.money.cmf20,2)}${c.money?.obv20High?"｜OBV20新高":""}`,58,y+128,1000,14,9,850,"#475467");
+    const riskLine=c.fake.reasons.length?c.fake.reasons.slice(0,3).join("｜"):"未見主要假突破警訊";
+    fitScanTextV3762(ctx,`假突破扣 ${c.fake.penalty}｜${riskLine}`,58,y+153,1000,13,9,800,c.fake.level==="LOW"?"#137333":c.fake.level==="HIGH"?"#b42318":"#8a6700");
+    fitScanTextV3762(ctx,"盤中仍要等量能＋站穩；開高不直接追，失守最近防守即取消交易理由。",58,y+174,1000,12,9,800,"#a86b28");
+    y+=cardH+cardGap;
+  });
+  if(!top.length){roundedRectScanV3762(ctx,36,360,1080,220,14,"#f8fafc","#cbd5e1",1);scanTextV3762(ctx,"本次0檔通過高勝率＋假突破硬Gate",576,468,28,950,"#667085","center");}
+
+  roundedRectScanV3762(ctx,36,1860,1080,132,14,"#fff","#d8e1ea",1.2);roundedRectScanV3762(ctx,36,1860,6,132,6,"#1f5b50",null);
+  fitScanTextV3762(ctx,"🟢低位轉強＝位置優先｜🔵突破確認＝真突破優先｜🟠強勢延續＝只做不過熱續強",58,1894,1010,15,9,850,"#294b6d");
+  fitScanTextV3762(ctx,"❌ 一票否決：跌回壓力／爆量滯漲／嚴重長上影／RSI＋MA20雙過熱",58,1924,1010,15,9,850,"#8a3b32");
+  fitScanTextV3762(ctx,"⚠️ 當沖綜合分是排序工具，不是實際勝率；盤中失效條件優先於盤前名次。",58,1954,1010,14,9,850,"#a86b28");
+  fitScanTextV3762(ctx,"石頭少爺的ABC飆股｜技術分析僅供研究與決策參考，不構成投資建議。",58,1981,1010,13,9,750,"#94a3b8");
+  return canvas;
+}
+
+async function generateDayTradeImageV1(withWatermark=false){
+  const id=withWatermark?"generateDayTradeWatermarkImageButton":"generateDayTradeImageButton",btn=document.getElementById(id),msg=document.getElementById("dayTradeImageMessage");
+  if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描。";}return;}
+  const original=btn?.textContent||"🖼️ 前8名圖片報告";if(btn){btn.disabled=true;btn.textContent="🖼️ 圖片產生中...";}
+  try{
+    if(document.fonts?.ready)await document.fonts.ready;
+    const canvas=renderDayTradeInfographicV1(lastDayTradeScanDataV1);
+    if(withWatermark)drawMomentumImageWatermarkV377716(canvas,"top8");
+    const stamp=String(lastDayTradeScanDataV1.createdAt||"").replace(/\D/g,"").slice(0,12)||"latest",suffix=withWatermark?"_防盜浮水印版":"";
+    const filename=sanitizeFilenameV3328(`石頭少爺的ABC飆股_當沖高勝率_前8名圖片戰報${suffix}_${stamp}_V1.0.png`);
+    await showInfographicPreviewV3328(canvas,filename,`石頭少爺的ABC飆股｜當沖高勝率｜前8名圖片戰報${withWatermark?"｜防盜浮水印版":""}`);
+    if(msg){msg.style.color="var(--green)";msg.textContent="✅ 當沖前8名圖片報告已產生。";}
+  }catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ 圖片產生失敗：${e?.message||"未知錯誤"}`;}}
+  finally{if(btn){btn.disabled=false;btn.textContent=original;}}
+}
+
+function buildDayTradeAllCandidatesImageV1(scan){
+  const list=scan?.candidates||[],W=1152,headerH=320,cardH=190,gap=10,footerH=110,H=Math.max(2048,headerH+list.length*(cardH+gap)+footerH);
+  const canvas=document.createElement("canvas");canvas.width=W;canvas.height=H;const ctx=canvas.getContext("2d");ctx._momentumVisualThemeV37775=true;
+  ctx.fillStyle="#f4f7f8";ctx.fillRect(0,0,W,H);
+  const head=ctx.createLinearGradient(0,0,W,180);head.addColorStop(0,"#123d37");head.addColorStop(1,"#315f89");roundedRectScanV3762(ctx,8,8,1136,176,22,head,null);
+  scanTextV3762(ctx,"石頭少爺的ABC飆股",42,40,22,950,"#fff");scanTextV3762(ctx,"⚡ 當沖高勝率｜全部正式候選",42,82,30,950,"#fff");scanTextV3762(ctx,`共 ${list.length} 檔｜${scan.createdAt}｜DayTrade V1.0`,42,120,16,850,"#d8f3e8");
+  roundedRectScanV3762(ctx,36,204,1080,80,14,"#fff8df","#f2d675",1.5);fitScanTextV3762(ctx,"排序：低位轉強＞突破確認＞強勢延續；同型內看當沖分→假突破扣分→突破品質→成交金額。",58,249,1036,18,10,900,"#8a6700");
+  let y=310;const rendered=[];
+  list.forEach((c,i)=>{
+    const gc=c.grade==="S"?"#137333":c.grade==="A"?"#0b5ed7":"#8a6700",risk=dayTradeRiskLabelV1(c),code=c.report?.stock||c.report?.code||"-",name=momentumSafeStockNameV377712(c);
+    roundedRectScanV3762(ctx,36,y,1080,cardH,14,"#fff","#dbe3eb",1.2);roundedRectScanV3762(ctx,36,y,6,cardH,6,gc,null);
+    scanTextV3762(ctx,`#${i+1}`,62,y+42,22,950,gc);fitScanTextV3762(ctx,`${name}（${code}）`,118,y+42,470,25,16,950,"#172033");fitScanTextV3762(ctx,`${c.grade}級 ${fmt(c.score.final,1)}分｜${c.setup.icon}${c.setup.label}｜${risk.icon}假突破風險${risk.text}`,610,y+42,470,17,10,900,"#334155");
+    const support=c.levels?.support?`${fmt(c.levels.support.value)} ${c.levels.support.label}`:"待建立";
+    fitScanTextV3762(ctx,`收盤 ${fmt(c.close)}｜量比 ${c.volRatio==null?"-":fmt(c.volRatio,2)+"×"}｜MA20乖離 ${c.gap==null?"-":fmtSignedPct(c.gap)}｜RSI ${c.rsi==null?"-":fmt(c.rsi,1)}｜CMF ${c.money?.cmf20==null?"-":fmt(c.money.cmf20,2)}`,62,y+82,1018,15,10,850,"#475467");
+    fitScanTextV3762(ctx,`分數：趨勢${c.score.trend}/20｜位置${c.score.position}/20｜量價${c.score.volume}/20｜突破${c.score.breakout}/20｜金流${c.score.money}/20｜假突破-${c.fake.penalty}`,62,y+116,1018,14,9,800,"#475467");
+    fitScanTextV3762(ctx,`🎯觸發 ${c.levels?.trigger?fmt(c.levels.trigger):"-"}｜🛡️防守 ${support}｜${c.fake.reasons.length?"⚠️"+c.fake.reasons.slice(0,2).join("、"):"✅未見主要假突破警訊"}`,62,y+150,1018,14,9,850,c.fake.level==="LOW"?"#137333":"#8a6700");
+    fitScanTextV3762(ctx,c.action,62,y+178,1018,13,9,800,"#7a4d17");
+    rendered.push(code);y+=cardH+gap;
+  });
+  fitScanTextV3762(ctx,"⚠️ 當沖綜合分不是實際勝率；盤中量能與失效條件優先於盤前排名。",48,H-62,1050,15,10,850,"#a86b28");
+  fitScanTextV3762(ctx,"技術分析僅供研究與決策參考，不構成投資建議。",48,H-34,1050,13,9,750,"#94a3b8");
+  canvas._dayTradeRenderedCodesV1=rendered;return canvas;
+}
+
+async function downloadDayTradeAllCandidatesImageV1(withWatermark=false){
+  const id=withWatermark?"downloadDayTradeAllCandidatesImageWatermarkButton":"downloadDayTradeAllCandidatesImageButton",btn=document.getElementById(id),msg=document.getElementById("dayTradeImageMessage");
+  if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描。";}return;}
+  const original=btn?.textContent||"🖼️ 匯出全部選股圖片報告";if(btn){btn.disabled=true;btn.textContent="🖼️ 全部候選長圖產生中...";}
+  try{
+    if(document.fonts?.ready)await document.fonts.ready;
+    const canvas=buildDayTradeAllCandidatesImageV1(lastDayTradeScanDataV1);
+    const rendered=canvas._dayTradeRenderedCodesV1||[];
+    if(rendered.length!==lastDayTradeScanDataV1.candidates.length)throw new Error(`圖片輸出數量不一致：候選${lastDayTradeScanDataV1.candidates.length}｜畫出${rendered.length}`);
+    if(withWatermark)drawMomentumImageWatermarkV377716(canvas,"all");
+    const stamp=String(lastDayTradeScanDataV1.createdAt||"").replace(/\D/g,"").slice(0,12)||"latest",suffix=withWatermark?"_防盜浮水印版":"";
+    const filename=sanitizeFilenameV3328(`石頭少爺的ABC飆股_當沖高勝率_全部正式候選${suffix}_${stamp}_V1.0.png`);
+    await showInfographicPreviewV3328(canvas,filename,`石頭少爺的ABC飆股｜當沖高勝率｜全部正式候選｜${rendered.length}檔${withWatermark?"｜防盜浮水印版":""}`);
+    if(msg){msg.style.color="var(--green)";msg.textContent=`✅ 全部當沖候選圖片已產生｜${rendered.length}檔。`;}
+  }catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ ${e?.message||"全部圖片產生失敗"}`;}}
+  finally{if(btn){btn.disabled=false;btn.textContent=original;}}
 }
 
 </script>
