@@ -1451,7 +1451,7 @@ body.dark-mode .daytrade-hero-title{color:#eef6ff}
 // ① 候選畫面顯示上限由20提高到70，正式候選不再因 UI renderer 只顯示前20檔。
 // ② 七層文字戰報新增「候選數｜實際列出數」自我校驗與最終完整性標記。
 // ③ 複製前再驗證最後一檔 TOP N 是否真的存在；若組字不完整則拒絕複製並提示。
-// ④ 股票名稱若含 Unicode replacement char（ ）或控制字元，強制回退 LOCAL_NAME_MAP；
+// ④ 股票名稱若含 Unicode replacement char（�）或控制字元，強制回退 LOCAL_NAME_MAP；
 //    例如 3131 會顯示「弘塑」，不再把上游亂碼直接帶進報告。
 // 只修前端顯示／文字輸出；V3.7.6.17 DeepScan、三榜 Gate、排序、RR、ABC/Fib/N字、
 // batch、95%完整性Gate與 Worker URL 完全不變。
@@ -3886,7 +3886,7 @@ function isValidStockDisplayName(name,code){
 
   if(!nm)return false;
 
-  // V3.7.7.7.22：上游若發生文字編碼破損，常會出現 Unicode replacement char「 」。
+  // V3.7.7.7.22：上游若發生文字編碼破損，常會出現 Unicode replacement char「�」。
   // 這種名稱即使夾帶英文字母，也不能視為有效股票名稱。
   if(/[\uFFFD\u0000-\u001F\u007F]/.test(nm))return false;
 
@@ -27040,6 +27040,81 @@ runDayTradeScanV1=async function(){
     if(msg){msg.style.color="var(--green)";msg.textContent="✅ 當沖候選已補齊關鍵外資券商 Top10／連續進出天數標註。";}
   }catch(e){if(msg){msg.style.color="var(--yellow)";msg.textContent=`⚠️ 當沖候選已完成，但券商補充暫時失敗：${e?.message||"未知錯誤"}`;}}
   finally{if(btn){btn.disabled=false;btn.textContent="⚡ 當沖高勝率（已過濾假突破）";}}
+};
+
+
+
+// ========================================================================
+// V3.7.7.7.30｜關鍵券商顯示層修正
+// - Worker V2.6.20 若資料日期/Top10完整性不足，available=false；前端再做第二道 Gate。
+// - 不再把「資料未取得」誤寫成「關鍵券商並無買進」。
+// - 顯示張數統一改為「淨買超張數／淨賣超張數」，符合分點Top10排行口徑。
+// ========================================================================
+function keyBrokerProfileUsableV377730(p){
+  if(!p||p.available!==true)return false;
+  if(!/^20\d{2}\/\d{2}\/\d{2}$/.test(String(p.asOfDate||"")))return false;
+  const b=Array.isArray(p.buyTop10)?p.buyTop10:[];
+  const s=Array.isArray(p.sellTop10)?p.sellTop10:[];
+  return b.length>=10&&s.length>=10;
+}
+function keyBrokerNetLotsV377730(x){
+  const direct=Number(x?.netAbsLots);
+  if(Number.isFinite(direct))return Math.abs(direct);
+  const signed=Number(x?.netLots);
+  if(Number.isFinite(signed))return Math.abs(signed);
+  const a=Number(x?.netBuyLots);if(Number.isFinite(a))return Math.abs(a);
+  const b=Number(x?.netSellLots);if(Number.isFinite(b))return Math.abs(b);
+  return null;
+}
+keyBrokerImageCompactV377729=function(c){
+  const p=keyBrokerProfileOfV377729(c);
+  if(!keyBrokerProfileUsableV377730(p))return "⚠️券商資料未取得";
+  const buys=Array.isArray(p.keyBuyers)?p.keyBuyers:[];
+  const sells=Array.isArray(p.keySellers)?p.keySellers:[];
+  if(!buys.length&&!sells.length)return "🏆關鍵券商無進出Top10";
+  const parts=[];
+  if(buys.length)parts.push(`🏆買${buys.length}家${keyBrokerStarsV377729(buys.length)} ${buys.map(x=>x.name).join("+")}`);
+  else parts.push("🏆買0家");
+  if(sells.length)parts.push(`賣${sells.length}家${keyBrokerStarsV377729(sells.length)} ${sells.map(x=>x.name).join("+")}`);
+  return parts.join("｜");
+};
+keyBrokerTextLinesV377729=function(p){
+  if(!keyBrokerProfileUsableV377730(p)){
+    const why=p?.error?`｜原因：${p.error}`:"";
+    return [`【🏆️關鍵券商Top10】⚠️ 券商分點資料未完整取得，本次不判定有無關鍵券商買進／賣出${why}`];
+  }
+  const buys=Array.isArray(p.keyBuyers)?p.keyBuyers:[];
+  const sells=Array.isArray(p.keySellers)?p.keySellers:[];
+  const lines=[`【🏆️關鍵券商Top10】資料日期：${p.asOfDate}｜只認買超／賣超前10名｜來源：${p.source||"富邦 eBroker"}`];
+  if(buys.length){
+    lines.push(`有關鍵券商買進:${buys.length}家${keyBrokerStarsV377729(buys.length)}`);
+    buys.forEach(x=>lines.push(`🏆️今日買進關鍵券商🏆️:🌟${x.name}(買進)🌟  💰淨買超張數:${keyBrokerLotsV377729(keyBrokerNetLotsV377730(x))}張。🔥券商連續買進第${Math.max(1,Number(x.streakDays)||1)}天`));
+  }else lines.push("關鍵券商並無買進。 ");
+  if(sells.length){
+    lines.push(`有關鍵券商賣出:${sells.length}家${keyBrokerStarsV377729(sells.length)}`);
+    sells.forEach(x=>lines.push(`🏆️今日賣出關鍵券商🏆️:🌟${x.name}(賣出)🌟  💰淨賣超張數:${keyBrokerLotsV377729(keyBrokerNetLotsV377730(x))}張。🔥券商連續賣出第${Math.max(1,Number(x.streakDays)||1)}天`));
+  }else lines.push("關鍵券商並無賣出。 ");
+  return lines;
+};
+keyBrokerHtmlV377729=function(p){
+  const esc=escapeHtmlV3762;
+  if(!keyBrokerProfileUsableV377730(p)){
+    const reason=p?.error?`<div style="margin-top:5px;font-size:12px">原因：${esc(p.error)}</div>`:"";
+    return `<div class="rule" style="margin-top:8px;border-color:#e5b95f;background:#fffaf0;color:#805d00"><strong>🏆️ 關鍵券商Top10：</strong>⚠️ 券商分點資料未完整取得，本次不判定有無關鍵券商買進／賣出。${reason}</div>`;
+  }
+  const buys=Array.isArray(p.keyBuyers)?p.keyBuyers:[],sells=Array.isArray(p.keySellers)?p.keySellers:[];
+  const rows=[];
+  rows.push(`<div style="font-weight:900;color:#805d00">🏆️ 關鍵券商Top10｜${esc(p.asOfDate)}｜只認前10名</div>`);
+  if(buys.length){
+    rows.push(`<div style="margin-top:5px"><strong>有關鍵券商買進:${buys.length}家${keyBrokerStarsV377729(buys.length)}</strong></div>`);
+    buys.forEach(x=>rows.push(`<div>🏆️今日買進關鍵券商🏆️：🌟${esc(x.name)}(買進)🌟　💰淨買超張數：${keyBrokerLotsV377729(keyBrokerNetLotsV377730(x))}張　🔥券商連續買進第${Math.max(1,Number(x.streakDays)||1)}天</div>`));
+  }else rows.push(`<div style="margin-top:5px">關鍵券商並無買進。</div>`);
+  if(sells.length){
+    rows.push(`<div style="margin-top:5px"><strong>有關鍵券商賣出:${sells.length}家${keyBrokerStarsV377729(sells.length)}</strong></div>`);
+    sells.forEach(x=>rows.push(`<div>🏆️今日賣出關鍵券商🏆️：🌟${esc(x.name)}(賣出)🌟　💰淨賣超張數：${keyBrokerLotsV377729(keyBrokerNetLotsV377730(x))}張　🔥券商連續賣出第${Math.max(1,Number(x.streakDays)||1)}天</div>`));
+  }else rows.push(`<div style="margin-top:5px">關鍵券商並無賣出。</div>`);
+  rows.push(`<div style="margin-top:5px;font-size:11px;opacity:.8">資料來源：${esc(p.source||"富邦 eBroker")}｜解碼：${esc(p.sourceEncoding||"-")}｜解析列數：${esc(p.parsedRows??"-")}</div>`);
+  return `<div class="rule" style="margin-top:8px;border:1px solid #e5b95f;background:#fffaf0;color:#5f4500;line-height:1.75">${rows.join("")}</div>`;
 };
 
 </script>
