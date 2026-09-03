@@ -1302,7 +1302,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 
 <script>
 // ========================================================================
-// V3.7.7.7.23｜大盤RSI比照個股舒適版
+// V3.7.7.7.24｜大盤個股RSI完全同模板版
 // 唯一修改：日RSI卡把主要描述與 Footer 提醒分成兩個獨立安全區，
 // 並使用 Canvas clip 防止跨區蓋字。
 // 主描述維持 maxSize 18.5 / minSize 12.5 / weight 950。
@@ -19265,18 +19265,18 @@ function marketRsiComfortDisplayV37723(data){
 
 function drawMarketRsiCardV3756(ctx,x,y,w,h,data){
   const P=infoPaletteV3328(),d=marketRsiComfortDisplayV37723(data);
-  const radius=ctx?._marketVisualThemeV37775?16:14;
-  const outerBorder=ctx?._marketVisualThemeV37775?d.border:d.border;
-  rrV3328(ctx,x,y,w,h,radius,d.fill,outerBorder,ctx?._marketVisualThemeV37775?1.6:2);
-  rrV3328(ctx,x+14,y+16,6,h-32,3,d.accent,null);
+  // V3.7.7.7.24｜大盤 / 個股 RSI 完全同一模板版：
+  // 大盤 RSI 卡改成與個股 A 區 RSI 卡 drawStockRsiMapCardV3775 相同的四區排版結構與字級策略。
+  rrV3328(ctx,x,y,w,h,11,d.fill,d.border,2);
 
-  const topLeftX=x+28;
-  const topLeftW=Math.max(86,Math.round(w*0.44));
-  const topRightX=x+Math.round(w*0.48);
-  const topRightW=Math.max(72,w-(topRightX-x)-14);
+  const topLeftX=x+14;
+  const topLeftW=Math.round(w*0.43);
+  const topRightX=x+Math.round(w*0.47);
+  const topRightW=w-Math.round(w*0.47)-14;
   const bodyX=x+14;
   const bodyW=w-28;
 
+  // ① 上排：左側 RSI 數值、右側時效／近3日訊號
   ctx.save();
   ctx.beginPath();
   ctx.rect(x+10,y+8,w-20,24);
@@ -19284,49 +19284,52 @@ function drawMarketRsiCardV3756(ctx,x,y,w,h,data){
   drawFitSingleLineStrictV3661(
     ctx,`📊 日RSI 5T  ${d.value}`,
     topLeftX,y+28,topLeftW,
-    {maxSize:18,minSize:12.5,weight:950,color:'#123a86'}
+    {maxSize:23,minSize:16,weight:950,color:'#123a86'}
   );
   drawFitSingleLineStrictV3661(
     ctx,d.line1,
     topRightX,y+28,topRightW,
-    {maxSize:14.5,minSize:9.6,weight:900,color:'#334155'}
+    {maxSize:18,minSize:11.5,weight:900,color:'#334155'}
   );
   ctx.restore();
 
+  // ② 中排：主判讀 headline（全寬）
   ctx.save();
   ctx.beginPath();
-  ctx.rect(x+10,y+35,w-20,21);
+  ctx.rect(x+10,y+36,w-20,22);
   ctx.clip();
   drawFitSingleLineStrictV3661(
     ctx,d.headline,
-    bodyX,y+53,bodyW,
-    {maxSize:16.5,minSize:11,weight:950,color:d.labelColor}
+    bodyX,y+55,bodyW,
+    {maxSize:20,minSize:13,weight:950,color:d.labelColor}
   );
   ctx.restore();
 
-  const descTopY=y+61;
-  const descHeight=d.showFooter?38:52;
+  // ③ 下排：白話描述 line2（全寬、最多2行、自動換行）
+  const descTopY=y+64;
+  const descHeight=d.showFooter?28:36;
   ctx.save();
   ctx.beginPath();
   ctx.rect(x+10,descTopY,w-20,descHeight);
   ctx.clip();
   drawWrapV3328(
     ctx,d.line2,
-    bodyX,y+75,bodyW,
-    13.4,2,
-    {size:11.4,weight:860,color:'#334155'}
+    bodyX,y+78,bodyW,
+    14.5,2,
+    {size:13.2,weight:880,color:'#334155'}
   );
   ctx.restore();
 
+  // ④ Footer：只在一般情境顯示，獨立貼底不和描述共用同一排。
   if(d.showFooter){
     ctx.save();
     ctx.beginPath();
-    ctx.rect(x+10,y+h-19,w-20,14);
+    ctx.rect(x+10,y+h-18,w-20,14);
     ctx.clip();
     drawFitSingleLineStrictV3661(
-      ctx,'RSI只看力道｜方向仍看價格結構',
-      bodyX,y+h-8,bodyW,
-      {maxSize:10.9,minSize:8.8,weight:820,color:'#475467'}
+      ctx,'RSI只看力道｜真正轉弱仍看股價',
+      bodyX,y+h-7,bodyW,
+      {maxSize:11.8,minSize:9.2,weight:820,color:'#475467'}
     );
     ctx.restore();
   }
@@ -21679,7 +21682,7 @@ function renderMarketInfographicV3328(data){
   rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
   drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.23｜大盤RSI比照個股",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.24｜大盤/個股RSI同模板",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
