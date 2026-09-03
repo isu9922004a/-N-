@@ -827,7 +827,7 @@ body.dark-mode .image-preview-wrap{background:#0d1724;border-color:#2c3a4c}
 }
 
 
-/* ===== V3.7.7.7.26｜DayTrade V1.0 當沖高勝率獨立模組 ===== */
+/* ===== V3.7.7.7.27｜DayTrade V1.0 當沖高勝率獨立模組 ===== */
 .daytrade-shortcut{margin-top:16px;padding:18px;border:1px solid #b9ded7;border-radius:16px;background:linear-gradient(135deg,#f1faf7,#f7f9fc);position:relative;overflow:hidden}
 .daytrade-shortcut::after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;right:-78px;top:-84px;opacity:.38;pointer-events:none;background:#ccece3}
 .daytrade-shortcut .section-title{font-size:18px!important;margin-bottom:9px!important}
@@ -865,7 +865,7 @@ body.dark-mode .daytrade-hero-title{color:#eef6ff}
 
     <p>月線波段條件判斷＋固定倍數目標價＋費波那契 N字分析＋主升動能式掃描強勢股</p>
 
-    <span class="version-pill">前端 V3.7.7.7.26｜新增高勝率當沖掃描＋假突破硬Gate＋雙圖片報告版｜母版 V3.7.7.7.25 大盤／個股 RSI 同模板版｜原主升三榜 Gate／ABC／N字／突破品質2.0／三叉戟／RR／DeepScan／Worker 核心完整保留</span>
+    <span class="version-pill">前端 V3.7.7.7.27｜新增高勝率當沖掃描＋假突破硬Gate＋雙圖片報告版｜母版 V3.7.7.7.25 大盤／個股 RSI 同模板版｜原主升三榜 Gate／ABC／N字／突破品質2.0／三叉戟／RR／DeepScan／Worker 核心完整保留</span>
 
   </div>
 
@@ -954,7 +954,7 @@ body.dark-mode .daytrade-hero-title{color:#eef6ff}
           <div id="momentumHeroTitle" class="momentum-hero-title">🚀 主動式主升掃描｜候選排行</div>
           <div id="momentumMeta" class="meta">-</div>
         </div>
-        <div class="meta" style="text-align:right">整合版 V3.7.7.7.26｜新增獨立當沖高勝率模組｜主升掃描核心 V3.7.6.17<br>V3.7.7.7.25 母版＋V3.7.7.7.8 三榜 Gate 完整保留</div>
+        <div class="meta" style="text-align:right">整合版 V3.7.7.7.27｜新增獨立當沖高勝率模組｜主升掃描核心 V3.7.6.17<br>V3.7.7.7.25 母版＋V3.7.7.7.8 三榜 Gate 完整保留</div>
       </div>
       <div class="momentum-reminder">📌 判讀原則：排名是「主升型態相似度／位置品質」篩選，不是上漲保證。盈虧比是有效上下關卡的動態價差比，不是勝率；高檔延伸、RSI過熱或MA20乖離過大會另外警示。</div>
       <div class="momentum-summary-grid">
@@ -996,7 +996,7 @@ body.dark-mode .daytrade-hero-title{color:#eef6ff}
         </div>
         <div class="meta" style="text-align:right">
           DayTrade V1.0<br>
-          前端 V3.7.7.7.26｜母版 V3.7.7.7.25｜共用 Market Worker DeepScan 傳輸
+          前端 V3.7.7.7.27｜母版 V3.7.7.7.25｜共用 Market Worker DeepScan 傳輸
         </div>
       </div>
 
@@ -1018,14 +1018,20 @@ body.dark-mode .daytrade-hero-title{color:#eef6ff}
       <div id="dayTradeList" class="momentum-list"></div>
 
       <div class="daytrade-image-actions">
-        <button id="copyDayTradeReportButton" class="copy-btn newbie-copy-btn" type="button" onclick="copyDayTradeReportV1()">📋 一鍵複製完整戰報</button>
+        <button id="copyDayTradeReportButton" class="copy-btn newbie-copy-btn" type="button" onclick="copyDayTradeReportV1()">📋 複製當沖選股文字報告</button>
         <button id="downloadDayTradeFullReportButton" class="copy-btn" type="button" onclick="downloadDayTradeFullReportV1()">📄 下載完整詳細 TXT</button>
         <button class="copy-btn" type="button" onclick="copyDayTradeReportPartV1(1)">📋 完整版分段複製 1/2</button>
         <button class="copy-btn" type="button" onclick="copyDayTradeReportPartV1(2)">📋 完整版分段複製 2/2</button>
+
         <button id="generateDayTradeImageButton" class="copy-btn image-btn" type="button" onclick="generateDayTradeImageV1(false)">🖼️ 前8名圖片報告</button>
+        <button id="copyDayTradeTop8ImageButton" class="copy-btn image-btn" type="button" onclick="copyDayTradeTop8ImageV377727(false)">📋 複製前8名圖片報告</button>
         <button id="generateDayTradeWatermarkImageButton" class="copy-btn watermark-image-btn" type="button" onclick="generateDayTradeImageV1(true)">🛡️ 前8名圖片報告（防盜浮水印版）</button>
+        <button id="copyDayTradeTop8ImageWatermarkButton" class="copy-btn watermark-image-btn" type="button" onclick="copyDayTradeTop8ImageV377727(true)">📋🛡️ 複製前8名圖片（浮水印）</button>
+
         <button id="downloadDayTradeAllCandidatesImageButton" class="copy-btn image-btn" type="button" onclick="downloadDayTradeAllCandidatesImageV1(false)">🖼️ 匯出全部選股圖片報告</button>
+        <button id="copyDayTradeAllCandidatesImageButton" class="copy-btn image-btn" type="button" onclick="copyDayTradeAllCandidatesImageV377727(false)">📋 複製全部選股圖片報告</button>
         <button id="downloadDayTradeAllCandidatesImageWatermarkButton" class="copy-btn watermark-image-btn" type="button" onclick="downloadDayTradeAllCandidatesImageV1(true)">🛡️ 匯出全部選股圖片報告（防盜浮水印版）</button>
+        <button id="copyDayTradeAllCandidatesImageWatermarkButton" class="copy-btn watermark-image-btn" type="button" onclick="copyDayTradeAllCandidatesImageV377727(true)">📋🛡️ 複製全部選股圖片（浮水印）</button>
       </div>
       <div id="dayTradeImageMessage" class="copy-message"></div>
     </section>
@@ -1390,11 +1396,11 @@ body.dark-mode .daytrade-hero-title{color:#eef6ff}
   </div>
 </div>
 
-<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.26｜新增高勝率當沖掃描＋假突破硬Gate＋雙圖片報告版｜母版 V3.7.7.7.25 大盤／個股 RSI 完全同模板版｜原 V3.7.7.7.8 主升三榜分流＋安全起漲榜 safeReady 修正版完整保留｜當沖模組新增低位轉強／突破確認／強勢延續三型、CMF／OBV資金流、量價、過熱與假突破過濾｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate／Worker／主升DeepScan／主升三榜Gate／RR／排序核心不變<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：新增獨立「⚡ 當沖高勝率（已過濾假突破）」按鈕、完整TXT、前8名圖片、全部候選長圖與浮水印輸出；當沖分數為排序分，不是統計勝率。</footer>
+<footer class="footer">石頭少爺 Agent｜GitHub 前端 V3.7.7.7.27｜新增高勝率當沖掃描＋假突破硬Gate＋雙圖片報告版｜母版 V3.7.7.7.25 大盤／個股 RSI 完全同模板版｜原 V3.7.7.7.8 主升三榜分流＋安全起漲榜 safeReady 修正版完整保留｜當沖模組新增低位轉強／突破確認／強勢延續三型、CMF／OBV資金流、量價、過熱與假突破過濾｜ABC／Fib／N字／突破品質2.0／三叉戟／OHLCV Research Gate／Worker／主升DeepScan／主升三榜Gate／RR／排序核心不變<br>技術分析僅供研究與決策參考，不構成投資建議。<br>本版重點：新增獨立「⚡ 當沖高勝率（已過濾假突破）」按鈕、完整TXT、前8名圖片、全部候選長圖與浮水印輸出；當沖分數為排序分，不是統計勝率。</footer>
 
 <script>
 // ========================================================================
-// V3.7.7.7.26｜新增高勝率當沖掃描完整整合版｜母版 V3.7.7.7.25
+// V3.7.7.7.27｜高勝率當沖＋文字/圖片剪貼簿複製完整整合版｜母版 V3.7.7.7.25
 // 只同步首頁 version-pill／整合版說明／Footer／大盤圖片右上角版本字樣；核心分析與掃描邏輯不變。
 // V3.7.7.7.24｜大盤個股RSI完全同模板版
 // 唯一修改：日RSI卡把主要描述與 Footer 提醒分成兩個獨立安全區，
@@ -21776,7 +21782,7 @@ function renderMarketInfographicV3328(data){
   rrV3328(ctx,24,17,1192,54,18,"rgba(255,255,255,.74)",null);
   drawHeaderTitleV3328(ctx,"📈 大盤先懂","現在市場走到哪一步？");
   drawMarketComfortHeaderRibbonV37775(ctx,26,82,1190,72);fontV3328(ctx,31,900,"#f2fbf8");ctx.fillText("臺灣加權股價指數（TAIEX）",48,128);fontV3328(ctx,24,800,"#fff");ctx.fillText(`｜最新交易日 ${datefmt(data.closeDate)}｜資料來源：${data.source||"TWSE Official"}`,500,128);
-  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.26｜RSI同模板＋當沖模組",1402,141);
+  drawMarketComfortHeaderRibbonV37775(ctx,1232,18,340,136);fontV3328(ctx,22,900,"#fff","center");ctx.fillText("報告製作 By.石頭少爺",1402,52);fontV3328(ctx,18,800,"#fff","center");ctx.fillText("圖片產生時間",1402,83);fontV3328(ctx,19,900,"#fff","center");ctx.fillText(reportGeneratedAt().replace("（台灣時間）",""),1402,115);fontV3328(ctx,17,700,"#dbeafe","center");ctx.fillText("V3.7.7.7.27｜RSI同模板＋當沖模組",1402,141);
 
   rrV3328(ctx,24,174,520,520,14,P.white,P.blue,2);drawCardTitleV3328(ctx,48,215,"📖 ABC 是這套分析的核心：",P.navy,30);drawWrapV3328(ctx,"A＝起漲點、B＝前波高點、C＝B回檔後由Pivot規則正式確認的回檔低點。",48,255,468,31,3,{size:21,weight:650,color:P.text});
   drawAbcValueRowV3329(ctx,48,365,466,"A",P.green,"起漲點",st.A,st.fib.ADate,"點");
@@ -25823,7 +25829,7 @@ async function copyMomentumFullReportPartV377713(partNo){
 
 
 // ========================================================================
-// V3.7.7.7.26｜新增高勝率當沖掃描完整整合版
+// V3.7.7.7.27｜新增高勝率當沖掃描完整整合版
 // 以下為 DayTrade V1.0 獨立模組；原主升掃描核心不改。
 // ========================================================================
 /* ========================================================================
@@ -26569,7 +26575,7 @@ async function copyDayTradeReportV1(){
   if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描。";}return;}
   const text=buildDayTradeTextReportV1(lastDayTradeScanDataV1);
   if(!text.includes("END-OF-DAYTRADE-REPORT-V1.0")){if(msg){msg.style.color="var(--red)";msg.textContent="❌ 文字戰報組字不完整，已停止複製。";}return;}
-  const original=btn?.textContent||"📋 一鍵複製完整戰報";if(btn){btn.disabled=true;btn.textContent="📋 複製中...";}
+  const original=btn?.textContent||"📋 複製當沖選股文字報告";if(btn){btn.disabled=true;btn.textContent="📋 複製中...";}
   try{await dayTradeWriteClipboardV1(text);if(msg){msg.style.color="var(--green)";msg.textContent=`✅ 已複製當沖完整戰報｜${lastDayTradeScanDataV1.candidates.length}檔｜${text.length.toLocaleString()}字元。`;}}
   catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ 複製失敗：${e?.message||"剪貼簿權限"}`;}}
   finally{if(btn){btn.disabled=false;btn.textContent=original;}}
@@ -26712,6 +26718,90 @@ async function downloadDayTradeAllCandidatesImageV1(withWatermark=false){
     await showInfographicPreviewV3328(canvas,filename,`石頭少爺的ABC飆股｜當沖高勝率｜全部正式候選｜${rendered.length}檔${withWatermark?"｜防盜浮水印版":""}`);
     if(msg){msg.style.color="var(--green)";msg.textContent=`✅ 全部當沖候選圖片已產生｜${rendered.length}檔。`;}
   }catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ ${e?.message||"全部圖片產生失敗"}`;}}
+  finally{if(btn){btn.disabled=false;btn.textContent=original;}}
+}
+
+
+// ========================================================================
+// V3.7.7.7.27｜當沖圖片「直接複製到剪貼簿」補強
+// - 原本 V1.0 已有圖片產生/預覽與全部候選匯出；本版新增真正的 PNG Clipboard copy。
+// - 一般版與防盜浮水印版各自獨立按鈕。
+// - 若瀏覽器不支援 ClipboardItem / navigator.clipboard.write，安全退回圖片預覽，
+//   不把「已開啟預覽」誤寫成「已複製成功」。
+// - 只屬輸出層，不重算候選、不改排序、不改 Gate、不改 Worker。
+// ========================================================================
+function dayTradeCanvasBlobV377727(canvas){
+  return new Promise((resolve,reject)=>{
+    if(!canvas){reject(new Error("圖片畫布不存在"));return;}
+    try{
+      canvas.toBlob(blob=>blob?resolve(blob):reject(new Error("PNG 轉換失敗")),"image/png");
+    }catch(e){reject(e);}
+  });
+}
+
+async function dayTradeCopyCanvasPngV377727(canvas,previewFilename,previewTitle){
+  const blob=await dayTradeCanvasBlobV377727(canvas);
+  const clipboardReady=!!(navigator.clipboard&&typeof navigator.clipboard.write==="function"&&typeof ClipboardItem!=="undefined");
+  if(clipboardReady){
+    try{
+      await navigator.clipboard.write([new ClipboardItem({"image/png":blob})]);
+      return {copied:true,fallback:false};
+    }catch(e){
+      // iOS/Safari 或權限限制時，退回既有圖片預覽，讓使用者仍能分享/儲存。
+      await showInfographicPreviewV3328(canvas,previewFilename,previewTitle);
+      return {copied:false,fallback:true,error:e};
+    }
+  }
+  await showInfographicPreviewV3328(canvas,previewFilename,previewTitle);
+  return {copied:false,fallback:true,error:new Error("瀏覽器不支援圖片剪貼簿")};
+}
+
+async function copyDayTradeTop8ImageV377727(withWatermark=false){
+  const id=withWatermark?"copyDayTradeTop8ImageWatermarkButton":"copyDayTradeTop8ImageButton";
+  const btn=document.getElementById(id),msg=document.getElementById("dayTradeImageMessage");
+  if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描，再複製圖片報告。";}return;}
+  const original=btn?.textContent||(withWatermark?"📋🛡️ 複製前8名圖片（浮水印）":"📋 複製前8名圖片報告");
+  if(btn){btn.disabled=true;btn.textContent="📋 圖片複製中...";}
+  try{
+    if(document.fonts?.ready)await document.fonts.ready;
+    const canvas=renderDayTradeInfographicV1(lastDayTradeScanDataV1);
+    if(withWatermark)drawMomentumImageWatermarkV377716(canvas,"top8");
+    const stamp=String(lastDayTradeScanDataV1.createdAt||"").replace(/\D/g,"").slice(0,12)||"latest";
+    const suffix=withWatermark?"_防盜浮水印版":"";
+    const filename=sanitizeFilenameV3328(`石頭少爺的ABC飆股_當沖高勝率_前8名圖片戰報${suffix}_${stamp}_V1.0.png`);
+    const title=`石頭少爺的ABC飆股｜當沖高勝率｜前8名圖片戰報${withWatermark?"｜防盜浮水印版":""}`;
+    const r=await dayTradeCopyCanvasPngV377727(canvas,filename,title);
+    if(msg){
+      if(r.copied){msg.style.color="var(--green)";msg.textContent=withWatermark?"✅ 已複製前8名當沖圖片報告（防盜浮水印版）到剪貼簿。":"✅ 已複製前8名當沖圖片報告到剪貼簿。";}
+      else{msg.style.color="var(--yellow)";msg.textContent="⚠️ 此瀏覽器未允許直接複製 PNG；已改開圖片預覽，報告內容沒有遺失。";}
+    }
+  }catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ 圖片複製失敗：${e?.message||"未知錯誤"}`;}}
+  finally{if(btn){btn.disabled=false;btn.textContent=original;}}
+}
+
+async function copyDayTradeAllCandidatesImageV377727(withWatermark=false){
+  const id=withWatermark?"copyDayTradeAllCandidatesImageWatermarkButton":"copyDayTradeAllCandidatesImageButton";
+  const btn=document.getElementById(id),msg=document.getElementById("dayTradeImageMessage");
+  if(!lastDayTradeScanDataV1){if(msg){msg.style.color="var(--red)";msg.textContent="請先完成當沖高勝率掃描，再複製全部選股圖片報告。";}return;}
+  const original=btn?.textContent||(withWatermark?"📋🛡️ 複製全部選股圖片（浮水印）":"📋 複製全部選股圖片報告");
+  if(btn){btn.disabled=true;btn.textContent="📋 全部候選圖片複製中...";}
+  try{
+    if(document.fonts?.ready)await document.fonts.ready;
+    const canvas=buildDayTradeAllCandidatesImageV1(lastDayTradeScanDataV1);
+    const rendered=canvas._dayTradeRenderedCodesV1||[];
+    const expected=lastDayTradeScanDataV1.candidates?.length||0;
+    if(rendered.length!==expected)throw new Error(`圖片輸出數量不一致：候選${expected}｜畫出${rendered.length}`);
+    if(withWatermark)drawMomentumImageWatermarkV377716(canvas,"all");
+    const stamp=String(lastDayTradeScanDataV1.createdAt||"").replace(/\D/g,"").slice(0,12)||"latest";
+    const suffix=withWatermark?"_防盜浮水印版":"";
+    const filename=sanitizeFilenameV3328(`石頭少爺的ABC飆股_當沖高勝率_全部正式候選${suffix}_${stamp}_V1.0.png`);
+    const title=`石頭少爺的ABC飆股｜當沖高勝率｜全部正式候選｜${rendered.length}檔${withWatermark?"｜防盜浮水印版":""}`;
+    const r=await dayTradeCopyCanvasPngV377727(canvas,filename,title);
+    if(msg){
+      if(r.copied){msg.style.color="var(--green)";msg.textContent=withWatermark?`✅ 已複製全部當沖選股圖片報告（防盜浮水印版）｜${rendered.length}檔。`:`✅ 已複製全部當沖選股圖片報告｜${rendered.length}檔。`;}
+      else{msg.style.color="var(--yellow)";msg.textContent=`⚠️ 此瀏覽器未允許直接複製長圖 PNG；已改開圖片預覽｜${rendered.length}檔。`;}
+    }
+  }catch(e){if(msg){msg.style.color="var(--red)";msg.textContent=`❌ 全部選股圖片複製失敗：${e?.message||"未知錯誤"}`;}}
   finally{if(btn){btn.disabled=false;btn.textContent=original;}}
 }
 
